@@ -1,6 +1,11 @@
+import java.util.Scanner;
+
+/**
+ * Provides a simple command-line interface for CBT.
+ */
 public class CBT {
     /**
-     * Displays a welcome message and a farewell message before exiting.
+     * Displays a welcome message, echoes each command, and exits on {@code bye}.
      *
      * @param args command-line arguments, which are not used by this program
      */
@@ -16,6 +21,18 @@ public class CBT {
         System.out.println("Hello! I'm CBT.");
         System.out.println("What can I do for you?");
         System.out.println("____________________________________________________________");
+
+        Scanner scanner = new Scanner(System.in);
+        while (scanner.hasNextLine()) {
+            String command = scanner.nextLine();
+            System.out.println("____________________________________________________________");
+            if (command.equals("bye")) {
+                break;
+            }
+            System.out.println(" " + command);
+            System.out.println("____________________________________________________________");
+        }
+
         System.out.println("Bye. Hope to see you again soon!");
         System.out.println("____________________________________________________________");
     }
