@@ -16,6 +16,8 @@ public class CBT {
                 + "| |___| |_) || |\n"
                 + " \\____|____/ |_|\n";
 
+        String[] Array = new String[100];
+        int index = 0;
         System.out.println("____________________________________________________________");
         System.out.println(banner);
         System.out.println("Hello! I'm CBT.");
@@ -26,10 +28,18 @@ public class CBT {
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine();
             System.out.println("____________________________________________________________");
-            if (command.equals("bye")) {
+            if (command.equals("list")) {
+                for (int j = 0; j < index; j++) {
+                    System.out.println(j + 1 + ". " + Array[j]);
+                }
+            }
+            else if (command.equals("bye")) {
                 break;
             }
-            System.out.println(" " + command);
+            else {
+                Array[index++] = command;
+                System.out.println("added: " + command);
+            }
             System.out.println("____________________________________________________________");
         }
 
