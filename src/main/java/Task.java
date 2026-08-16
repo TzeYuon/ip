@@ -2,8 +2,8 @@
  * Represents a task and whether it has been completed.
  */
 public class Task {
-    protected String description;
-    protected boolean isDone;
+    private final String description;
+    private boolean isDone;
 
     /**
      * Creates an incomplete task with the given description.
@@ -17,7 +17,7 @@ public class Task {
 
     /**
      * Returns the status icon used when displaying this task.
-     * @return {"X"} when the task is done, otherwise a blank space
+     * @return {@code "X"} when the task is done, otherwise a blank space
      */
     public String getStatusIcon() {
         return isDone ? "X" : " ";
@@ -31,7 +31,7 @@ public class Task {
     }
 
     /**
-     * Marks task as incompleted.
+     * Marks task as incomplete.
      */
     public void markAsNotDone() {
         isDone = false;
