@@ -23,20 +23,11 @@ public class CBT {
             System.out.println(DIVIDER);
             if (command.equals("bye")) {
                 break;
-            } else if (command.equals("list")) {
-                printTaskList(tasks, taskCount);
-            } else if (command.equals("mark") || command.startsWith("mark ")) {
-                markTask(tasks, taskCount, command.substring("mark".length()), true);
-            } else if (command.equals("unmark") || command.startsWith("unmark ")) {
-                markTask(tasks, taskCount, command.substring("unmark".length()), false);
-            } else if (command.equals("todo") || command.startsWith("todo ")) {
-                taskCount = addTodo(tasks, taskCount, command.substring("todo".length()).trim());
-            } else if (command.equals("deadline") || command.startsWith("deadline ")) {
-                taskCount = addDeadline(tasks, taskCount, command.substring("deadline".length()).trim());
-            } else if (command.equals("event") || command.startsWith("event ")) {
-                taskCount = addEvent(tasks, taskCount, command.substring("event".length()).trim());
-            } else {
-                System.out.println("I don't understand that command.");
+            }
+            try {
+                taskCount = executeCommand(command, tasks, taskCount);
+            } catch (CbtException exception) {
+                System.out.println(exception.getMessage());
             }
             System.out.println(DIVIDER);
         }
@@ -59,6 +50,35 @@ public class CBT {
         System.out.println(DIVIDER);
     }
 
+    /**
+     * Executes one command and returns the possibly updated number of stored tasks.
+     *
+     * @param command user-entered command
+     * @param tasks task storage
+     * @param taskCount number of tasks stored in {@code tasks}
+     * @return the updated number of stored tasks
+     * @throws CbtException if the command is invalid
+     */
+    private static int executeCommand(String command, Task[] tasks, int taskCount) throws CbtException {
+        if (command.equals("list")) {
+            printTaskList(tasks, taskCount);
+            return taskCount;
+        } else if (command.equals("mark") || command.startsWith("mark ")) {
+            markTask(tasks, taskCount, command.substring("mark".length()), true);
+            return taskCount;
+        } else if (command.equals("unmark") || command.startsWith("unmark ")) {
+            markTask(tasks, taskCount, command.substring("unmark".length()), false);
+            return taskCount;
+        } else if (command.equals("todo") || command.startsWith("todo ")) {
+            return addTodo(tasks, taskCount, command.substring("todo".length()).trim());
+        } else if (command.equals("deadline") || command.startsWith("deadline ")) {
+            return addDeadline(tasks, taskCount, command.substring("deadline".length()).trim());
+        } else if (command.equals("event") || command.startsWith("event ")) {
+            return addEvent(tasks, taskCount, command.substring("event".length()).trim());
+        }
+        throw new CbtException("I don't understand that command. Try todo, deadline, event, list, mark, unmark or bye.");
+    }
+
     /** Prints all stored tasks in their list format. */
     private static void printTaskList(Task[] tasks, int taskCount) {
         System.out.println("Here are the tasks in your list:");
@@ -68,20 +88,18 @@ public class CBT {
     }
 
     /** Adds a todo when its description is present. */
-    private static int addTodo(Task[] tasks, int taskCount, String description) {
+    private static int addTodo(Task[] tasks, int taskCount, String description) throws CbtException {
         if (description.isBlank()) {
-            System.out.println("The description of a todo cannot be empty.");
-            return taskCount;
+            throw new CbtException("The description of a todo cannot be empty. Use: todo DESCRIPTION");
         }
         return addTask(tasks, taskCount, new Todo(description));
     }
 
     /** Parses and adds a deadline in the form {@code description /by time}. */
-    private static int addDeadline(Task[] tasks, int taskCount, String details) {
+    private static int addDeadline(Task[] tasks, int taskCount, String details) throws CbtException {
         int byMarker = details.indexOf(" /by ");
         if (byMarker <= 0 || details.substring(byMarker + " /by ".length()).isBlank()) {
-            System.out.println("Use: deadline DESCRIPTION /by DATE_OR_TIME");
-            return taskCount;
+            throw new CbtException("Use: deadline DESCRIPTION /by DATE_OR_TIME");
         }
         String description = details.substring(0, byMarker).trim();
         String by = details.substring(byMarker + " /by ".length()).trim();
@@ -89,14 +107,13 @@ public class CBT {
     }
 
     /** Parses and adds an event in the form {@code description /from start /to end}. */
-    private static int addEvent(Task[] tasks, int taskCount, String details) {
+    private static int addEvent(Task[] tasks, int taskCount, String details) throws CbtException {
         int fromMarker = details.indexOf(" /from ");
         int toMarker = details.indexOf(" /to ");
-        System.out.println(details);
         if (fromMarker <= 0 || toMarker <= fromMarker + " /from ".length()
+                || details.substring(fromMarker + " /from ".length(), toMarker).isBlank()
                 || details.substring(toMarker + " /to ".length()).isBlank()) {
-            System.out.println("Use: event DESCRIPTION /from START /to END");
-            return taskCount;
+            throw new CbtException("Use: event DESCRIPTION /from START /to END");
         }
         String description = details.substring(0, fromMarker).trim();
         String start = details.substring(fromMarker + " /from ".length(), toMarker).trim();
@@ -105,10 +122,9 @@ public class CBT {
     }
 
     /** Stores a task and prints the standard confirmation message. */
-    private static int addTask(Task[] tasks, int taskCount, Task task) {
+    private static int addTask(Task[] tasks, int taskCount, Task task) throws CbtException {
         if (taskCount == MAX_TASKS) {
-            System.out.println("Your task list is full.");
-            return taskCount;
+            throw new CbtException("Your task list is full. Please remove a task before adding another one.");
         }
         tasks[taskCount] = task;
         System.out.println("Got it. I've added this task:");
@@ -120,12 +136,8 @@ public class CBT {
     }
 
     /** Changes a task's completion state after validating its displayed number. */
-    private static void markTask(Task[] tasks, int taskCount, String taskNumber, boolean isDone) {
+    private static void markTask(Task[] tasks, int taskCount, String taskNumber, boolean isDone) throws CbtException {
         int taskIndex = getTaskIndex(taskNumber, taskCount);
-        if (taskIndex == -1) {
-            System.out.println("Please enter a task number from the list.");
-            return;
-        }
         if (isDone) {
             tasks[taskIndex].markAsDone();
             System.out.println("Nice! I've marked this task as done:");
@@ -136,13 +148,16 @@ public class CBT {
         System.out.println("  " + tasks[taskIndex]);
     }
 
-    /** Converts a one-based task number to an array index, returning -1 when invalid. */
-    private static int getTaskIndex(String taskNumber, int taskCount) {
+    /** Converts a valid one-based task number to an array index. */
+    private static int getTaskIndex(String taskNumber, int taskCount) throws CbtException {
         try {
             int taskIndex = Integer.parseInt(taskNumber.trim()) - 1;
-            return taskIndex >= 0 && taskIndex < taskCount ? taskIndex : -1;
+            if (taskIndex >= 0 && taskIndex < taskCount) {
+                return taskIndex;
+            }
         } catch (NumberFormatException exception) {
-            return -1;
+            throw new CbtException("Please enter a valid whole number, e.g. mark 1, unmark 1.");
         }
+        throw new CbtException("Please enter a valid task number from the list, e.g. mark 1, unmark 1.");
     }
 }
