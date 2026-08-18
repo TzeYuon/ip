@@ -6,6 +6,9 @@ import java.util.ArrayList;
  */
 public class CBT {
     private static final String DIVIDER = "____________________________________________________________";
+    public enum CommandWord {
+        TODO, DEADLINE, EVENT, LIST, MARK, UNMARK, DELETE, BYE, UNKNOWN
+    }
 
     /**
      * Starts the application and processes commands until the user enters {@code bye}.
@@ -57,22 +60,41 @@ public class CBT {
      * @throws CbtException if the command is invalid
      */
     private static void executeCommand(String command, ArrayList<Task> tasks) throws CbtException {
-        if (command.equals("list")) {
-            printTaskList(tasks);
-        } else if (command.equals("mark") || command.startsWith("mark ")) {
-            markTask(tasks, command.substring("mark".length()), true);
-        } else if (command.equals("unmark") || command.startsWith("unmark ")) {
-            markTask(tasks, command.substring("unmark".length()), false);
-        } else if (command.equals("todo") || command.startsWith("todo ")) {
-            addTodo(tasks, command.substring("todo".length()).trim());
-        } else if (command.equals("deadline") || command.startsWith("deadline ")) {
-            addDeadline(tasks, command.substring("deadline".length()).trim());
-        } else if (command.equals("event") || command.startsWith("event ")) {
-            addEvent(tasks, command.substring("event".length()).trim());
-        } else if (command.equals("delete") || command.startsWith("delete ")) {
-            deleteTask(tasks, command.substring("delete".length()).trim());
-        } else {
-            throw new CbtException("I don't understand that command. Try todo, deadline, event, list, mark, unmark, delete or bye.");
+        String[] parts = command.split("\\s+", 2);
+        String firstWord = parts[0].toUpperCase();
+        String arguments = parts.length > 1 ? parts[1] : "";
+
+        CommandWord commandWord;
+        try {
+            commandWord = CommandWord.valueOf(firstWord);
+        } catch (IllegalArgumentException e) {
+            commandWord = CommandWord.UNKNOWN;
+        }
+
+        switch (commandWord) {
+            case LIST:
+                printTaskList(tasks);
+                break;
+            case MARK:
+                markTask(tasks, arguments, true);
+                break;
+            case UNMARK:
+                markTask(tasks, arguments, false);
+                break;
+            case TODO:
+                addTodo(tasks, arguments);
+                break;
+            case DEADLINE:
+                addDeadline(tasks, arguments.trim());
+                break;
+            case EVENT:
+                addEvent(tasks, arguments.trim());
+                break;
+            case DELETE:
+                deleteTask(tasks, arguments.trim());
+                break;
+            case UNKNOWN:
+                throw new CbtException("I don't understand that command. Try todo, deadline, event, list, mark, unmark, delete or bye.");
         }
     }
 
