@@ -2,9 +2,9 @@ package task;
 /**
  * Represents a task and whether it has been completed.
  */
-public class Task {
-    private final String description;
-    private boolean isDone;
+public abstract class Task {
+    final String description;
+    boolean isDone;
 
     /**
      * Creates an incomplete task with the given description.
@@ -42,6 +42,11 @@ public class Task {
         System.out.println("  " + toString());
     }
 
+    /** Restores this task's completion state without producing console output. */
+    public void restoreCompletionStatus(boolean isDone) {
+        this.isDone = isDone;
+    }
+
     /**
      * Returns this task in the format displayed to users.
      *
@@ -51,4 +56,6 @@ public class Task {
     public String toString() {
         return "[" + getStatusIcon() + "] " + description;
     }
+
+    public abstract String toFileFormat();
 }

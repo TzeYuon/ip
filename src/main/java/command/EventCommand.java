@@ -19,11 +19,18 @@ public class EventCommand implements Command {
         int startLength = " /from ".length();
         int endLength = " /to ".length();
         if (fromMarker <= 0 || toMarker <= fromMarker + startLength
-                || details.substring(fromMarker + startLength, toMarker).isBlank() || details.substring(toMarker + endLength).isBlank()) {
+                || details.substring(fromMarker + startLength, toMarker).isBlank()
+                || details.substring(toMarker + endLength).isBlank()) {
             throw new CbtException("Use: event DESCRIPTION /from START /to END");
         }
         Event task = new Event(details.substring(0, fromMarker).trim(),
-                details.substring(fromMarker + startLength, toMarker).trim(), details.substring(toMarker + endLength).trim());
+                details.substring(fromMarker + startLength, toMarker).trim(),
+                details.substring(toMarker + endLength).trim());
         taskList.addTask(task);
+    }
+
+    @Override
+    public boolean changesTaskList() {
+        return true;
     }
 }

@@ -20,4 +20,9 @@ public class TodoCommand implements Command {
         Todo task = new Todo(description);
         taskList.addTask(task);
     }
+
+    @Override
+    public boolean changesTaskList() {
+        return true;
+    }
 }

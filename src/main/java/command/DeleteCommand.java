@@ -16,4 +16,9 @@ public class DeleteCommand implements Command {
     public void execute(TaskList taskList) throws CbtException {
         Task removedTask = taskList.deleteTask(MarkCommand.toIndex(taskNumber));
     }
+
+    @Override
+    public boolean changesTaskList() {
+        return true;
+    }
 }

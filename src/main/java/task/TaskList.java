@@ -16,6 +16,11 @@ public class TaskList {
         System.out.println("Now you have " + tasks.size() + " task" + (tasks.size() == 1 ? "" : "s") + " in the list.");
     }
 
+    /** Adds a task loaded from storage without printing an interactive confirmation. */
+    public void addLoadedTask(Task task) {
+        tasks.add(task);
+    }
+
     /** Returns the task at a zero-based index after checking that it exists. */
     public Task getTask(int index) throws CbtException {
         checkValidIndex(index);
