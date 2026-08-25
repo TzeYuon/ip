@@ -2,25 +2,19 @@
 
 Run this plan with the project-local `test-ui` skill. Expected output is exact except for platform line endings.
 
-Each test starts with an isolated data file. `Setup data` provides its initial contents; `Expected saved data` is checked after the session.
+Each test starts with an isolated data file. `Setup data` supplies its initial contents; `Expected saved data` is checked after the session.
 
-## Test case: Load and save persisted tasks
+## Test case: Create, display, find, and save dated tasks
 
-Aim: Verify that CBT loads every supported task type and completion state at startup, then saves the updated list immediately after a task-list change.
-
-### Setup data
-
-```text
-TODO | 1 | read book
-DEADLINE | 0 | return book | June 6th
-EVENT | 0 | project meeting | Aug 6th 2pm | Aug 6th 4pm
-```
+Aim: Verify that deadlines and events parse into dates and times, display in a user-friendly format, are found by date, and are saved without losing 24-hour times.
 
 ### Inputs
 
 ```text
+deadline return book /by 2/12/2019 1800
+event project meeting /from 2019-12-02 0900 /to 2019-12-03 1700
+date 2019-12-02
 list
-mark 2
 bye
 ```
 
@@ -38,14 +32,24 @@ Hello! I'm CBT.
 What can I do for you?
 ____________________________________________________________
 ____________________________________________________________
+Got it. I've added this task:
+  [D][ ] return book (by: Dec 02 2019, 6:00pm)
+Now you have 1 task in the list.
+____________________________________________________________
+____________________________________________________________
+Got it. I've added this task:
+  [E][ ] project meeting (from: Dec 02 2019, 9:00am to: Dec 03 2019, 5:00pm)
+Now you have 2 tasks in the list.
+____________________________________________________________
+____________________________________________________________
+Here are the deadlines and events on Dec 02 2019:
+1.[D][ ] return book (by: Dec 02 2019, 6:00pm)
+2.[E][ ] project meeting (from: Dec 02 2019, 9:00am to: Dec 03 2019, 5:00pm)
+____________________________________________________________
+____________________________________________________________
 Here are the tasks in your list:
-1.[T][X] read book
-2.[D][ ] return book (by: June 6th)
-3.[E][ ] project meeting (from: Aug 6th 2pm to: Aug 6th 4pm)
-____________________________________________________________
-____________________________________________________________
-Nice! I've marked this task as done:
-  [D][X] return book (by: June 6th)
+1.[D][ ] return book (by: Dec 02 2019, 6:00pm)
+2.[E][ ] project meeting (from: Dec 02 2019, 9:00am to: Dec 03 2019, 5:00pm)
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!
@@ -55,263 +59,22 @@ ____________________________________________________________
 ### Expected saved data
 
 ```text
-TODO | 1 | read book
-DEADLINE | 1 | return book | June 6th
-EVENT | 0 | project meeting | Aug 6th 2pm | Aug 6th 4pm
+DEADLINE | 0 | return book | 02/12/2019 1800
+EVENT | 0 | project meeting | 02/12/2019 0900 | 03/12/2019 1700
 ```
 
-## Test case: Add, display, and complete every task type
+## Test case: Keep existing task-list actions working
 
-Aim: Verify that todo, deadline, and event commands create the right task type, retain string-based dates, and work with `mark` and `list`.
-
-### Inputs
-
-```text
-todo borrow book
-deadline return book /by Sunday
-event project meeting /from Mon 2pm /to 4pm
-mark 2
-list
-bye
-```
-
-### Expected output
-
-```text
-____________________________________________________________
-  ____ ____ _____
- / ___| __ )_   _|
-| |   |  _ \ | |
-| |___| |_) || |
- \____|____/ |_|
-
-Hello! I'm CBT.
-What can I do for you?
-____________________________________________________________
-____________________________________________________________
-Got it. I've added this task:
-  [T][ ] borrow book
-Now you have 1 task in the list.
-____________________________________________________________
-____________________________________________________________
-Got it. I've added this task:
-  [D][ ] return book (by: Sunday)
-Now you have 2 tasks in the list.
-____________________________________________________________
-____________________________________________________________
-Got it. I've added this task:
-  [E][ ] project meeting (from: Mon 2pm to: 4pm)
-Now you have 3 tasks in the list.
-____________________________________________________________
-____________________________________________________________
-Nice! I've marked this task as done:
-  [D][X] return book (by: Sunday)
-____________________________________________________________
-____________________________________________________________
-Here are the tasks in your list:
-1.[T][ ] borrow book
-2.[D][X] return book (by: Sunday)
-3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
-____________________________________________________________
-____________________________________________________________
-Bye. Hope to see you again soon!
-____________________________________________________________
-```
-
-## Test case: Preserve state after errors on an empty list
-
-Aim: Verify that attempting to mark a missing task does not create one, and that marking and unmarking a later valid task preserves its state correctly.
-
-### Inputs
-
-```text
-list
-mark 1
-todo submit assignment
-mark 1
-unmark 1
-list
-bye
-```
-
-### Expected output
-
-```text
-____________________________________________________________
-  ____ ____ _____
- / ___| __ )_   _|
-| |   |  _ \ | |
-| |___| |_) || |
- \____|____/ |_|
-
-Hello! I'm CBT.
-What can I do for you?
-____________________________________________________________
-____________________________________________________________
-Here are the tasks in your list:
-____________________________________________________________
-____________________________________________________________
-Please enter a task number from the list, e.g. mark 1.
-____________________________________________________________
-____________________________________________________________
-Got it. I've added this task:
-  [T][ ] submit assignment
-Now you have 1 task in the list.
-____________________________________________________________
-____________________________________________________________
-Nice! I've marked this task as done:
-  [T][X] submit assignment
-____________________________________________________________
-____________________________________________________________
-OK, I've marked this task as not done yet:
-  [T][ ] submit assignment
-____________________________________________________________
-____________________________________________________________
-Here are the tasks in your list:
-1.[T][ ] submit assignment
-____________________________________________________________
-____________________________________________________________
-Bye. Hope to see you again soon!
-____________________________________________________________
-```
-
-## Test case: Keep arbitrary deadline text
-
-Aim: Verify that deadline text is stored as a string without date parsing.
-
-### Inputs
-
-```text
-deadline do homework /by no idea :-p
-list
-bye
-```
-
-### Expected output
-
-```text
-____________________________________________________________
-  ____ ____ _____
- / ___| __ )_   _|
-| |   |  _ \ | |
-| |___| |_) || |
- \____|____/ |_|
-
-Hello! I'm CBT.
-What can I do for you?
-____________________________________________________________
-____________________________________________________________
-Got it. I've added this task:
-  [D][ ] do homework (by: no idea :-p)
-Now you have 1 task in the list.
-____________________________________________________________
-____________________________________________________________
-Here are the tasks in your list:
-1.[D][ ] do homework (by: no idea :-p)
-____________________________________________________________
-____________________________________________________________
-Bye. Hope to see you again soon!
-____________________________________________________________
-```
-
-## Test case: Reject invalid commands without changing tasks
-
-Aim: Verify specific errors for malformed commands and task numbers; interleave valid commands to confirm errors do not corrupt the task list.
-
-### Inputs
-
-```text
-todo read notes
-todo
-deadline /by Friday
-deadline return book
-event meeting /from /to Friday
-event meeting /from Monday
-mark zero
-mark 2
-unmark 1
-list
-unknown
-event review /from Monday /to Friday
-list
-bye
-```
-
-### Expected output
-
-```text
-____________________________________________________________
-  ____ ____ _____
- / ___| __ )_   _|
-| |   |  _ \ | |
-| |___| |_) || |
- \____|____/ |_|
-
-Hello! I'm CBT.
-What can I do for you?
-____________________________________________________________
-____________________________________________________________
-Got it. I've added this task:
-  [T][ ] read notes
-Now you have 1 task in the list.
-____________________________________________________________
-____________________________________________________________
-The description of a todo cannot be empty. Use: todo DESCRIPTION
-____________________________________________________________
-____________________________________________________________
-Use: deadline DESCRIPTION /by DATE_OR_TIME
-____________________________________________________________
-____________________________________________________________
-Use: deadline DESCRIPTION /by DATE_OR_TIME
-____________________________________________________________
-____________________________________________________________
-Use: event DESCRIPTION /from START /to END
-____________________________________________________________
-____________________________________________________________
-Use: event DESCRIPTION /from START /to END
-____________________________________________________________
-____________________________________________________________
-Please enter a task number from the list, e.g. mark 1.
-____________________________________________________________
-____________________________________________________________
-Please enter a task number from the list, e.g. mark 1.
-____________________________________________________________
-____________________________________________________________
-OK, I've marked this task as not done yet:
-  [T][ ] read notes
-____________________________________________________________
-____________________________________________________________
-Here are the tasks in your list:
-1.[T][ ] read notes
-____________________________________________________________
-____________________________________________________________
-I don't understand that command. Try todo, deadline, event, list, mark, unmark, delete, or bye.
-____________________________________________________________
-____________________________________________________________
-Got it. I've added this task:
-  [E][ ] review (from: Monday to: Friday)
-Now you have 2 tasks in the list.
-____________________________________________________________
-____________________________________________________________
-Here are the tasks in your list:
-1.[T][ ] read notes
-2.[E][ ] review (from: Monday to: Friday)
-____________________________________________________________
-____________________________________________________________
-Bye. Hope to see you again soon!
-____________________________________________________________
-```
-
-## Test case: Delete a task
-
-Aim: Verify that delete removes the selected task and leaves the remaining task list intact.
+Aim: Verify that date support does not affect creating, marking, unmarking, deleting, and listing todos.
 
 ### Inputs
 
 ```text
 todo first task
 todo second task
-delete 1
+mark 1
+unmark 1
+delete 2
 list
 bye
 ```
@@ -340,13 +103,118 @@ Got it. I've added this task:
 Now you have 2 tasks in the list.
 ____________________________________________________________
 ____________________________________________________________
-Noted. I've removed this task:
+Nice! I've marked this task as done:
+  [T][X] first task
+____________________________________________________________
+____________________________________________________________
+OK, I've marked this task as not done yet:
   [T][ ] first task
+____________________________________________________________
+____________________________________________________________
+Noted. I've removed this task:
+  [T][ ] second task
 Now you have 1 task in the list.
 ____________________________________________________________
 ____________________________________________________________
 Here are the tasks in your list:
-1.[T][ ] second task
+1.[T][ ] first task
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test case: Reject invalid dates and event ranges
+
+Aim: Verify that malformed and impossible dates, missing event fields, and an event whose start is after its end do not add tasks.
+
+### Inputs
+
+```text
+deadline invalid leap day /by 2019-02-29 0900
+event missing end /from 2019-12-02 0900
+event backwards /from 2019-12-03 0900 /to 2019-12-02 0900
+date 2019-02-29
+date
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+  ____ ____ _____
+ / ___| __ )_   _|
+| |   |  _ \ | |
+| |___| |_) || |
+ \____|____/ |_|
+
+Hello! I'm CBT.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+Cannot recognize date/time! Example valid formats:
+  - 2/12/2019 1800
+  - 2-12-2019 1800
+  - 2019-12-02 1800
+  - 2/12/2019
+____________________________________________________________
+____________________________________________________________
+Use: event DESCRIPTION /from START /to END
+____________________________________________________________
+____________________________________________________________
+The event start date and time cannot be after its end date and time.
+____________________________________________________________
+____________________________________________________________
+Cannot recognize date! Use a date such as 2019-12-02.
+____________________________________________________________
+____________________________________________________________
+Use: date DATE (for example, 2019-12-02)
+____________________________________________________________
+____________________________________________________________
+Here are the tasks in your list:
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Test case: Load and query persisted dated tasks
+
+Aim: Verify that canonical saved dates reload as date-time objects and that a multi-day event appears on its final date.
+
+### Setup data
+
+```text
+TODO | 0 | read book
+DEADLINE | 1 | return book | 02/12/2019 1800
+EVENT | 0 | conference | 01/12/2019 0900 | 03/12/2019 1700
+```
+
+### Inputs
+
+```text
+date 2019-12-03
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+  ____ ____ _____
+ / ___| __ )_   _|
+| |   |  _ \ | |
+| |___| |_) || |
+ \____|____/ |_|
+
+Hello! I'm CBT.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+Here are the deadlines and events on Dec 03 2019:
+3.[E][ ] conference (from: Dec 01 2019, 9:00am to: Dec 03 2019, 5:00pm)
 ____________________________________________________________
 ____________________________________________________________
 Bye. Hope to see you again soon!

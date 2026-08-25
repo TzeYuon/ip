@@ -1,10 +1,13 @@
 package command;
 
 import exception.CbtException;
+import parser.Parser;
 import task.Event;
 import task.TaskList;
 
-/** Adds an event task with user-provided start and end text. */
+import java.time.LocalDateTime;
+
+/** Adds an event task with parsed start and end dates and times. */
 public class EventCommand implements Command {
     private final String details;
 
@@ -18,14 +21,20 @@ public class EventCommand implements Command {
         int toMarker = details.indexOf(" /to ");
         int startLength = " /from ".length();
         int endLength = " /to ".length();
-        if (fromMarker <= 0 || toMarker <= fromMarker + startLength
-                || details.substring(fromMarker + startLength, toMarker).isBlank()
-                || details.substring(toMarker + endLength).isBlank()) {
+        if (fromMarker <= 0 || toMarker <= fromMarker + startLength) {
             throw new CbtException("Use: event DESCRIPTION /from START /to END");
         }
-        Event task = new Event(details.substring(0, fromMarker).trim(),
-                details.substring(fromMarker + startLength, toMarker).trim(),
-                details.substring(toMarker + endLength).trim());
+        String startString = details.substring(fromMarker + startLength, toMarker).trim();
+        String endString = details.substring(toMarker + endLength).trim();
+        if (startString.isBlank() || endString.isBlank()) {
+            throw new CbtException("Use: event DESCRIPTION /from START /to END");
+        }
+        LocalDateTime startDate = Parser.parseLineToDate(startString);
+        LocalDateTime endDate = Parser.parseLineToDate(endString);
+        if (startDate.isAfter(endDate)) {
+            throw new CbtException("The event start date and time cannot be after its end date and time.");
+        }
+        Event task = new Event(details.substring(0, fromMarker).trim(), startDate, endDate);
         taskList.addTask(task);
     }
 

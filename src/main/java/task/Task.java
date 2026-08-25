@@ -1,10 +1,17 @@
 package task;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 /**
  * Represents a task and whether it has been completed.
  */
 public abstract class Task {
     final String description;
     boolean isDone;
+    protected static final DateTimeFormatter DATE_TIME_PRINT_FORMATTER =
+            DateTimeFormatter.ofPattern("MMM dd uuuu, h:mma");
+    protected static final DateTimeFormatter DATE_TIME_WRITE_FORMATTER =
+            DateTimeFormatter.ofPattern("dd/MM/uuuu HHmm");
 
     /**
      * Creates an incomplete task with the given description.
@@ -58,4 +65,9 @@ public abstract class Task {
     }
 
     public abstract String toFileFormat();
+
+    /** Returns whether this task occurs on the supplied date. */
+    public boolean occursOn(LocalDate date) {
+        return false;
+    }
 }
