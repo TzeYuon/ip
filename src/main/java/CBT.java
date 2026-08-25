@@ -12,7 +12,6 @@ public class CBT {
     public static void main(String[] args) {
         UI ui = new UI();
         TaskList tasks;
-        Parser parser = new Parser();
         tasks = STORAGE.loadTasks();
         ui.showWelcome();
         while (ui.hasNextCommand()) {
@@ -22,7 +21,7 @@ public class CBT {
                 break;
             }
             try {
-                Command command = parser.parseCommand(input);
+                Command command = Parser.parseCommand(input);
                 command.execute(tasks);
                 if (command.changesTaskList()) {
                     STORAGE.saveTasks(tasks);

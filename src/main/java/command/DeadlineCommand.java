@@ -2,9 +2,12 @@ package command;
 
 import exception.CbtException;
 import task.Deadline;
+import parser.Parser;
 import task.TaskList;
 
-/** Adds a deadline task with user-provided deadline text. */
+import java.time.LocalDateTime;
+
+/** Adds a deadline task with a parsed date and time. */
 public class DeadlineCommand implements Command {
     private final String details;
 
@@ -20,8 +23,10 @@ public class DeadlineCommand implements Command {
             throw new CbtException("Use: deadline DESCRIPTION /by DATE_OR_TIME");
         }
         String description = details.substring(0, marker).trim();
-        String by = details.substring(marker + byLength).trim();
-        Deadline task = new Deadline(description, by);
+        String byString = details.substring(marker + byLength).trim();
+
+        LocalDateTime byDate = Parser.parseLineToDate(byString);
+        Deadline task = new Deadline(description, byDate);
         taskList.addTask(task);
     }
 
