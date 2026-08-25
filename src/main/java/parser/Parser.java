@@ -43,23 +43,41 @@ public class Parser {
         if (parts.length < 3) {
             return null;
         }
+
         String type = parts[0].toUpperCase();
+        boolean isDone = parts[1].equals("1");
+        String description = parts[2].trim();
+
         CommandWord commandWord;
         try {
             commandWord = CommandWord.valueOf(type);
         } catch (IllegalArgumentException e) {
-            commandWord = CommandWord.UNKNOWN;
+            return null;
         }
-
-        boolean isDone = parts[1].equals("1");
-        String description = parts[2];
 
         Task task;
         switch (commandWord) {
-            case CommandWord.TODO -> task = new Todo(description);
-            case CommandWord.DEADLINE -> task = parts.length == 4 ? new Deadline(description, parts[3]) : null;
-            case CommandWord.EVENT -> task = parts.length == 5 ? new Event(description, parts[3], parts[4]) : null;
-            default -> task = null;
+            case CommandWord.TODO:
+                for (int i = 3; i < parts.length; i ++) {
+                    description += " | " + parts[i];
+                }
+                task = new Todo(description);
+                break;
+            case CommandWord.DEADLINE:
+                for (int i = 3; i < parts.length - 1; i ++) {
+                    description += " | " + parts[i];
+                }
+                task = new Deadline(description, parts[parts.length - 1]);
+                break;
+            case CommandWord.EVENT:
+                for (int i = 3; i < parts.length - 2; i ++) {
+                    description += " | " + parts[i];
+                }
+                task = new Event(description, parts[parts.length - 2], parts[parts.length - 1]);
+                break;
+            default:
+                task = null;
+                break;
         }
 
         if (task != null) {
