@@ -1,0 +1,4 @@
+TODO | 0 | asfdas
+EVENT | 0 | 123 | asdfasdf | tmor
+DEADLINE | 1 | soo suck | today!!!!
+DEADLINE | 0 | fypm T344 | 31/8/2026

@@ -17,4 +17,9 @@ public class UnmarkCommand implements Command {
         Task task = taskList.getTask(MarkCommand.toIndex(taskNumber));
         task.markAsNotDone();
     }
+
+    @Override
+    public boolean changesTaskList() {
+        return true;
+    }
 }

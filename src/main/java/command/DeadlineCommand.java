@@ -24,4 +24,9 @@ public class DeadlineCommand implements Command {
         Deadline task = new Deadline(description, by);
         taskList.addTask(task);
     }
+
+    @Override
+    public boolean changesTaskList() {
+        return true;
+    }
 }

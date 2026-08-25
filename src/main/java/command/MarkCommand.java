@@ -18,6 +18,11 @@ public class MarkCommand implements Command {
         task.markAsDone();
     }
 
+    @Override
+    public boolean changesTaskList() {
+        return true;
+    }
+
     /** Checks and converts a valid String input to its zero-based index. */
     static int toIndex(String value) throws CbtException {
         try {
