@@ -32,6 +32,10 @@ Ensure that Java 25 is used when running the application or build tasks. On macO
 
 After every code update, update `test/ui-test-plan.md` when the observable console behavior or its coverage changes, then invoke the project-local `test-ui` skill. The skill runs each documented console session, prints its input/output transcript, and stops at the first mismatch.
 
+## JUnit testing
+
+Maintain JUnit tests for approximately the top 50% highest-value methods, prioritizing complex, core, and critical business logic. After each code change, update the relevant JUnit tests as needed to keep that target and to cover reasonable success, boundary, and failure cases.
+
 ## Git
 
 Use lightweight tags unless the user requests an annotated tag.

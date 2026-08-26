@@ -1,0 +1,46 @@
+package task;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import org.junit.jupiter.api.Test;
+
+import exception.CbtException;
+
+/** Tests event invariants and inclusive date-range behavior. */
+public class EventTest {
+    private static final LocalDateTime START = LocalDateTime.of(2026, 8, 25, 10, 0);
+    private static final LocalDateTime END = LocalDateTime.of(2026, 8, 27, 18, 0);
+
+    @Test
+    public void constructor_startAfterEnd_exceptionThrown() {
+        assertThrows(CbtException.class, () -> new Event("conference", END, START));
+    }
+
+    @Test
+    public void constructor_startEqualsEnd_eventCreated() {
+        assertDoesNotThrow(() -> new Event("instant event", START, START));
+    }
+
+    @Test
+    public void occursOn_boundaryAndMiddleDates_trueReturned() throws CbtException {
+        Event event = new Event("conference", START, END);
+
+        assertTrue(event.occursOn(LocalDate.of(2026, 8, 25)));
+        assertTrue(event.occursOn(LocalDate.of(2026, 8, 26)));
+        assertTrue(event.occursOn(LocalDate.of(2026, 8, 27)));
+    }
+
+    @Test
+    public void occursOn_datesOutsideRange_falseReturned() throws CbtException {
+        Event event = new Event("conference", START, END);
+
+        assertFalse(event.occursOn(LocalDate.of(2026, 8, 24)));
+        assertFalse(event.occursOn(LocalDate.of(2026, 8, 28)));
+    }
+}
