@@ -1,3 +1,4 @@
+package cbt;
 import command.Command;
 import command.CommandResult;
 import exception.CbtException;
