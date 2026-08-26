@@ -15,11 +15,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class DeadlineTest {
     private static final LocalDateTime BY = LocalDateTime.of(2026, 8, 25, 10, 0);
 
+    /** Verifies that a deadline can be constructed with a valid date and time. */
     @Test
     public void constructor_validTime_deadlineCreated() {
         assertDoesNotThrow(() -> new Deadline("study", BY));
     }
 
+    /** Verifies that a deadline occurs only on its deadline date. */
     @Test
     public void occursOn_sameAndDifferentDates_correctBooleanReturned() {
         Deadline deadline = new Deadline("study", BY);
@@ -29,6 +31,7 @@ public class DeadlineTest {
         assertFalse(deadline.occursOn(LocalDate.of(2026, 8, 26)));
     }
 
+    /** Verifies serialization of incomplete and completed deadlines. */
     @Test
     public void toFileFormat_incompleteThenComplete_correctStatusStored() {
         Deadline deadline = new Deadline("study", BY);

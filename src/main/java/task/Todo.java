@@ -4,6 +4,11 @@ package task;
  */
 public class Todo extends Task {
 
+    /**
+     * Creates an incomplete todo.
+     *
+     * @param description description of the todo
+     */
     public Todo(String description) {
         super(description);
     }
@@ -18,6 +23,11 @@ public class Todo extends Task {
         return "[T]" + super.toString();
     }
 
+    /**
+     * Serializes this todo for persistent storage.
+     *
+     * @return todo in the application's file format
+     */
     @Override
     public String toFileFormat() {
         return "TODO | " + (isDone() ? "1" : "0") + " | " + getDescription();

@@ -32,14 +32,18 @@ public abstract class Task {
     }
 
     /**
-     * Returns the isDone status of the object when called
+     * Returns whether this task is completed.
+     *
+     * @return {@code true} if the task is completed
      */
     public boolean isDone() {
         return this.isDone;
     }
 
     /**
-     * Returns the isDone status of the object when called
+     * Returns the task description without status or type formatting.
+     *
+     * @return task description
      */
     protected String getDescription() {
         return this.description;
@@ -58,7 +62,11 @@ public abstract class Task {
         isDone = false;
     }
 
-    /** Restores this task's completion state without producing console output. */
+    /**
+     * Restores this task's completion state without producing console output.
+     *
+     * @param isDone saved completion state
+     */
     public void restoreCompletionStatus(boolean isDone) {
         this.isDone = isDone;
     }
@@ -73,9 +81,19 @@ public abstract class Task {
         return "[" + getStatusIcon() + "] " + description;
     }
 
+    /**
+     * Serializes this task for persistent storage.
+     *
+     * @return task in the application's file format
+     */
     public abstract String toFileFormat();
 
-    /** Returns whether this task occurs on the supplied date. */
+    /**
+     * Returns whether this task occurs on the supplied date.
+     *
+     * @param date date to check
+     * @return {@code false} by default for tasks without date information
+     */
     public boolean occursOn(LocalDate date) {
         return false;
     }

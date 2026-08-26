@@ -22,6 +22,7 @@ public class StorageTest {
     @TempDir
     Path temporaryDirectory;
 
+    /** Verifies that loading a missing file returns an empty task list. */
     @Test
     public void loadTasks_missingFile_emptyListReturned() {
         Storage storage = new Storage(temporaryDirectory.resolve("missing.txt").toString());
@@ -29,6 +30,7 @@ public class StorageTest {
         assertEquals(0, storage.loadTasks().getSize());
     }
 
+    /** Verifies that multiple task types and completion states survive a save-load cycle. */
     @Test
     public void saveThenLoadTasks_multipleTaskTypes_contentAndStatusRestored()
             throws CbtException, IOException {
@@ -51,6 +53,7 @@ public class StorageTest {
                 loaded.getTask(1).toFileFormat());
     }
 
+    /** Verifies that saving replaces existing file contents. */
     @Test
     public void saveTasks_existingFile_previousContentReplaced() throws IOException {
         Path dataFile = temporaryDirectory.resolve("tasks.txt");
@@ -66,6 +69,7 @@ public class StorageTest {
         assertFalse(content.contains("old content"));
     }
 
+    /** Verifies that malformed stored lines are skipped while valid lines are loaded. */
     @Test
     public void loadTasks_malformedLine_validLinesStillLoaded() throws IOException, CbtException {
         Path dataFile = temporaryDirectory.resolve("tasks.txt");

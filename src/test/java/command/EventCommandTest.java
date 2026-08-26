@@ -11,6 +11,7 @@ import task.TaskList;
 
 /** Tests parsing and creation of event tasks. */
 public class EventCommandTest {
+    /** Verifies that valid event details add an event and report a state change. */
     @Test
     public void execute_validDetails_eventAdded() throws CbtException {
         TaskList tasks = new TaskList();
@@ -24,6 +25,7 @@ public class EventCommandTest {
         assertTrue(result.taskListChanged());
     }
 
+    /** Verifies that missing event markers or times are rejected. */
     @Test
     public void execute_missingMarkersOrTimes_exceptionThrown() {
         TaskList tasks = new TaskList();
@@ -33,6 +35,7 @@ public class EventCommandTest {
                 () -> new EventCommand("meeting /from 2/12/2019 /to ").execute(tasks));
     }
 
+    /** Verifies that a reversed event range is rejected without changing the list. */
     @Test
     public void execute_startAfterEnd_exceptionThrownAndListUnchanged() {
         TaskList tasks = new TaskList();

@@ -31,12 +31,23 @@ public class Deadline extends Task {
         return "[D]" + super.toString() + " (by: " + by.format(DATE_TIME_PRINT_FORMATTER) + ")";
     }
 
+    /**
+     * Serializes this deadline for persistent storage.
+     *
+     * @return deadline in the application's file format
+     */
     @Override
     public String toFileFormat() {
         return "DEADLINE | " + (isDone() ? "1" : "0") + " | " + getDescription() + " | "
                 + by.format(DATE_TIME_WRITE_FORMATTER);
     }
 
+    /**
+     * Checks whether this deadline falls on the specified date.
+     *
+     * @param date date to check
+     * @return {@code true} if the deadline is on the specified date
+     */
     @Override
     public boolean occursOn(LocalDate date) {
         return by.toLocalDate().equals(date);

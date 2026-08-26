@@ -11,6 +11,7 @@ import task.TaskList;
 
 /** Tests parsing and creation of deadline tasks. */
 public class DeadlineCommandTest {
+    /** Verifies that valid deadline details add a deadline and report a state change. */
     @Test
     public void execute_validDetails_deadlineAdded() throws CbtException {
         TaskList tasks = new TaskList();
@@ -23,6 +24,7 @@ public class DeadlineCommandTest {
         assertTrue(result.taskListChanged());
     }
 
+    /** Verifies that a missing deadline description or date is rejected. */
     @Test
     public void execute_missingDescriptionOrDate_exceptionThrown() {
         TaskList tasks = new TaskList();
@@ -31,6 +33,7 @@ public class DeadlineCommandTest {
         assertThrows(CbtException.class, () -> new DeadlineCommand("return book /by ").execute(tasks));
     }
 
+    /** Verifies that an invalid deadline date is rejected without changing the list. */
     @Test
     public void execute_invalidDate_exceptionThrownAndListUnchanged() {
         TaskList tasks = new TaskList();

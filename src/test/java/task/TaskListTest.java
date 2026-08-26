@@ -15,6 +15,7 @@ import exception.CbtException;
 
 /** Tests task collection mutations, validation, and date filtering. */
 public class TaskListTest {
+    /** Verifies that tasks are appended and retain their insertion order. */
     @Test
     public void addTask_validTask_taskStoredAtEnd() throws CbtException {
         TaskList tasks = new TaskList();
@@ -29,6 +30,7 @@ public class TaskListTest {
         assertSame(second, tasks.getTask(1));
     }
 
+    /** Verifies that negative and past-the-end indexes are rejected. */
     @Test
     public void getTask_invalidIndexes_exceptionThrown() {
         TaskList tasks = new TaskList();
@@ -38,6 +40,7 @@ public class TaskListTest {
         assertThrows(CbtException.class, () -> tasks.getTask(1));
     }
 
+    /** Verifies that deletion removes and returns the selected task. */
     @Test
     public void deleteTask_validIndex_taskRemovedAndReturned() throws CbtException {
         TaskList tasks = new TaskList();
@@ -53,6 +56,7 @@ public class TaskListTest {
         assertSame(retained, tasks.getTask(0));
     }
 
+    /** Verifies that marking and unmarking update the selected task's completion state. */
     @Test
     public void markAndUnmarkTask_validIndex_completionStatusChanged() throws CbtException {
         TaskList tasks = new TaskList();
@@ -66,6 +70,7 @@ public class TaskListTest {
         assertFalse(todo.isDone());
     }
 
+    /** Verifies that date filtering returns only matching dated tasks in list order. */
     @Test
     public void findTasksOn_mixedTasks_onlyTasksOccurringOnDateReturned() throws CbtException {
         LocalDate targetDate = LocalDate.of(2026, 8, 26);
@@ -89,6 +94,7 @@ public class TaskListTest {
         assertEquals(4, tasks.getSize());
     }
 
+    /** Verifies that date filtering returns an empty list when no tasks match. */
     @Test
     public void findTasksOn_noMatches_emptyTaskListReturned() {
         TaskList tasks = new TaskList();

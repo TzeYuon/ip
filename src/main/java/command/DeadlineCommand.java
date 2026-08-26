@@ -11,10 +11,22 @@ import java.time.LocalDateTime;
 public class DeadlineCommand implements Command {
     private final String details;
 
+    /**
+     * Creates a command from a deadline description and its {@code /by} argument.
+     *
+     * @param details user-entered deadline details
+     */
     public DeadlineCommand(String details) {
         this.details = details;
     }
 
+    /**
+     * Parses and adds a deadline to the task list.
+     *
+     * @param tasks task list to update
+     * @return result describing the added deadline
+     * @throws CbtException if the details or deadline date are invalid
+     */
     @Override
     public CommandResult execute(TaskList tasks) throws CbtException {
         int marker = details.indexOf(" /by ");

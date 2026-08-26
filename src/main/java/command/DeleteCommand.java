@@ -8,10 +8,22 @@ import task.TaskList;
 public class DeleteCommand implements Command {
     private final String taskNumber;
 
+    /**
+     * Creates a command that deletes the specified one-based task number.
+     *
+     * @param taskNumber user-entered task number
+     */
     public DeleteCommand(String taskNumber) {
         this.taskNumber = taskNumber;
     }
 
+    /**
+     * Deletes the selected task from the task list.
+     *
+     * @param tasks task list to update
+     * @return result describing the deleted task
+     * @throws CbtException if the task number is invalid or outside the list
+     */
     @Override
     public CommandResult execute(TaskList tasks) throws CbtException {
         Task removedTask = tasks.deleteTask(MarkCommand.toIndex(taskNumber));

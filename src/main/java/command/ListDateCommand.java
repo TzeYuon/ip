@@ -9,11 +9,22 @@ import java.time.LocalDate;
 public class ListDateCommand implements Command {
     private final String dateText;
 
-    /** Creates a command using the user-entered date. */
+    /**
+     * Creates a command using the user-entered date.
+     *
+     * @param dateText date on which tasks should be listed
+     */
     public ListDateCommand(String dateText) {
         this.dateText = dateText;
     }
 
+    /**
+     * Prints deadlines and events occurring on the requested date.
+     *
+     * @param taskList task list to search
+     * @return result indicating that no application state changed
+     * @throws CbtException if the date is blank or invalid
+     */
     @Override
     public CommandResult execute(TaskList taskList) throws CbtException {
         if (dateText.isBlank()) {
