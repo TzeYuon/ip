@@ -17,6 +17,7 @@ import task.TaskList;
 
 /** Tests filtering displayed tasks by date. */
 public class ListDateCommandTest {
+    /** Verifies that only tasks occurring on the requested date are printed. */
     @Test
     public void execute_matchingAndNonMatchingTasks_onlyMatchingTaskPrinted() throws CbtException {
         TaskList tasks = new TaskList();
@@ -40,6 +41,7 @@ public class ListDateCommandTest {
         assertFalse(result.taskListChanged());
     }
 
+    /** Verifies that blank and invalid dates are rejected. */
     @Test
     public void execute_blankOrInvalidDate_exceptionThrown() {
         TaskList tasks = new TaskList();

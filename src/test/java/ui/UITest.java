@@ -16,6 +16,7 @@ import command.CommandResult;
 
 /** Tests console input normalization and output delegation. */
 public class UITest {
+    /** Verifies that command input is trimmed and exhausted correctly. */
     @Test
     public void readCommand_inputWithSurroundingWhitespace_trimmedInputReturned() {
         InputStream originalIn = System.in;
@@ -31,6 +32,7 @@ public class UITest {
         }
     }
 
+    /** Verifies that the UI prints a command result's message. */
     @Test
     public void showResult_resultProvided_messagePrinted() {
         PrintStream originalOut = System.out;
@@ -48,6 +50,7 @@ public class UITest {
                 output.toString(StandardCharsets.UTF_8));
     }
 
+    /** Verifies that the UI prints an error message. */
     @Test
     public void showError_messageProvided_messagePrinted() {
         PrintStream originalOut = System.out;

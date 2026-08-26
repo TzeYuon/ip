@@ -14,6 +14,12 @@ public class CBT {
     private final Storage storage;
     private final TaskList tasks;
 
+    /**
+     * Creates the application with its user interface and persistent storage.
+     *
+     * @param ui user interface used to read commands and display results
+     * @param storage storage used to load and save tasks
+     */
     public CBT(UI ui, Storage storage) {
         this.ui = ui;
         this.storage = storage;
@@ -48,6 +54,11 @@ public class CBT {
         }
     }
 
+    /**
+     * Starts CBT using the default console interface and data file.
+     *
+     * @param args command-line arguments; currently unused
+     */
     public static void main(String[] args) {
         UI ui = new UI();
         Storage storage = new Storage("./data/CBT.txt");

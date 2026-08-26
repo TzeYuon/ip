@@ -15,6 +15,7 @@ import java.util.List;
 
 /** Converts a raw user command into the command object that performs it. */
 public class Parser {
+    /** Supported formats for a date with a time. */
     private static final List<DateTimeFormatter> DATE_TIME_FORMATTERS = List.of(
             strictFormatter("d/M/uuuu HHmm"),   // 2/12/2019 1800
             strictFormatter("d-M-uuuu HHmm"),   // 2-12-2019 1800
@@ -30,8 +31,17 @@ public class Parser {
             strictFormatter("d-M-uuuu"),   // 2-12-2019
             strictFormatter("uuuu-MM-dd")  // 2019-12-02
     );
+
+    /** Format used to display dates stored in tasks. */
     private static final DateTimeFormatter DATE_PRINT_FORMATTER = DateTimeFormatter.ofPattern("MMM dd uuuu");
-    /** Parses one input line without changing the task list. */
+
+    /**
+     * Parses one input line without changing the task list.
+     *
+     * @param fullCommand complete command entered by the user
+     * @return command object corresponding to the entered command word
+     * @throws CbtException if the command word is not recognized
+     */
     public static Command parseCommand(String fullCommand) throws CbtException {
         String[] parts = fullCommand.trim().split("\\s+", 2);
         String keyword = parts[0].toUpperCase();
@@ -59,7 +69,12 @@ public class Parser {
         };
     }
 
-    /** Converts one stored task line to a task, or returns {@code null} for malformed data. */
+    /**
+     * Converts one stored task line to a task.
+     *
+     * @param line task serialized in the application's file format
+     * @return reconstructed task, or {@code null} if the stored data is malformed
+     */
     public static Task parseLineToTask(String line) {
         String[] parts = line.split(" \\| ", -1);
         if (parts.length < 3) {
@@ -118,7 +133,13 @@ public class Parser {
         return task;
     }
 
-    /** Parses a supported date or date-time input, using midnight for a date-only input. */
+    /**
+     * Parses a supported date or date-time input, using midnight for a date-only input.
+     *
+     * @param line date or date-time text to parse
+     * @return parsed date and time
+     * @throws CbtException if the text does not match a supported format
+     */
     public static LocalDateTime parseLineToDate(String line) throws CbtException {
         line = line.trim();
         for (DateTimeFormatter formatter : DATE_TIME_FORMATTERS) {
@@ -143,7 +164,13 @@ public class Parser {
                 + "  - 2/12/2019");
     }
 
-    /** Parses a date without accepting a time component. */
+    /**
+     * Parses a date without accepting a time component.
+     *
+     * @param line date text to parse
+     * @return parsed date
+     * @throws CbtException if the text does not match a supported date format
+     */
     public static LocalDate parseDate(String line) throws CbtException {
         for (DateTimeFormatter formatter : DATE_ONLY_FORMATTERS) {
             try {
@@ -155,11 +182,22 @@ public class Parser {
         throw new CbtException("Cannot recognize date! Use a date such as 2019-12-02.");
     }
 
-    /** Formats a date for display. */
+    /**
+     * Formats a date for display.
+     *
+     * @param date date to format
+     * @return date formatted for user-facing output
+     */
     public static String formatDate(LocalDate date) {
         return date.format(DATE_PRINT_FORMATTER);
     }
 
+    /**
+     * Creates a formatter that rejects invalid calendar dates instead of adjusting them.
+     *
+     * @param pattern date-time pattern accepted by the formatter
+     * @return strict date-time formatter
+     */
     private static DateTimeFormatter strictFormatter(String pattern) {
         return DateTimeFormatter.ofPattern(pattern).withResolverStyle(ResolverStyle.STRICT);
     }

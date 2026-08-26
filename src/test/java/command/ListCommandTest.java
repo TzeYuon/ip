@@ -16,6 +16,7 @@ import task.Todo;
 
 /** Tests listing all tasks without modifying them. */
 public class ListCommandTest {
+    /** Verifies that listing prints numbered tasks without changing application state. */
     @Test
     public void execute_multipleTasks_numberedTasksPrintedAndUnchangedResultReturned() throws CbtException {
         TaskList tasks = new TaskList();

@@ -8,10 +8,22 @@ import task.Todo;
 public class TodoCommand implements Command {
     private final String description;
 
+    /**
+     * Creates a command for the supplied todo description.
+     *
+     * @param description description of the todo
+     */
     public TodoCommand(String description) {
         this.description = description;
     }
 
+    /**
+     * Validates and adds a todo to the task list.
+     *
+     * @param tasks task list to update
+     * @return result describing the added todo
+     * @throws CbtException if the description is blank
+     */
     @Override
     public CommandResult execute(TaskList tasks) throws CbtException {
         if (description.isBlank()) {

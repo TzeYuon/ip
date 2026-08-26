@@ -15,11 +15,21 @@ public class Storage {
     private final Path filePath;
     private final Parser parser;
 
+    /**
+     * Creates a storage manager for the specified data file.
+     *
+     * @param filePath path to the task data file
+     */
     public Storage(String filePath) {
         this.filePath = Path.of(filePath);
         this.parser = new Parser();
     }
 
+    /**
+     * Loads all valid tasks from the data file.
+     *
+     * @return loaded tasks, or an empty list if the file does not exist or cannot be read
+     */
     public TaskList loadTasks() {
         TaskList tasks = new TaskList();
         if (!Files.exists(filePath)) {
@@ -38,6 +48,11 @@ public class Storage {
         return tasks;
     }
 
+    /**
+     * Writes all tasks to the data file, replacing its previous contents.
+     *
+     * @param tasks tasks to persist
+     */
     public void saveTasks(TaskList tasks) {
         try {
             Path parent = filePath.getParent();

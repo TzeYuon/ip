@@ -10,6 +10,7 @@ import task.TaskList;
 
 /** Tests the result used to terminate the application. */
 public class ExitCommandTest {
+    /** Verifies that exiting returns the exit flag without modifying tasks. */
     @Test
     public void execute_anyTaskList_exitResultReturnedWithoutMutation() {
         TaskList tasks = new TaskList();

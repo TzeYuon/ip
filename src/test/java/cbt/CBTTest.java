@@ -22,6 +22,7 @@ public class CBTTest {
     @TempDir
     Path temporaryDirectory;
 
+    /** Verifies that the command loop adds, reports, and saves a valid todo before exiting. */
     @Test
     public void run_addTodoThenExit_responsePrintedAndTaskSaved() throws Exception {
         InputStream originalIn = System.in;
@@ -47,6 +48,7 @@ public class CBTTest {
         assertTrue(Files.readString(dataFile).contains("TODO | 0 | read book"));
     }
 
+    /** Verifies that an invalid command is reported without creating a data file. */
     @Test
     public void run_invalidCommand_errorPrintedAndNoDataFileCreated() {
         InputStream originalIn = System.in;

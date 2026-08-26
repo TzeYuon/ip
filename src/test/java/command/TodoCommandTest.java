@@ -12,6 +12,7 @@ import task.TaskList;
 
 /** Tests creation of todo tasks from commands. */
 public class TodoCommandTest {
+    /** Verifies that a valid description adds a todo and reports a state change. */
     @Test
     public void execute_validDescription_taskAddedAndChangedResultReturned() throws CbtException {
         TaskList tasks = new TaskList();
@@ -25,6 +26,7 @@ public class TodoCommandTest {
         assertTrue(result.message().contains("Now you have 1 task in the list."));
     }
 
+    /** Verifies that a blank todo description is rejected without changing the list. */
     @Test
     public void execute_blankDescription_exceptionThrownAndListUnchanged() {
         TaskList tasks = new TaskList();

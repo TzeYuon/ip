@@ -12,6 +12,7 @@ import task.Todo;
 
 /** Tests deletion by the one-based task number entered by a user. */
 public class DeleteCommandTest {
+    /** Verifies that a valid one-based task number deletes and reports the selected task. */
     @Test
     public void execute_validTaskNumber_taskDeleted() throws CbtException {
         TaskList tasks = new TaskList();
@@ -26,6 +27,7 @@ public class DeleteCommandTest {
         assertTrue(result.message().contains("[T][ ] first"));
     }
 
+    /** Verifies that an out-of-range task number leaves the list unchanged. */
     @Test
     public void execute_invalidTaskNumber_exceptionThrownAndListUnchanged() {
         TaskList tasks = new TaskList();

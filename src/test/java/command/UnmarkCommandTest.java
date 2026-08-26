@@ -12,6 +12,7 @@ import task.Todo;
 
 /** Tests changing completed tasks back to incomplete. */
 public class UnmarkCommandTest {
+    /** Verifies that a completed task can be unmarked and the change is reported. */
     @Test
     public void execute_completedTask_taskUnmarked() throws CbtException {
         TaskList tasks = new TaskList();
@@ -26,6 +27,7 @@ public class UnmarkCommandTest {
         assertTrue(result.message().contains("[T][ ] read book"));
     }
 
+    /** Verifies that an invalid task number cannot be unmarked. */
     @Test
     public void execute_invalidTaskNumber_exceptionThrown() {
         assertThrows(CbtException.class,
