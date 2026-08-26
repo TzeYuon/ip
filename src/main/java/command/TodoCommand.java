@@ -13,16 +13,15 @@ public class TodoCommand implements Command {
     }
 
     @Override
-    public void execute(TaskList taskList) throws CbtException {
+    public CommandResult execute(TaskList tasks) throws CbtException {
         if (description.isBlank()) {
             throw new CbtException("The description of a todo cannot be empty. Use: todo DESCRIPTION");
         }
         Todo task = new Todo(description);
-        taskList.addTask(task);
-    }
-
-    @Override
-    public boolean changesTaskList() {
-        return true;
+        tasks.addTask(task);
+        String message = "Got it. I've added this task:\n" + "  " + task + "\n" +
+                "Now you have " + tasks.getSize() + " task" +
+                (tasks.getSize() == 1 ? "" : "s") + " in the list.";
+        return new CommandResult(message, true, false);
     }
 }

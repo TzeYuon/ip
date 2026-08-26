@@ -13,14 +13,11 @@ public class MarkCommand implements Command {
     }
 
     @Override
-    public void execute(TaskList taskList) throws CbtException {
-        Task task = taskList.getTask(toIndex(taskNumber));
-        task.markAsDone();
-    }
-
-    @Override
-    public boolean changesTaskList() {
-        return true;
+    public CommandResult execute(TaskList taskList) throws CbtException {
+        Task task = taskList.markTask(toIndex(taskNumber));
+        String message = "Nice! I've marked this task as done:\n"
+                + "  " + task;
+        return new CommandResult(message, true, false);
     }
 
     /** Checks and converts a valid String input to its zero-based index. */

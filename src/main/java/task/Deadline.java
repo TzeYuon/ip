@@ -33,7 +33,7 @@ public class Deadline extends Task {
 
     @Override
     public String toFileFormat() {
-        return "DEADLINE | " + (isDone ? "1" : "0") + " | " + description + " | "
+        return "DEADLINE | " + (isDone() ? "1" : "0") + " | " + getDescription() + " | "
                 + by.format(DATE_TIME_WRITE_FORMATTER);
     }
 

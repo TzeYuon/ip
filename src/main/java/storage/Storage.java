@@ -29,7 +29,7 @@ public class Storage {
             for (String line : Files.readAllLines(filePath)) {
                 Task task = parser.parseLineToTask(line);
                 if (task != null) {
-                    tasks.addLoadedTask(task);
+                    tasks.addTask(task);
                 }
             }
         } catch (IOException exception) {

@@ -16,7 +16,7 @@ public class EventCommand implements Command {
     }
 
     @Override
-    public void execute(TaskList taskList) throws CbtException {
+    public CommandResult execute(TaskList tasks) throws CbtException {
         int fromMarker = details.indexOf(" /from ");
         int toMarker = details.indexOf(" /to ");
         int startLength = " /from ".length();
@@ -31,15 +31,11 @@ public class EventCommand implements Command {
         }
         LocalDateTime startDate = Parser.parseLineToDate(startString);
         LocalDateTime endDate = Parser.parseLineToDate(endString);
-        if (startDate.isAfter(endDate)) {
-            throw new CbtException("The event start date and time cannot be after its end date and time.");
-        }
         Event task = new Event(details.substring(0, fromMarker).trim(), startDate, endDate);
-        taskList.addTask(task);
-    }
-
-    @Override
-    public boolean changesTaskList() {
-        return true;
+        tasks.addTask(task);
+        String message = "Got it. I've added this task:\n" +
+                "  " + task + "\n" + "Now you have " + tasks.getSize() + " task" +
+                (tasks.getSize() == 1 ? "" : "s") + " in the list.";
+        return new CommandResult(message, true, false);
     }
 }

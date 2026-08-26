@@ -6,8 +6,8 @@ import java.time.format.DateTimeFormatter;
  * Represents a task and whether it has been completed.
  */
 public abstract class Task {
-    final String description;
-    boolean isDone;
+    private final String description;
+    private boolean isDone;
     protected static final DateTimeFormatter DATE_TIME_PRINT_FORMATTER =
             DateTimeFormatter.ofPattern("MMM dd uuuu, h:mma");
     protected static final DateTimeFormatter DATE_TIME_WRITE_FORMATTER =
@@ -32,12 +32,23 @@ public abstract class Task {
     }
 
     /**
+     * Returns the isDone status of the object when called
+     */
+    public boolean isDone() {
+        return this.isDone;
+    }
+
+    /**
+     * Returns the isDone status of the object when called
+     */
+    protected String getDescription() {
+        return this.description;
+    }
+    /**
      * Marks task as completed.
      */
     public void markAsDone() {
         isDone = true;
-        System.out.println("Nice! I've marked this task as done:");
-        System.out.println("  " + toString());
     }
 
     /**
@@ -45,8 +56,6 @@ public abstract class Task {
      */
     public void markAsNotDone() {
         isDone = false;
-        System.out.println("OK, I've marked this task as not done yet:");
-        System.out.println("  " + toString());
     }
 
     /** Restores this task's completion state without producing console output. */

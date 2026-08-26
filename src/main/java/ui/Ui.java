@@ -1,5 +1,7 @@
 package ui;
 
+import command.CommandResult;
+
 import java.util.Scanner;
 
 /** Handles CBT's console input and common output formatting. */
@@ -41,9 +43,7 @@ public class UI {
         System.out.println(DIVIDER);
     }
 
-    /** Prints the application's farewell and final divider. */
-    public void showGoodbye() {
-        System.out.println("Bye. Hope to see you again soon!");
-        showLine();
+    public void showResult(CommandResult result) {
+        System.out.println(result.message());
     }
 }

@@ -16,7 +16,7 @@ public class DeadlineCommand implements Command {
     }
 
     @Override
-    public void execute(TaskList taskList) throws CbtException {
+    public CommandResult execute(TaskList tasks) throws CbtException {
         int marker = details.indexOf(" /by ");
         int byLength = " /by ".length();
         if (marker <= 0 || details.substring(marker + byLength).isBlank()) {
@@ -27,11 +27,10 @@ public class DeadlineCommand implements Command {
 
         LocalDateTime byDate = Parser.parseLineToDate(byString);
         Deadline task = new Deadline(description, byDate);
-        taskList.addTask(task);
-    }
-
-    @Override
-    public boolean changesTaskList() {
-        return true;
+        tasks.addTask(task);
+        String message = "Got it. I've added this task:\n" + "  " + task + "\n" +
+                "Now you have " + tasks.getSize() + " task" +
+                (tasks.getSize() == 1 ? "" : "s") + " in the list.";
+        return new CommandResult(message, true, false);
     }
 }

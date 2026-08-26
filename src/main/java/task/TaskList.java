@@ -1,5 +1,6 @@
 package task;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import exception.CbtException;
@@ -10,14 +11,6 @@ public class TaskList {
 
     /** Adds a task to the end of the list. */
     public void addTask(Task task) {
-        tasks.add(task);
-        System.out.println("Got it. I've added this task:");
-        System.out.println("  " + task);
-        System.out.println("Now you have " + tasks.size() + " task" + (tasks.size() == 1 ? "" : "s") + " in the list.");
-    }
-
-    /** Adds a task loaded from storage without printing an interactive confirmation. */
-    public void addLoadedTask(Task task) {
         tasks.add(task);
     }
 
@@ -30,11 +23,29 @@ public class TaskList {
     /** Removes and returns the task at a zero-based index. */
     public Task deleteTask(int index) throws CbtException {
         checkValidIndex(index);
-        Task removedTask = tasks.remove(index);
-        System.out.println("Noted. I've removed this task:");
-        System.out.println("  " + removedTask);
-        System.out.println("Now you have " + tasks.size() + " task" + (tasks.size() == 1 ? "" : "s") + " in the list.");
-        return removedTask;
+        return tasks.remove(index);
+    }
+
+    public Task markTask(int index) throws CbtException {
+        Task task = getTask(index);
+        task.markAsDone();
+        return task;
+    }
+
+    public Task unmarkTask(int index) throws CbtException {
+        Task task = getTask(index);
+        task.markAsNotDone();
+        return task;
+    }
+
+    public TaskList findTasksOn(LocalDate date) {
+        TaskList returnList = new TaskList();
+        for (Task task : tasks) {
+            if (task.occursOn(date)) {
+                returnList.addTask(task);
+            }
+        }
+        return returnList;
     }
 
     /** Returns the number of stored tasks. */
@@ -45,6 +56,12 @@ public class TaskList {
     private void checkValidIndex(int index) throws CbtException {
         if (index < 0 || index >= tasks.size()) {
             throw new CbtException("Please enter a task number from the list, e.g. mark 1.");
+        }
+    }
+
+    public void printTasks() throws CbtException{
+        for (int i = 0; i < getSize(); i++) {
+            System.out.println(i + 1 + "." + getTask(i));
         }
     }
 }

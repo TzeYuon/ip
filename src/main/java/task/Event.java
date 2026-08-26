@@ -1,5 +1,7 @@
 package task;
 
+import exception.CbtException;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -17,8 +19,11 @@ public class Event extends Task {
      * @param startDate start date and time
      * @param endDate end date and time
      */
-    public Event(String description, LocalDateTime startDate, LocalDateTime endDate) {
+    public Event(String description, LocalDateTime startDate, LocalDateTime endDate) throws CbtException {
         super(description);
+        if (startDate.isAfter(endDate)) {
+            throw new CbtException("The event start date and time cannot be after its end date and time.");
+        }
         this.startDate = startDate;
         this.endDate = endDate;
     }
@@ -36,7 +41,7 @@ public class Event extends Task {
 
     @Override
     public String toFileFormat() {
-        return "EVENT | " + (isDone ? "1" : "0") + " | " + description + " | "
+        return "EVENT | " + (isDone() ? "1" : "0") + " | " + getDescription() + " | "
                 + startDate.format(DATE_TIME_WRITE_FORMATTER) + " | " + endDate.format(DATE_TIME_WRITE_FORMATTER);
     }
 

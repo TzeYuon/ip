@@ -53,8 +53,9 @@ public class Parser {
         case CommandWord.MARK -> new MarkCommand(arguments);
         case CommandWord.UNMARK -> new UnmarkCommand(arguments);
         case CommandWord.DELETE -> new DeleteCommand(arguments);
+        case CommandWord.BYE -> new ExitCommand();
         case CommandWord.UNKNOWN -> throw new CbtException("I don't understand that command. " +
-                "Try todo, deadline, event, date, list, mark, unmark, delete, or bye.");
+                "Try todo, deadline, event, date, list, listdate, mark, unmark, delete, or bye.");
         };
     }
 
