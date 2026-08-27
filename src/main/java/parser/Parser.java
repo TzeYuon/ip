@@ -13,6 +13,7 @@ import command.DeadlineCommand;
 import command.DeleteCommand;
 import command.EventCommand;
 import command.ExitCommand;
+import command.FindCommand;
 import command.ListCommand;
 import command.ListDateCommand;
 import command.MarkCommand;
@@ -80,8 +81,9 @@ public class Parser {
             case CommandWord.UNMARK -> new UnmarkCommand(arguments);
             case CommandWord.DELETE -> new DeleteCommand(arguments);
             case CommandWord.BYE -> new ExitCommand();
+            case CommandWord.FIND -> new FindCommand(arguments);
             case CommandWord.UNKNOWN -> throw new CbtException("I don't understand that command. "
-                    + "Try todo, deadline, event, date, list, listdate, mark, unmark, delete, or bye.");
+                    + "Try todo, deadline, event, date, list, listdate, find, mark, unmark, delete, or bye.");
         };
     }
 

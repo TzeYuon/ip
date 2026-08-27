@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import exception.CbtException;
 
-/** Tests task collection mutations, validation, and date filtering. */
+/** Tests task collection mutations, validation, and filtering. */
 public class TaskListTest {
     /** Verifies that tasks are appended and retain their insertion order. */
     @Test
@@ -102,5 +102,25 @@ public class TaskListTest {
                 LocalDateTime.of(2026, 8, 27, 12, 0)));
 
         assertEquals(0, tasks.findTasksOn(LocalDate.of(2026, 8, 26)).getSize());
+    }
+
+    /** Verifies that keyword filtering ignores case and preserves task order. */
+    @Test
+    public void findTasksContaining_mixedDescriptions_matchingTasksReturnedInOrder() throws CbtException {
+        Todo firstMatch = new Todo("read Book");
+        Todo nonMatch = new Todo("write report");
+        Deadline secondMatch = new Deadline("return book", LocalDateTime.of(2026, 8, 27, 12, 0));
+        TaskList tasks = new TaskList();
+        tasks.addTask(firstMatch);
+        tasks.addTask(nonMatch);
+        tasks.addTask(secondMatch);
+
+        TaskList result = tasks.findTasksContaining("BOOK");
+
+        assertEquals(2, result.getSize());
+        assertSame(firstMatch, result.getTask(0));
+        assertSame(secondMatch, result.getTask(1));
+        assertEquals(3, tasks.getSize());
+        assertEquals(0, tasks.findTasksContaining("missing").getSize());
     }
 }

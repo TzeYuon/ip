@@ -220,3 +220,50 @@ ____________________________________________________________
 Bye. Hope to see you again soon!
 ____________________________________________________________
 ```
+
+## Test case: Find tasks by description keyword
+
+Aim: Verify that find searches descriptions without regard to letter case, renumbers matching tasks, and rejects a
+blank keyword.
+
+### Setup data
+
+```text
+TODO | 1 | read book
+DEADLINE | 0 | return book | 02/12/2019 1800
+TODO | 0 | write report
+```
+
+### Inputs
+
+```text
+find BOOK
+find
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+  ____ ____ _____
+ / ___| __ )_   _|
+| |   |  _ \ | |
+| |___| |_) || |
+ \____|____/ |_|
+
+Hello! I'm CBT.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+Here are the matching tasks in your list:
+1.[T][X] read book
+2.[D][ ] return book (by: Dec 02 2019, 6:00pm)
+____________________________________________________________
+____________________________________________________________
+Use: find KEYWORD (for example, find book)
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
