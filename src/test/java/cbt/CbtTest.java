@@ -15,10 +15,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import storage.Storage;
-import ui.UI;
+import ui.Ui;
 
 /** Tests the application's command loop with isolated input, output, and storage. */
-public class CBTTest {
+public class CbtTest {
     @TempDir
     Path temporaryDirectory;
 
@@ -33,7 +33,7 @@ public class CBTTest {
             System.setIn(new ByteArrayInputStream(
                     "todo read book\nbye\n".getBytes(StandardCharsets.UTF_8)));
             System.setOut(new PrintStream(output, true, StandardCharsets.UTF_8));
-            CBT application = new CBT(new UI(), new Storage(dataFile.toString()));
+            Cbt application = new Cbt(new Ui(), new Storage(dataFile.toString()));
 
             application.run();
         } finally {
@@ -57,7 +57,7 @@ public class CBTTest {
         try {
             System.setIn(new ByteArrayInputStream("dance\nbye\n".getBytes(StandardCharsets.UTF_8)));
             System.setOut(new PrintStream(output, true, StandardCharsets.UTF_8));
-            CBT application = new CBT(new UI(), new Storage(dataFile.toString()));
+            Cbt application = new Cbt(new Ui(), new Storage(dataFile.toString()));
 
             application.run();
         } finally {

@@ -1,19 +1,31 @@
 package command;
 
+import java.time.LocalDate;
+
 import exception.CbtException;
 import parser.Parser;
 import task.TaskList;
-import java.time.LocalDate;
 
 /** Displays deadlines and events occurring on one specified date. */
 public class ListDateCommand implements Command {
     private final String dateText;
 
-    /** Creates a command using the user-entered date. */
+    /**
+     * Creates a command using the user-entered date.
+     *
+     * @param dateText date on which tasks should be listed.
+     */
     public ListDateCommand(String dateText) {
         this.dateText = dateText;
     }
 
+    /**
+     * Prints deadlines and events occurring on the requested date.
+     *
+     * @param taskList task list to search.
+     * @return result indicating that no application state changed.
+     * @throws CbtException if the date is blank or invalid.
+     */
     @Override
     public CommandResult execute(TaskList taskList) throws CbtException {
         if (dateText.isBlank()) {
@@ -21,8 +33,7 @@ public class ListDateCommand implements Command {
         }
         LocalDate date = Parser.parseDate(dateText);
         System.out.println("Here are the deadlines and events on " + Parser.formatDate(date) + ":");
-        TaskList tasksOnDay = taskList.findTasksOn(date);
-        tasksOnDay.printTasks();
+        taskList.printTasksOn(date);
         return new CommandResult("", false, false);
     }
 }

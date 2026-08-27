@@ -1,20 +1,26 @@
 package cbt;
+
 import command.Command;
 import command.CommandResult;
 import exception.CbtException;
 import parser.Parser;
-import task.TaskList;
 import storage.Storage;
-import ui.UI;
+import task.TaskList;
+import ui.Ui;
 
 /** Starts CBT and coordinates the user interface, parser, and task list. */
-public class CBT {
-    private static final Storage STORAGE = new Storage("./data/CBT.txt");
-    private final UI ui;
+public class Cbt {
+    private final Ui ui;
     private final Storage storage;
     private final TaskList tasks;
 
-    public CBT(UI ui, Storage storage) {
+    /**
+     * Creates the application with its user interface and persistent storage.
+     *
+     * @param ui User interface used to read commands and display results.
+     * @param storage Storage used to load and save tasks.
+     */
+    public Cbt(Ui ui, Storage storage) {
         this.ui = ui;
         this.storage = storage;
         this.tasks = storage.loadTasks();
@@ -39,6 +45,7 @@ public class CBT {
                 }
 
                 if (result.exit()) {
+                    ui.showLine();
                     break;
                 }
             } catch (CbtException exception) {
@@ -48,10 +55,15 @@ public class CBT {
         }
     }
 
+    /**
+     * Starts CBT using the default console interface and data file.
+     *
+     * @param args Command-line arguments; unused.
+     */
     public static void main(String[] args) {
-        UI ui = new UI();
+        Ui ui = new Ui();
         Storage storage = new Storage("./data/CBT.txt");
-        CBT cbt = new CBT(ui, storage);
+        Cbt cbt = new Cbt(ui, storage);
         cbt.run();
     }
 }

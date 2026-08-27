@@ -57,7 +57,7 @@ def compile_program() -> None:
 
 def run_case(inputs: str) -> str:
     """Run one clean application session and return its console output."""
-    result = subprocess.run(["java", "-cp", str(BUILD_DIRECTORY), "cbt.CBT"], input=inputs + "\n", cwd=ROOT,
+    result = subprocess.run(["java", "-cp", str(BUILD_DIRECTORY), "cbt.Cbt"], input=inputs + "\n", cwd=ROOT,
                             text=True, capture_output=True, check=False)
     if result.returncode:
         raise RuntimeError(f"Program exited with code {result.returncode}:\n{result.stderr}")
