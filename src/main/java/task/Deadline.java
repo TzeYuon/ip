@@ -13,8 +13,8 @@ public class Deadline extends Task {
     /**
      * Creates an incomplete deadline.
      *
-     * @param description description of the deadline
-     * @param by deadline date and time
+     * @param description description of the deadline.
+     * @param by deadline date and time.
      */
     public Deadline(String description, LocalDateTime by) {
         super(description);
@@ -24,7 +24,7 @@ public class Deadline extends Task {
     /**
      * Returns this deadline in its user-facing format.
      *
-     * @return formatted deadline
+     * @return formatted deadline.
      */
     @Override
     public String toString() {
@@ -34,7 +34,7 @@ public class Deadline extends Task {
     /**
      * Serializes this deadline for persistent storage.
      *
-     * @return deadline in the application's file format
+     * @return deadline in the application's file format.
      */
     @Override
     public String toFileFormat() {
@@ -45,8 +45,8 @@ public class Deadline extends Task {
     /**
      * Checks whether this deadline falls on the specified date.
      *
-     * @param date date to check
-     * @return {@code true} if the deadline is on the specified date
+     * @param date date to check.
+     * @return {@code true} if the deadline is on the specified date.
      */
     @Override
     public boolean occursOn(LocalDate date) {

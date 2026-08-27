@@ -7,8 +7,8 @@ public class ExitCommand implements Command {
     /**
      * Produces a result that tells the application to exit.
      *
-     * @param tasks current task list; not modified
-     * @return result containing the farewell message and exit flag
+     * @param tasks current task list; not modified.
+     * @return result containing the farewell message and exit flag.
      */
     @Override
     public CommandResult execute(TaskList tasks) {

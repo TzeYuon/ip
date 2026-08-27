@@ -11,7 +11,7 @@ public class MarkCommand implements Command {
     /**
      * Creates a command that marks the specified one-based task number.
      *
-     * @param taskNumber user-entered task number
+     * @param taskNumber user-entered task number.
      */
     public MarkCommand(String taskNumber) {
         this.taskNumber = taskNumber;
@@ -20,9 +20,9 @@ public class MarkCommand implements Command {
     /**
      * Marks the selected task as completed.
      *
-     * @param taskList task list to update
-     * @return result describing the marked task
-     * @throws CbtException if the task number is invalid or outside the list
+     * @param taskList task list to update.
+     * @return result describing the marked task.
+     * @throws CbtException if the task number is invalid or outside the list.
      */
     @Override
     public CommandResult execute(TaskList taskList) throws CbtException {
@@ -35,9 +35,9 @@ public class MarkCommand implements Command {
     /**
      * Converts a positive, one-based task number to a zero-based index.
      *
-     * @param value user-entered task number
-     * @return zero-based task index
-     * @throws CbtException if the value is not a positive integer
+     * @param value user-entered task number.
+     * @return zero-based task index.
+     * @throws CbtException if the value is not a positive integer.
      */
     static int toIndex(String value) throws CbtException {
         try {
@@ -45,7 +45,9 @@ public class MarkCommand implements Command {
             if (index >= 0) {
                 return index;
             }
-        } catch (NumberFormatException exception) { }
+        } catch (NumberFormatException exception) {
+            // Fall through to the common validation error.
+        }
         throw new CbtException("Please enter a task number from the list, e.g. mark 1.");
     }
 }

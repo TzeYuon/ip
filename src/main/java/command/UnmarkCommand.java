@@ -11,7 +11,7 @@ public class UnmarkCommand implements Command {
     /**
      * Creates a command that unmarks the specified one-based task number.
      *
-     * @param taskNumber user-entered task number
+     * @param taskNumber user-entered task number.
      */
     public UnmarkCommand(String taskNumber) {
         this.taskNumber = taskNumber;
@@ -20,9 +20,9 @@ public class UnmarkCommand implements Command {
     /**
      * Marks the selected task as incomplete.
      *
-     * @param taskList task list to update
-     * @return result describing the unmarked task
-     * @throws CbtException if the task number is invalid or outside the list
+     * @param taskList task list to update.
+     * @return result describing the unmarked task.
+     * @throws CbtException if the task number is invalid or outside the list.
      */
     @Override
     public CommandResult execute(TaskList taskList) throws CbtException {

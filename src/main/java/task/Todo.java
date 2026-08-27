@@ -1,4 +1,5 @@
 package task;
+
 /**
  * Represents a task without date or time information.
  */
@@ -7,7 +8,7 @@ public class Todo extends Task {
     /**
      * Creates an incomplete todo.
      *
-     * @param description description of the todo
+     * @param description description of the todo.
      */
     public Todo(String description) {
         super(description);
@@ -16,7 +17,7 @@ public class Todo extends Task {
     /**
      * Returns this todo in its user-facing format.
      *
-     * @return formatted todo
+     * @return formatted todo.
      */
     @Override
     public String toString() {
@@ -26,7 +27,7 @@ public class Todo extends Task {
     /**
      * Serializes this todo for persistent storage.
      *
-     * @return todo in the application's file format
+     * @return todo in the application's file format.
      */
     @Override
     public String toFileFormat() {

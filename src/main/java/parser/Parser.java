@@ -1,17 +1,28 @@
 package parser;
 
-import command.*;
-import exception.CbtException;
-import task.Deadline;
-import task.Event;
-import task.Task;
-import task.Todo;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
 import java.util.List;
+
+import command.Command;
+import command.CommandWord;
+import command.DeadlineCommand;
+import command.DeleteCommand;
+import command.EventCommand;
+import command.ExitCommand;
+import command.ListCommand;
+import command.ListDateCommand;
+import command.MarkCommand;
+import command.TodoCommand;
+import command.UnmarkCommand;
+import exception.CbtException;
+import task.Deadline;
+import task.Event;
+import task.Task;
+import task.Todo;
 
 /** Converts a raw user command into the command object that performs it. */
 public class Parser {
@@ -33,14 +44,18 @@ public class Parser {
     );
 
     /** Format used to display dates stored in tasks. */
-    private static final DateTimeFormatter DATE_PRINT_FORMATTER = DateTimeFormatter.ofPattern("MMM dd uuuu");
+    private static final DateTimeFormatter DATE_PRINT_FORMATTER =
+            DateTimeFormatter.ofPattern("MMM dd uuuu");
+
+    private Parser() {
+    }
 
     /**
      * Parses one input line without changing the task list.
      *
-     * @param fullCommand complete command entered by the user
-     * @return command object corresponding to the entered command word
-     * @throws CbtException if the command word is not recognized
+     * @param fullCommand complete command entered by the user.
+     * @return command object corresponding to the entered command word.
+     * @throws CbtException if the command word is not recognized.
      */
     public static Command parseCommand(String fullCommand) throws CbtException {
         String[] parts = fullCommand.trim().split("\\s+", 2);
@@ -50,30 +65,31 @@ public class Parser {
         CommandWord commandWord;
         try {
             commandWord = CommandWord.valueOf(keyword);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException exception) {
             commandWord = CommandWord.UNKNOWN;
         }
 
         return switch (commandWord) {
-        case CommandWord.TODO -> new TodoCommand(arguments);
-        case CommandWord.DEADLINE -> new DeadlineCommand(arguments);
-        case CommandWord.EVENT -> new EventCommand(arguments);
-        case CommandWord.LISTDATE -> new ListDateCommand(arguments);
-        case CommandWord.LIST -> new ListCommand();
-        case CommandWord.MARK -> new MarkCommand(arguments);
-        case CommandWord.UNMARK -> new UnmarkCommand(arguments);
-        case CommandWord.DELETE -> new DeleteCommand(arguments);
-        case CommandWord.BYE -> new ExitCommand();
-        case CommandWord.UNKNOWN -> throw new CbtException("I don't understand that command. " +
-                "Try todo, deadline, event, date, list, listdate, mark, unmark, delete, or bye.");
+            case CommandWord.TODO -> new TodoCommand(arguments);
+            case CommandWord.DEADLINE -> new DeadlineCommand(arguments);
+            case CommandWord.EVENT -> new EventCommand(arguments);
+            case CommandWord.DATE -> new ListDateCommand(arguments);
+            case CommandWord.LISTDATE -> new ListDateCommand(arguments);
+            case CommandWord.LIST -> new ListCommand();
+            case CommandWord.MARK -> new MarkCommand(arguments);
+            case CommandWord.UNMARK -> new UnmarkCommand(arguments);
+            case CommandWord.DELETE -> new DeleteCommand(arguments);
+            case CommandWord.BYE -> new ExitCommand();
+            case CommandWord.UNKNOWN -> throw new CbtException("I don't understand that command. "
+                    + "Try todo, deadline, event, date, list, listdate, mark, unmark, delete, or bye.");
         };
     }
 
     /**
      * Converts one stored task line to a task.
      *
-     * @param line task serialized in the application's file format
-     * @return reconstructed task, or {@code null} if the stored data is malformed
+     * @param line task serialized in the application's file format.
+     * @return reconstructed task, or {@code null} if the stored data is malformed.
      */
     public static Task parseLineToTask(String line) {
         String[] parts = line.split(" \\| ", -1);
@@ -88,30 +104,30 @@ public class Parser {
         CommandWord commandWord;
         try {
             commandWord = CommandWord.valueOf(type);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException exception) {
             return null;
         }
 
         Task task = null;
         switch (commandWord) {
             case CommandWord.TODO:
-                for (int i = 3; i < parts.length; i ++) {
+                for (int i = 3; i < parts.length; i++) {
                     description += " | " + parts[i];
                 }
                 task = new Todo(description);
                 break;
             case CommandWord.DEADLINE:
-                for (int i = 3; i < parts.length - 1; i ++) {
+                for (int i = 3; i < parts.length - 1; i++) {
                     description += " | " + parts[i];
                 }
                 try {
                     task = new Deadline(description, parseLineToDate(parts[parts.length - 1]));
-                } catch(CbtException e) {
+                } catch (CbtException exception) {
                     System.out.println("Invalid Date format for DEADLINE stored in CBT.txt");
                 }
                 break;
             case CommandWord.EVENT:
-                for (int i = 3; i < parts.length - 2; i ++) {
+                for (int i = 3; i < parts.length - 2; i++) {
                     description += " | " + parts[i];
                 }
                 try {
@@ -121,9 +137,11 @@ public class Parser {
                         throw new CbtException("Event start date is after end date");
                     }
                     task = new Event(description, startDate, endDate);
-                } catch(CbtException e) {
+                } catch (CbtException exception) {
                     System.out.println("Invalid Date format for EVENT stored in CBT.txt");
                 }
+                break;
+            default:
                 break;
         }
 
@@ -136,9 +154,9 @@ public class Parser {
     /**
      * Parses a supported date or date-time input, using midnight for a date-only input.
      *
-     * @param line date or date-time text to parse
-     * @return parsed date and time
-     * @throws CbtException if the text does not match a supported format
+     * @param line date or date-time text to parse.
+     * @return parsed date and time.
+     * @throws CbtException if the text does not match a supported format.
      */
     public static LocalDateTime parseLineToDate(String line) throws CbtException {
         line = line.trim();
@@ -167,9 +185,9 @@ public class Parser {
     /**
      * Parses a date without accepting a time component.
      *
-     * @param line date text to parse
-     * @return parsed date
-     * @throws CbtException if the text does not match a supported date format
+     * @param line date text to parse.
+     * @return parsed date.
+     * @throws CbtException if the text does not match a supported date format.
      */
     public static LocalDate parseDate(String line) throws CbtException {
         for (DateTimeFormatter formatter : DATE_ONLY_FORMATTERS) {
@@ -185,8 +203,8 @@ public class Parser {
     /**
      * Formats a date for display.
      *
-     * @param date date to format
-     * @return date formatted for user-facing output
+     * @param date date to format.
+     * @return date formatted for user-facing output.
      */
     public static String formatDate(LocalDate date) {
         return date.format(DATE_PRINT_FORMATTER);
@@ -195,8 +213,8 @@ public class Parser {
     /**
      * Creates a formatter that rejects invalid calendar dates instead of adjusting them.
      *
-     * @param pattern date-time pattern accepted by the formatter
-     * @return strict date-time formatter
+     * @param pattern date-time pattern accepted by the formatter.
+     * @return strict date-time formatter.
      */
     private static DateTimeFormatter strictFormatter(String pattern) {
         return DateTimeFormatter.ofPattern(pattern).withResolverStyle(ResolverStyle.STRICT);

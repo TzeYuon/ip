@@ -11,7 +11,7 @@ public class DeleteCommand implements Command {
     /**
      * Creates a command that deletes the specified one-based task number.
      *
-     * @param taskNumber user-entered task number
+     * @param taskNumber user-entered task number.
      */
     public DeleteCommand(String taskNumber) {
         this.taskNumber = taskNumber;
@@ -20,16 +20,16 @@ public class DeleteCommand implements Command {
     /**
      * Deletes the selected task from the task list.
      *
-     * @param tasks task list to update
-     * @return result describing the deleted task
-     * @throws CbtException if the task number is invalid or outside the list
+     * @param tasks task list to update.
+     * @return result describing the deleted task.
+     * @throws CbtException if the task number is invalid or outside the list.
      */
     @Override
     public CommandResult execute(TaskList tasks) throws CbtException {
         Task removedTask = tasks.deleteTask(MarkCommand.toIndex(taskNumber));
-        String message = "Noted. I've removed this task:\n" +
-                "  " + removedTask + "\n" + "Now you have " + tasks.getSize() + " task" +
-                (tasks.getSize() == 1 ? "" : "s") + " in the list.";
+        String message = "Noted. I've removed this task:\n"
+                + "  " + removedTask + "\n" + "Now you have " + tasks.getSize() + " task"
+                + (tasks.getSize() == 1 ? "" : "s") + " in the list.";
         return new CommandResult(message, true, false);
     }
 }

@@ -39,7 +39,7 @@ test {
 }
 
 application {
-    mainClass = 'cbt.CBT'
+    mainClass = 'cbt.Cbt'
 }
 
 jar {

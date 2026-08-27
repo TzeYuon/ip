@@ -1,34 +1,32 @@
 package storage;
 
-import exception.CbtException;
-import parser.Parser;
-import task.Task;
-import task.TaskList;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
+import exception.CbtException;
+import parser.Parser;
+import task.Task;
+import task.TaskList;
+
 /** Loads tasks from and saves tasks to the application's data file. */
 public class Storage {
     private final Path filePath;
-    private final Parser parser;
 
     /**
      * Creates a storage manager for the specified data file.
      *
-     * @param filePath path to the task data file
+     * @param filePath path to the task data file.
      */
     public Storage(String filePath) {
         this.filePath = Path.of(filePath);
-        this.parser = new Parser();
     }
 
     /**
      * Loads all valid tasks from the data file.
      *
-     * @return loaded tasks, or an empty list if the file does not exist or cannot be read
+     * @return loaded tasks, or an empty list if the file does not exist or cannot be read.
      */
     public TaskList loadTasks() {
         TaskList tasks = new TaskList();
@@ -37,7 +35,7 @@ public class Storage {
         }
         try {
             for (String line : Files.readAllLines(filePath)) {
-                Task task = parser.parseLineToTask(line);
+                Task task = Parser.parseLineToTask(line);
                 if (task != null) {
                     tasks.addTask(task);
                 }
@@ -51,7 +49,7 @@ public class Storage {
     /**
      * Writes all tasks to the data file, replacing its previous contents.
      *
-     * @param tasks tasks to persist
+     * @param tasks tasks to persist.
      */
     public void saveTasks(TaskList tasks) {
         try {

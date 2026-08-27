@@ -12,7 +12,7 @@ public class TaskList {
     /**
      * Adds a task to the end of the list.
      *
-     * @param task task to add
+     * @param task task to add.
      */
     public void addTask(Task task) {
         tasks.add(task);
@@ -21,9 +21,9 @@ public class TaskList {
     /**
      * Returns the task at a zero-based index after checking that it exists.
      *
-     * @param index zero-based task index
-     * @return task at the specified index
-     * @throws CbtException if the index is outside the list
+     * @param index zero-based task index.
+     * @return task at the specified index.
+     * @throws CbtException if the index is outside the list.
      */
     public Task getTask(int index) throws CbtException {
         checkValidIndex(index);
@@ -33,9 +33,9 @@ public class TaskList {
     /**
      * Removes and returns the task at a zero-based index.
      *
-     * @param index zero-based task index
-     * @return removed task
-     * @throws CbtException if the index is outside the list
+     * @param index zero-based task index.
+     * @return removed task.
+     * @throws CbtException if the index is outside the list.
      */
     public Task deleteTask(int index) throws CbtException {
         checkValidIndex(index);
@@ -45,9 +45,9 @@ public class TaskList {
     /**
      * Marks and returns the task at a zero-based index.
      *
-     * @param index zero-based task index
-     * @return task after it has been marked as complete
-     * @throws CbtException if the index is outside the list
+     * @param index zero-based task index.
+     * @return task after it has been marked as complete.
+     * @throws CbtException if the index is outside the list.
      */
     public Task markTask(int index) throws CbtException {
         Task task = getTask(index);
@@ -58,9 +58,9 @@ public class TaskList {
     /**
      * Unmarks and returns the task at a zero-based index.
      *
-     * @param index zero-based task index
-     * @return task after it has been marked as incomplete
-     * @throws CbtException if the index is outside the list
+     * @param index zero-based task index.
+     * @return task after it has been marked as incomplete.
+     * @throws CbtException if the index is outside the list.
      */
     public Task unmarkTask(int index) throws CbtException {
         Task task = getTask(index);
@@ -71,8 +71,8 @@ public class TaskList {
     /**
      * Finds deadlines and events that occur on a particular date.
      *
-     * @param date date on which tasks must occur
-     * @return new task list containing all matching tasks
+     * @param date date on which tasks must occur.
+     * @return new task list containing all matching tasks.
      */
     public TaskList findTasksOn(LocalDate date) {
         TaskList returnList = new TaskList();
@@ -87,7 +87,7 @@ public class TaskList {
     /**
      * Returns the number of stored tasks.
      *
-     * @return task count
+     * @return task count.
      */
     public int getSize() {
         return tasks.size();
@@ -96,8 +96,8 @@ public class TaskList {
     /**
      * Validates that an index refers to a task currently in the list.
      *
-     * @param index zero-based task index to validate
-     * @throws CbtException if the index is outside the list
+     * @param index zero-based task index to validate.
+     * @throws CbtException if the index is outside the list.
      */
     private void checkValidIndex(int index) throws CbtException {
         if (index < 0 || index >= tasks.size()) {
@@ -108,11 +108,26 @@ public class TaskList {
     /**
      * Prints each task with its one-based list number.
      *
-     * @throws CbtException if a task cannot be retrieved for display
+     * @throws CbtException if a task cannot be retrieved for display.
      */
     public void printTasks() throws CbtException {
         for (int i = 0; i < getSize(); i++) {
             System.out.println(i + 1 + "." + getTask(i));
+        }
+    }
+
+    /**
+     * Prints dated tasks occurring on a date with their original list numbers.
+     *
+     * @param date date on which printed tasks must occur.
+     * @throws CbtException if a task cannot be retrieved for display.
+     */
+    public void printTasksOn(LocalDate date) throws CbtException {
+        for (int i = 0; i < getSize(); i++) {
+            Task task = getTask(i);
+            if (task.occursOn(date)) {
+                System.out.println(i + 1 + "." + task);
+            }
         }
     }
 }

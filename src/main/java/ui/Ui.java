@@ -1,11 +1,11 @@
 package ui;
 
-import command.CommandResult;
-
 import java.util.Scanner;
 
+import command.CommandResult;
+
 /** Handles CBT's console input and common output formatting. */
-public class UI {
+public class Ui {
     private static final String DIVIDER = "____________________________________________________________";
     private final Scanner scanner = new Scanner(System.in);
 
@@ -26,7 +26,7 @@ public class UI {
     /**
      * Returns whether another command is available from standard input.
      *
-     * @return {@code true} if another input line is available
+     * @return {@code true} if another input line is available.
      */
     public boolean hasNextCommand() {
         return scanner.hasNextLine();
@@ -35,7 +35,7 @@ public class UI {
     /**
      * Reads and trims the next command.
      *
-     * @return next command entered by the user
+     * @return next command entered by the user.
      */
     public String readCommand() {
         return scanner.nextLine().trim();
@@ -44,7 +44,7 @@ public class UI {
     /**
      * Prints a user-correctable error message.
      *
-     * @param message error message to display
+     * @param message error message to display.
      */
     public void showError(String message) {
         System.out.println(message);
@@ -58,9 +58,11 @@ public class UI {
     /**
      * Prints the result message produced by a command.
      *
-     * @param result command result to display
+     * @param result command result to display.
      */
     public void showResult(CommandResult result) {
-        System.out.println(result.message());
+        if (!result.message().isEmpty()) {
+            System.out.println(result.message());
+        }
     }
 }
