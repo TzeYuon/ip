@@ -2,6 +2,11 @@ package task;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+<<<<<<< Updated upstream
+=======
+import java.util.Locale;
+
+>>>>>>> Stashed changes
 /**
  * Represents a task and whether it has been completed.
  */
@@ -44,6 +49,16 @@ public abstract class Task {
     protected String getDescription() {
         return this.description;
     }
+    /**
+     * Returns whether the task description contains a keyword, ignoring letter case.
+     *
+     * @param keyword keyword to search for.
+     * @return {@code true} if the description contains the keyword.
+     */
+    public boolean descriptionContains(String keyword) {
+        return description.toLowerCase(Locale.ROOT).contains(keyword.toLowerCase(Locale.ROOT));
+    }
+
     /**
      * Marks task as completed.
      */

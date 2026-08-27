@@ -13,6 +13,27 @@ import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
 import java.util.List;
 
+<<<<<<< Updated upstream
+=======
+import command.Command;
+import command.CommandWord;
+import command.DeadlineCommand;
+import command.DeleteCommand;
+import command.EventCommand;
+import command.ExitCommand;
+import command.FindCommand;
+import command.ListCommand;
+import command.ListDateCommand;
+import command.MarkCommand;
+import command.TodoCommand;
+import command.UnmarkCommand;
+import exception.CbtException;
+import task.Deadline;
+import task.Event;
+import task.Task;
+import task.Todo;
+
+>>>>>>> Stashed changes
 /** Converts a raw user command into the command object that performs it. */
 public class Parser {
     private static final List<DateTimeFormatter> DATE_TIME_FORMATTERS = List.of(
@@ -45,6 +66,7 @@ public class Parser {
         }
 
         return switch (commandWord) {
+<<<<<<< Updated upstream
         case CommandWord.TODO -> new TodoCommand(arguments);
         case CommandWord.DEADLINE -> new DeadlineCommand(arguments);
         case CommandWord.EVENT -> new EventCommand(arguments);
@@ -56,6 +78,21 @@ public class Parser {
         case CommandWord.BYE -> new ExitCommand();
         case CommandWord.UNKNOWN -> throw new CbtException("I don't understand that command. " +
                 "Try todo, deadline, event, date, list, listdate, mark, unmark, delete, or bye.");
+=======
+            case CommandWord.TODO -> new TodoCommand(arguments);
+            case CommandWord.DEADLINE -> new DeadlineCommand(arguments);
+            case CommandWord.EVENT -> new EventCommand(arguments);
+            case CommandWord.DATE -> new ListDateCommand(arguments);
+            case CommandWord.LISTDATE -> new ListDateCommand(arguments);
+            case CommandWord.LIST -> new ListCommand();
+            case CommandWord.MARK -> new MarkCommand(arguments);
+            case CommandWord.UNMARK -> new UnmarkCommand(arguments);
+            case CommandWord.DELETE -> new DeleteCommand(arguments);
+            case CommandWord.BYE -> new ExitCommand();
+            case CommandWord.FIND -> new FindCommand(arguments);
+            case CommandWord.UNKNOWN -> throw new CbtException("I don't understand that command. "
+                    + "Try todo, deadline, event, date, list, listdate, find, mark, unmark, delete, or bye.");
+>>>>>>> Stashed changes
         };
     }
 

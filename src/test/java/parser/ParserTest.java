@@ -11,6 +11,11 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 
 import command.ExitCommand;
+<<<<<<< Updated upstream
+=======
+import command.FindCommand;
+import command.ListDateCommand;
+>>>>>>> Stashed changes
 import command.TodoCommand;
 import exception.CbtException;
 import task.Task;
@@ -21,6 +26,12 @@ public class ParserTest {
     @Test
     public void parseCommand_validCommands_correctCommandTypes() throws CbtException {
         assertInstanceOf(TodoCommand.class, Parser.parseCommand("todo read book"));
+<<<<<<< Updated upstream
+=======
+        assertInstanceOf(ListDateCommand.class, Parser.parseCommand("date 2019-12-02"));
+        assertInstanceOf(ListDateCommand.class, Parser.parseCommand("listdate 2019-12-02"));
+        assertInstanceOf(FindCommand.class, Parser.parseCommand("find book"));
+>>>>>>> Stashed changes
         assertInstanceOf(ExitCommand.class, Parser.parseCommand("bye"));
     }
 
