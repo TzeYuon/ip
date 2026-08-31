@@ -30,7 +30,6 @@ public class UnmarkCommandTest {
     /** Verifies that an invalid task number cannot be unmarked. */
     @Test
     public void execute_invalidTaskNumber_exceptionThrown() {
-        assertThrows(CbtException.class,
-                () -> new UnmarkCommand("1").execute(new TaskList()));
+        assertThrows(CbtException.class, () -> new UnmarkCommand("1").execute(new TaskList()));
     }
 }
