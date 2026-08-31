@@ -29,19 +29,19 @@ import task.Todo;
 public class Parser {
     /** Supported formats for a date with a time. */
     private static final List<DateTimeFormatter> DATE_TIME_FORMATTERS = List.of(
-            strictFormatter("d/M/uuuu HHmm"),   // 2/12/2019 1800
-            strictFormatter("d-M-uuuu HHmm"),   // 2-12-2019 1800
+            strictFormatter("d/M/uuuu HHmm"), // 2/12/2019 1800
+            strictFormatter("d-M-uuuu HHmm"), // 2-12-2019 1800
             strictFormatter("uuuu-MM-dd HHmm"), // 2019-12-02 1800
-            strictFormatter("d/M/uuuu HH:mm"),  // 2/12/2019 18:00
-            strictFormatter("d-M-uuuu HH:mm"),  // 2-12-2019 18:00
+            strictFormatter("d/M/uuuu HH:mm"), // 2/12/2019 18:00
+            strictFormatter("d-M-uuuu HH:mm"), // 2-12-2019 18:00
             strictFormatter("uuuu-MM-dd HH:mm") // 2019-12-02 18:00
     );
 
     /** Supported formats for a date without a time. */
     private static final List<DateTimeFormatter> DATE_ONLY_FORMATTERS = List.of(
-            strictFormatter("d/M/uuuu"),   // 2/12/2019
-            strictFormatter("d-M-uuuu"),   // 2-12-2019
-            strictFormatter("uuuu-MM-dd")  // 2019-12-02
+            strictFormatter("d/M/uuuu"), // 2/12/2019
+            strictFormatter("d-M-uuuu"), // 2-12-2019
+            strictFormatter("uuuu-MM-dd") // 2019-12-02
     );
 
     /** Format used to display dates stored in tasks. */

@@ -38,8 +38,7 @@ public class DeadlineCommandTest {
     public void execute_invalidDate_exceptionThrownAndListUnchanged() {
         TaskList tasks = new TaskList();
 
-        assertThrows(CbtException.class,
-                () -> new DeadlineCommand("return book /by tomorrowish").execute(tasks));
+        assertThrows(CbtException.class, () -> new DeadlineCommand("return book /by tomorrowish").execute(tasks));
         assertEquals(0, tasks.getSize());
     }
 }

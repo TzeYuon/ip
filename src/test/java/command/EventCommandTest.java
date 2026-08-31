@@ -31,8 +31,7 @@ public class EventCommandTest {
         TaskList tasks = new TaskList();
 
         assertThrows(CbtException.class, () -> new EventCommand("meeting").execute(tasks));
-        assertThrows(CbtException.class,
-                () -> new EventCommand("meeting /from 2/12/2019 /to ").execute(tasks));
+        assertThrows(CbtException.class, () -> new EventCommand("meeting /from 2/12/2019 /to ").execute(tasks));
     }
 
     /** Verifies that a reversed event range is rejected without changing the list. */
