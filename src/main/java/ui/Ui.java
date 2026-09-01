@@ -16,11 +16,7 @@ public class Ui {
                 + "| |   |  _ \\ | |\n"
                 + "| |___| |_) || |\n"
                 + " \\____|____/ |_|\n";
-        System.out.println(DIVIDER);
-        System.out.println(banner);
-        System.out.println("Hello! I'm CBT.");
-        System.out.println("What can I do for you?");
-        System.out.println(DIVIDER);
+        printLines(DIVIDER, banner, "Hello! I'm CBT.", "What can I do for you?", DIVIDER);
     }
 
     /**
@@ -47,12 +43,12 @@ public class Ui {
      * @param message error message to display.
      */
     public void showError(String message) {
-        System.out.println(message);
+        printLines(message);
     }
 
     /** Prints a horizontal divider. */
     public void showLine() {
-        System.out.println(DIVIDER);
+        printLines(DIVIDER);
     }
 
     /**
@@ -62,7 +58,14 @@ public class Ui {
      */
     public void showResult(CommandResult result) {
         if (!result.message().isEmpty()) {
-            System.out.println(result.message());
+            printLines(result.message());
+        }
+    }
+
+    /** Prints each supplied line in its given order. */
+    private void printLines(String... lines) {
+        for (String line : lines) {
+            System.out.println(line);
         }
     }
 }
