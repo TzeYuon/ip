@@ -1,5 +1,6 @@
 package cbt;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -68,6 +69,32 @@ public class CbtTest {
         }
 
         assertTrue(output.toString(StandardCharsets.UTF_8).contains("I don't understand that command"));
+        assertFalse(Files.exists(dataFile));
+    }
+
+    /** Verifies that GUI-style requests return responses and persist task changes. */
+    @Test
+    public void getResponse_addTodoThenList_responsesReturnedAndTaskSaved() throws Exception {
+        Path dataFile = temporaryDirectory.resolve("tasks.txt");
+        Cbt application = new Cbt(new Ui(), new Storage(dataFile.toString()));
+
+        String addResponse = application.getResponse("todo read book");
+        String listResponse = application.getResponse("list");
+
+        assertTrue(addResponse.contains("I've added this task"));
+        assertTrue(listResponse.contains("1.[T][ ] read book"));
+        assertEquals("TODO | 0 | read book" + System.lineSeparator(), Files.readString(dataFile));
+    }
+
+    /** Verifies that GUI-style requests return parser errors without changing storage. */
+    @Test
+    public void getResponse_invalidCommand_errorReturnedAndNoDataFileCreated() {
+        Path dataFile = temporaryDirectory.resolve("tasks.txt");
+        Cbt application = new Cbt(new Ui(), new Storage(dataFile.toString()));
+
+        String response = application.getResponse("dance");
+
+        assertTrue(response.contains("I don't understand that command"));
         assertFalse(Files.exists(dataFile));
     }
 }

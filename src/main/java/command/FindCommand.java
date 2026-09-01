@@ -17,7 +17,7 @@ public class FindCommand implements Command {
     }
 
     /**
-     * Prints tasks whose descriptions contain the search keyword.
+     * Returns tasks whose descriptions contain the search keyword.
      *
      * @param taskList task list to search.
      * @return result indicating that no application state changed.
@@ -29,8 +29,11 @@ public class FindCommand implements Command {
             throw new CbtException("Use: find KEYWORD (for example, find book)");
         }
 
-        System.out.println("Here are the matching tasks in your list:");
-        taskList.findTasksContaining(keyword).printTasks();
-        return new CommandResult("", false, false);
+        String message = "Here are the matching tasks in your list:";
+        String formattedTasks = taskList.findTasksContaining(keyword).formatTasks();
+        if (!formattedTasks.isEmpty()) {
+            message += System.lineSeparator() + formattedTasks;
+        }
+        return new CommandResult(message, false, false);
     }
 }

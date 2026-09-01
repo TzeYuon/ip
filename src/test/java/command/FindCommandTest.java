@@ -4,10 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
-
 import org.junit.jupiter.api.Test;
 
 import exception.CbtException;
@@ -18,27 +14,17 @@ import task.Todo;
 public class FindCommandTest {
     /** Verifies that matching tasks are renumbered and the task list is unchanged. */
     @Test
-    public void execute_matchingKeyword_onlyMatchingTasksPrinted() throws CbtException {
+    public void execute_matchingKeyword_onlyMatchingTasksReturned() throws CbtException {
         TaskList tasks = new TaskList();
         tasks.addTask(new Todo("read book"));
         tasks.addTask(new Todo("write report"));
         tasks.addTask(new Todo("return book"));
-        PrintStream originalOut = System.out;
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        CommandResult result = new FindCommand("book").execute(tasks);
 
-        CommandResult result;
-        try {
-            System.setOut(new PrintStream(output, true, StandardCharsets.UTF_8));
-            result = new FindCommand("book").execute(tasks);
-        } finally {
-            System.setOut(originalOut);
-        }
-
-        String printed = output.toString(StandardCharsets.UTF_8);
-        assertTrue(printed.contains("Here are the matching tasks in your list:"));
-        assertTrue(printed.contains("1.[T][ ] read book"));
-        assertTrue(printed.contains("2.[T][ ] return book"));
-        assertFalse(printed.contains("write report"));
+        assertTrue(result.message().contains("Here are the matching tasks in your list:"));
+        assertTrue(result.message().contains("1.[T][ ] read book"));
+        assertTrue(result.message().contains("2.[T][ ] return book"));
+        assertFalse(result.message().contains("write report"));
         assertFalse(result.taskListChanged());
         assertFalse(result.exit());
     }

@@ -43,8 +43,10 @@ def parse_test_cases(plan: Path) -> list[tuple[str, str, str, str, str]]:
 
 
 def compile_program() -> None:
-    """Compile project sources into an isolated temporary test-class directory."""
-    source_files = sorted((ROOT / "src" / "main" / "java").rglob("*.java"))
+    """Compile console sources into an isolated temporary test-class directory."""
+    source_root = ROOT / "src" / "main" / "java"
+    source_files = sorted(path for path in source_root.rglob("*.java")
+                          if "javafx" not in path.relative_to(source_root).parts)
     if not source_files:
         raise RuntimeError("No Java source files found in src/main/java.")
     shutil.rmtree(BUILD_DIRECTORY, ignore_errors=True)

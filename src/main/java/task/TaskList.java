@@ -122,28 +122,42 @@ public class TaskList {
     }
 
     /**
-     * Prints each task with its one-based list number.
+     * Returns each task with its one-based list number.
      *
+     * @return formatted tasks, or an empty string if the list is empty.
      * @throws CbtException if a task cannot be retrieved for display.
      */
-    public void printTasks() throws CbtException {
+    public String formatTasks() throws CbtException {
+        StringBuilder formattedTasks = new StringBuilder();
         for (int i = 0; i < getSize(); i++) {
-            System.out.println(i + 1 + "." + getTask(i));
+            appendLine(formattedTasks, i + 1 + "." + getTask(i));
         }
+        return formattedTasks.toString();
     }
 
     /**
-     * Prints dated tasks occurring on a date with their original list numbers.
+     * Returns dated tasks occurring on a date with their original list numbers.
      *
-     * @param date date on which printed tasks must occur.
+     * @param date date on which returned tasks must occur.
+     * @return formatted matching tasks, or an empty string if there are no matches.
      * @throws CbtException if a task cannot be retrieved for display.
      */
-    public void printTasksOn(LocalDate date) throws CbtException {
+    public String formatTasksOn(LocalDate date) throws CbtException {
+        StringBuilder formattedTasks = new StringBuilder();
         for (int i = 0; i < getSize(); i++) {
             Task task = getTask(i);
             if (task.occursOn(date)) {
-                System.out.println(i + 1 + "." + task);
+                appendLine(formattedTasks, i + 1 + "." + task);
             }
         }
+        return formattedTasks.toString();
+    }
+
+    /** Appends a line after any existing content without leaving a trailing line separator. */
+    private void appendLine(StringBuilder text, String line) {
+        if (!text.isEmpty()) {
+            text.append(System.lineSeparator());
+        }
+        text.append(line);
     }
 }
