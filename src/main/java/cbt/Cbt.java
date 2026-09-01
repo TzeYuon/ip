@@ -26,6 +26,27 @@ public class Cbt {
         this.tasks = storage.loadTasks();
     }
 
+    /**
+     * Executes one command and returns the message that should be shown in the GUI.
+     *
+     * @param input command entered by the user.
+     * @return result or error message produced by the command.
+     */
+    public String getResponse(String input) {
+        try {
+            Command command = Parser.parseCommand(input);
+            CommandResult result = command.execute(tasks);
+
+            if (result.taskListChanged()) {
+                storage.saveTasks(tasks);
+            }
+
+            return result.message();
+        } catch (CbtException exception) {
+            return exception.getMessage();
+        }
+    }
+
     /** Runs the application until an exit command is received. */
     public void run() {
         ui.showWelcome();

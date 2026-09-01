@@ -4,9 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
@@ -17,27 +14,17 @@ import task.TaskList;
 
 /** Tests filtering displayed tasks by date. */
 public class ListDateCommandTest {
-    /** Verifies that only tasks occurring on the requested date are printed. */
+    /** Verifies that only tasks occurring on the requested date are returned. */
     @Test
-    public void execute_matchingAndNonMatchingTasks_onlyMatchingTaskPrinted() throws CbtException {
+    public void execute_matchingAndNonMatchingTasks_onlyMatchingTaskReturned() throws CbtException {
         TaskList tasks = new TaskList();
         tasks.addTask(new Deadline("matching", LocalDateTime.of(2026, 8, 26, 12, 0)));
         tasks.addTask(new Deadline("different", LocalDateTime.of(2026, 8, 27, 12, 0)));
-        PrintStream originalOut = System.out;
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        CommandResult result = new ListDateCommand("2026-08-26").execute(tasks);
 
-        CommandResult result;
-        try {
-            System.setOut(new PrintStream(output, true, StandardCharsets.UTF_8));
-            result = new ListDateCommand("2026-08-26").execute(tasks);
-        } finally {
-            System.setOut(originalOut);
-        }
-
-        String printed = output.toString(StandardCharsets.UTF_8);
-        assertTrue(printed.contains("deadlines and events on Aug 26 2026"));
-        assertTrue(printed.contains("matching"));
-        assertFalse(printed.contains("different"));
+        assertTrue(result.message().contains("deadlines and events on Aug 26 2026"));
+        assertTrue(result.message().contains("matching"));
+        assertFalse(result.message().contains("different"));
         assertFalse(result.taskListChanged());
     }
 

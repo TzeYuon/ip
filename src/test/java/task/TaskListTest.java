@@ -123,4 +123,17 @@ public class TaskListTest {
         assertEquals(3, tasks.getSize());
         assertEquals(0, tasks.findTasksContaining("missing").getSize());
     }
+
+    /** Verifies that task formatting includes one-based list numbers and no trailing newline. */
+    @Test
+    public void formatTasks_multipleTasks_numberedLinesReturned() throws CbtException {
+        TaskList tasks = new TaskList();
+        tasks.addTask(new Todo("first"));
+        tasks.addTask(new Todo("second"));
+
+        String expected = "1.[T][ ] first" + System.lineSeparator() + "2.[T][ ] second";
+
+        assertEquals(expected, tasks.formatTasks());
+        assertEquals("", new TaskList().formatTasks());
+    }
 }

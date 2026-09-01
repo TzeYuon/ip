@@ -6,7 +6,7 @@ import task.TaskList;
 /** Displays every task in the list. */
 public class ListCommand implements Command {
     /**
-     * Prints every task in its current list order.
+     * Returns every task in its current list order.
      *
      * @param taskList task list to display.
      * @return result indicating that no application state changed.
@@ -14,8 +14,11 @@ public class ListCommand implements Command {
      */
     @Override
     public CommandResult execute(TaskList taskList) throws CbtException {
-        System.out.println("Here are the tasks in your list:");
-        taskList.printTasks();
-        return new CommandResult("", false, false);
+        String message = "Here are the tasks in your list:";
+        String formattedTasks = taskList.formatTasks();
+        if (!formattedTasks.isEmpty()) {
+            message += System.lineSeparator() + formattedTasks;
+        }
+        return new CommandResult(message, false, false);
     }
 }

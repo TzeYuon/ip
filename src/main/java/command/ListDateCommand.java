@@ -20,7 +20,7 @@ public class ListDateCommand implements Command {
     }
 
     /**
-     * Prints deadlines and events occurring on the requested date.
+     * Returns deadlines and events occurring on the requested date.
      *
      * @param taskList task list to search.
      * @return result indicating that no application state changed.
@@ -32,8 +32,11 @@ public class ListDateCommand implements Command {
             throw new CbtException("Use: date DATE (for example, 2019-12-02)");
         }
         LocalDate date = Parser.parseDate(dateText);
-        System.out.println("Here are the deadlines and events on " + Parser.formatDate(date) + ":");
-        taskList.printTasksOn(date);
-        return new CommandResult("", false, false);
+        String message = "Here are the deadlines and events on " + Parser.formatDate(date) + ":";
+        String formattedTasks = taskList.formatTasksOn(date);
+        if (!formattedTasks.isEmpty()) {
+            message += System.lineSeparator() + formattedTasks;
+        }
+        return new CommandResult(message, false, false);
     }
 }
