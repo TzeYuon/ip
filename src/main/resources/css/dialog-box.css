@@ -1,22 +1,23 @@
-.label {
-    -fx-background-color: #3273dc;
-    -fx-background-insets: 0 7px 0 7px;
-    -fx-background-radius: 1em 1em 0 1em;
-    -fx-border-color: #245fc0;
-    -fx-border-insets: 0 7px 0 7px;
-    -fx-border-radius: 1em 1em 0 1em;
-    -fx-border-width: 1px;
+.dialog-label {
+    -fx-background-color: linear-gradient(to bottom right, #2563eb, #1d4ed8);
+    -fx-background-radius: 15px 15px 4px 15px;
+    -fx-effect: dropshadow(gaussian, rgba(37, 99, 235, 0.18), 8, 0.1, 0, 2);
+    -fx-font-family: "Segoe UI", "Arial";
+    -fx-font-size: 14px;
+    -fx-line-spacing: 2px;
     -fx-text-fill: white;
 }
 
 .reply-label {
     -fx-background-color: white;
-    -fx-background-radius: 1em 1em 1em 0;
-    -fx-border-color: #c9d2df;
-    -fx-border-radius: 1em 1em 1em 0;
-    -fx-text-fill: #202938;
+    -fx-background-radius: 15px 15px 15px 4px;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 15px 15px 15px 4px;
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.08), 8, 0.1, 0, 2);
+    -fx-text-fill: #1e293b;
 }
 
 #displayPicture {
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 8, 0.3, 2, 2);
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.2), 7, 0.15, 0, 2);
 }

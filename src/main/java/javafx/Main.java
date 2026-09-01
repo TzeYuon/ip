@@ -26,7 +26,7 @@ public class Main extends Application {
             MainWindow mainWindow = fxmlLoader.getController();
             mainWindow.setCbt(cbt);
 
-            stage.setTitle("CBT");
+            stage.setTitle("CBT - Task Assistant");
             stage.setMinHeight(MINIMUM_WINDOW_HEIGHT);
             stage.setMinWidth(MINIMUM_WINDOW_WIDTH);
             stage.setScene(new Scene(mainLayout));

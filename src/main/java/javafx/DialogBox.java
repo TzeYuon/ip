@@ -8,11 +8,13 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Circle;
 
 /** Represents one message and the display picture of its speaker. */
 public class DialogBox extends HBox {
@@ -34,6 +36,19 @@ public class DialogBox extends HBox {
 
         dialog.setText(text);
         displayPicture.setImage(image);
+        cropDisplayPicture(image);
+    }
+
+    /** Crops the display picture to a centered circle suitable for a chat avatar. */
+    private void cropDisplayPicture(Image image) {
+        double cropSize = Math.min(image.getWidth(), image.getHeight());
+        double cropX = (image.getWidth() - cropSize) / 2;
+        double cropY = (image.getHeight() - cropSize) / 2;
+        displayPicture.setViewport(new Rectangle2D(cropX, cropY, cropSize, cropSize));
+        displayPicture.setPreserveRatio(false);
+
+        double radius = displayPicture.getFitWidth() / 2;
+        displayPicture.setClip(new Circle(radius, radius, radius));
     }
 
     /** Flips the dialog box so that CBT's picture appears on the left. */

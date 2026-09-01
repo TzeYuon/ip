@@ -1,6 +1,7 @@
 package javafx;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -19,5 +20,17 @@ public class MainWindowTest {
         MainWindow.exitIfRequested("list", exitCount::incrementAndGet);
 
         assertEquals(2, exitCount.get());
+    }
+
+    /** Verifies that the initial server message gives actionable command guidance. */
+    @Test
+    public void getWelcomeMessage_messageContainsEssentialCommands() {
+        String welcomeMessage = MainWindow.getWelcomeMessage();
+
+        assertTrue(welcomeMessage.contains("todo"));
+        assertTrue(welcomeMessage.contains("deadline"));
+        assertTrue(welcomeMessage.contains("event"));
+        assertTrue(welcomeMessage.contains("list"));
+        assertTrue(welcomeMessage.contains("bye"));
     }
 }
