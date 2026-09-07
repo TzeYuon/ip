@@ -21,9 +21,12 @@ public class Cbt {
      * @param storage Storage used to load and save tasks.
      */
     public Cbt(Ui ui, Storage storage) {
+        assert ui != null : "CBT requires a user interface";
+        assert storage != null : "CBT requires persistent storage";
         this.ui = ui;
         this.storage = storage;
         this.tasks = storage.loadTasks();
+        assert tasks != null : "Storage must return a task list";
     }
 
     /**
