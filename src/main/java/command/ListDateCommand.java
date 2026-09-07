@@ -33,7 +33,7 @@ public class ListDateCommand implements Command {
         }
         LocalDate date = Parser.parseDate(dateText);
         String message = "Here are the deadlines and events on " + Parser.formatDate(date) + ":";
-        String formattedTasks = taskList.formatTasksOn(date);
+        String formattedTasks = taskList.formatTasksOnDate(date);
         if (!formattedTasks.isEmpty()) {
             message += System.lineSeparator() + formattedTasks;
         }
