@@ -15,7 +15,10 @@ public class TaskList {
      * @param task task to add.
      */
     public void addTask(Task task) {
+        assert task != null : "Task list must not contain null tasks";
+        int previousSize = tasks.size();
         tasks.add(task);
+        assert tasks.size() == previousSize + 1 : "Adding a task must increase the list size by one";
     }
 
     /**
@@ -39,7 +42,11 @@ public class TaskList {
      */
     public Task deleteTask(int index) throws CbtException {
         checkValidIndex(index);
-        return tasks.remove(index);
+        int previousSize = tasks.size();
+        Task removedTask = tasks.remove(index);
+        assert removedTask != null : "A valid task index must refer to a non-null task";
+        assert tasks.size() == previousSize - 1 : "Deleting a task must decrease the list size by one";
+        return removedTask;
     }
 
     /**
@@ -52,6 +59,7 @@ public class TaskList {
     public Task markTask(int index) throws CbtException {
         Task task = getTask(index);
         task.markAsDone();
+        assert task.isDone() : "A marked task must report itself as done";
         return task;
     }
 
@@ -65,6 +73,7 @@ public class TaskList {
     public Task unmarkTask(int index) throws CbtException {
         Task task = getTask(index);
         task.markAsNotDone();
+        assert !task.isDone() : "An unmarked task must report itself as not done";
         return task;
     }
 

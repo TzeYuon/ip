@@ -23,9 +23,12 @@ public class Event extends Task {
     public Event(String description, LocalDateTime startDate, LocalDateTime endDate)
             throws CbtException {
         super(description);
+        assert startDate != null : "Event start date and time must not be null";
+        assert endDate != null : "Event end date and time must not be null";
         if (startDate.isAfter(endDate)) {
             throw new CbtException("The event start date and time cannot be after its end date and time.");
         }
+        assert !startDate.isAfter(endDate) : "Validated event range must be chronological";
         this.startDate = startDate;
         this.endDate = endDate;
     }
