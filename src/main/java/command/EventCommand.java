@@ -8,7 +8,7 @@ import task.Event;
 import task.TaskList;
 
 /** Adds an event task with parsed start and end dates and times. */
-public class EventCommand implements Command {
+public class EventCommand extends AddTaskCommand {
     private final String details;
 
     /**
@@ -44,10 +44,6 @@ public class EventCommand implements Command {
         LocalDateTime startDate = Parser.parseLineToDate(startString);
         LocalDateTime endDate = Parser.parseLineToDate(endString);
         Event task = new Event(details.substring(0, fromMarker).trim(), startDate, endDate);
-        tasks.addTask(task);
-        String message = "Got it. I've added this task:\n"
-                + "  " + task + "\n" + "Now you have " + tasks.getSize() + " task"
-                + (tasks.getSize() == 1 ? "" : "s") + " in the list.";
-        return new CommandResult(message, true, false);
+        return addTask(tasks, task);
     }
 }

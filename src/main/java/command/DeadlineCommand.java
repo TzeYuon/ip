@@ -8,7 +8,7 @@ import task.Deadline;
 import task.TaskList;
 
 /** Adds a deadline task with a parsed date and time. */
-public class DeadlineCommand implements Command {
+public class DeadlineCommand extends AddTaskCommand {
     private final String details;
 
     /**
@@ -39,10 +39,6 @@ public class DeadlineCommand implements Command {
 
         LocalDateTime byDate = Parser.parseLineToDate(byString);
         Deadline task = new Deadline(description, byDate);
-        tasks.addTask(task);
-        String message = "Got it. I've added this task:\n" + "  " + task + "\n"
-                + "Now you have " + tasks.getSize() + " task"
-                + (tasks.getSize() == 1 ? "" : "s") + " in the list.";
-        return new CommandResult(message, true, false);
+        return addTask(tasks, task);
     }
 }
