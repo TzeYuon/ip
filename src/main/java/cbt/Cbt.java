@@ -65,7 +65,7 @@ public class Cbt {
                     storage.saveTasks(tasks);
                 }
 
-                if (result.exit()) {
+                if (result.isExit()) {
                     ui.showLine();
                     break;
                 }

@@ -2,12 +2,22 @@ package task;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import exception.CbtException;
 
 /** Stores the tasks for one CBT session. */
 public class TaskList {
     private final ArrayList<Task> tasks = new ArrayList<>();
+
+    /** Creates an empty task list. */
+    public TaskList() {
+    }
+
+    /** Creates a task list containing a copy of the supplied tasks. */
+    private TaskList(List<Task> tasks) {
+        this.tasks.addAll(tasks);
+    }
 
     /**
      * Adds a task to the end of the list.
@@ -75,13 +85,10 @@ public class TaskList {
      * @return new task list containing all matching tasks.
      */
     public TaskList findTasksOn(LocalDate date) {
-        TaskList returnList = new TaskList();
-        for (Task task : tasks) {
-            if (task.occursOn(date)) {
-                returnList.addTask(task);
-            }
-        }
-        return returnList;
+        List<Task> matchingTasks = tasks.stream()
+                .filter(task -> task.occursOn(date))
+                .toList();
+        return new TaskList(matchingTasks);
     }
 
     /**
@@ -91,13 +98,10 @@ public class TaskList {
      * @return new task list containing all matching tasks in their original order.
      */
     public TaskList findTasksContaining(String keyword) {
-        TaskList matchingTasks = new TaskList();
-        for (Task task : tasks) {
-            if (task.descriptionContains(keyword)) {
-                matchingTasks.addTask(task);
-            }
-        }
-        return matchingTasks;
+        List<Task> matchingTasks = tasks.stream()
+                .filter(task -> task.descriptionContains(keyword))
+                .toList();
+        return new TaskList(matchingTasks);
     }
 
     /**
@@ -116,7 +120,7 @@ public class TaskList {
      * @throws CbtException if the index is outside the list.
      */
     private void checkValidIndex(int index) throws CbtException {
-        if (index < 0 || index >= tasks.size()) {
+        if (index < 0 || index >= getSize()) {
             throw new CbtException("Please enter a task number from the list, e.g. mark 1.");
         }
     }
@@ -142,7 +146,7 @@ public class TaskList {
      * @return formatted matching tasks, or an empty string if there are no matches.
      * @throws CbtException if a task cannot be retrieved for display.
      */
-    public String formatTasksOn(LocalDate date) throws CbtException {
+    public String formatTasksOnDate(LocalDate date) throws CbtException {
         StringBuilder formattedTasks = new StringBuilder();
         for (int i = 0; i < getSize(); i++) {
             Task task = getTask(i);

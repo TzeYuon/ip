@@ -48,9 +48,6 @@ public class Parser {
     private static final DateTimeFormatter DATE_PRINT_FORMATTER =
             DateTimeFormatter.ofPattern("MMM dd uuuu");
 
-    private Parser() {
-    }
-
     /**
      * Parses one input line without changing the task list.
      *
@@ -82,7 +79,7 @@ public class Parser {
             case CommandWord.DELETE -> new DeleteCommand(arguments);
             case CommandWord.BYE -> new ExitCommand();
             case CommandWord.FIND -> new FindCommand(arguments);
-            case CommandWord.UNKNOWN -> throw new CbtException("I don't understand that command. "
+            default -> throw new CbtException("I don't understand that command. "
                     + "Try todo, deadline, event, date, list, listdate, find, mark, unmark, delete, or bye.");
         };
     }
