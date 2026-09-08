@@ -19,7 +19,7 @@ public class ExitCommandTest {
 
         assertEquals("Bye. Hope to see you again soon!", result.message());
         assertFalse(result.taskListChanged());
-        assertTrue(result.exit());
+        assertTrue(result.isExit());
         assertEquals(0, tasks.getSize());
     }
 }

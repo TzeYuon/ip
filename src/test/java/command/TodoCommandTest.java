@@ -22,7 +22,7 @@ public class TodoCommandTest {
         assertEquals(1, tasks.getSize());
         assertEquals("[T][ ] read book", tasks.getTask(0).toString());
         assertTrue(result.taskListChanged());
-        assertFalse(result.exit());
+        assertFalse(result.isExit());
         assertTrue(result.message().contains("Now you have 1 task in the list."));
     }
 

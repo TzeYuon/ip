@@ -26,7 +26,7 @@ public class FindCommandTest {
         assertTrue(result.message().contains("2.[T][ ] return book"));
         assertFalse(result.message().contains("write report"));
         assertFalse(result.taskListChanged());
-        assertFalse(result.exit());
+        assertFalse(result.isExit());
     }
 
     /** Verifies that a blank keyword is rejected. */

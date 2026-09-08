@@ -15,6 +15,6 @@ public class CommandResultTest {
 
         assertEquals("saved", result.message());
         assertTrue(result.taskListChanged());
-        assertFalse(result.exit());
+        assertFalse(result.isExit());
     }
 }

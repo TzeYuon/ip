@@ -26,6 +26,6 @@ public class ListCommandTest {
         assertTrue(result.message().contains("2.[T][ ] second"));
         assertEquals(2, tasks.getSize());
         assertFalse(result.taskListChanged());
-        assertFalse(result.exit());
+        assertFalse(result.isExit());
     }
 }

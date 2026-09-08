@@ -24,7 +24,7 @@ public class MarkCommandTest {
 
         assertTrue(todo.isDone());
         assertTrue(result.taskListChanged());
-        assertFalse(result.exit());
+        assertFalse(result.isExit());
         assertTrue(result.message().contains("[T][X] read book"));
     }
 
