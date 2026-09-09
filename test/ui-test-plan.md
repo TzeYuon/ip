@@ -267,3 +267,115 @@ ____________________________________________________________
 Bye. Hope to see you again soon!
 ____________________________________________________________
 ```
+
+## Test case: Sort mixed tasks chronologically and save the new order
+
+Aim: Verify that sorting uses deadline times and event start times, preserves tied task order, places todos last,
+renumbers tasks for later commands, and persists the result.
+
+### Setup data
+
+```text
+TODO | 0 | undated task
+DEADLINE | 0 | later deadline | 03/12/2019 1800
+EVENT | 0 | early event | 01/12/2019 0900 | 01/12/2019 1000
+DEADLINE | 0 | tied deadline | 01/12/2019 0900
+```
+
+### Inputs
+
+```text
+sort date
+mark 1
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+  ____ ____ _____
+ / ___| __ )_   _|
+| |   |  _ \ | |
+| |___| |_) || |
+ \____|____/ |_|
+
+Hello! I'm CBT.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+I've sorted your tasks chronologically:
+1.[E][ ] early event (from: Dec 01 2019, 9:00am to: Dec 01 2019, 10:00am)
+2.[D][ ] tied deadline (by: Dec 01 2019, 9:00am)
+3.[D][ ] later deadline (by: Dec 03 2019, 6:00pm)
+4.[T][ ] undated task
+____________________________________________________________
+____________________________________________________________
+Nice! I've marked this task as done:
+  [E][X] early event (from: Dec 01 2019, 9:00am to: Dec 01 2019, 10:00am)
+____________________________________________________________
+____________________________________________________________
+Here are the tasks in your list:
+1.[E][X] early event (from: Dec 01 2019, 9:00am to: Dec 01 2019, 10:00am)
+2.[D][ ] tied deadline (by: Dec 01 2019, 9:00am)
+3.[D][ ] later deadline (by: Dec 03 2019, 6:00pm)
+4.[T][ ] undated task
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+### Expected saved data
+
+```text
+EVENT | 1 | early event | 01/12/2019 0900 | 01/12/2019 1000
+DEADLINE | 0 | tied deadline | 01/12/2019 0900
+DEADLINE | 0 | later deadline | 03/12/2019 1800
+TODO | 0 | undated task
+```
+
+## Test case: Validate sort criteria and handle an empty list
+
+Aim: Verify that missing, unsupported, and extra sort arguments are rejected and that an empty list sorts successfully.
+
+### Inputs
+
+```text
+sort
+sort name
+sort date asc
+sort date
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+  ____ ____ _____
+ / ___| __ )_   _|
+| |   |  _ \ | |
+| |___| |_) || |
+ \____|____/ |_|
+
+Hello! I'm CBT.
+What can I do for you?
+____________________________________________________________
+____________________________________________________________
+Use: sort date
+____________________________________________________________
+____________________________________________________________
+Use: sort date
+____________________________________________________________
+____________________________________________________________
+Use: sort date
+____________________________________________________________
+____________________________________________________________
+I've sorted your tasks chronologically:
+____________________________________________________________
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
+```

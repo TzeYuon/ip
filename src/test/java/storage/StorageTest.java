@@ -81,4 +81,23 @@ public class StorageTest {
         assertEquals(1, loaded.getSize());
         assertEquals("[T][ ] valid task", loaded.getTask(0).toString());
     }
+
+    /** Verifies that chronological task order survives a save-load cycle. */
+    @Test
+    public void saveThenLoadTasks_sortedTasks_sortedOrderRestored() throws CbtException {
+        Path dataFile = temporaryDirectory.resolve("tasks.txt");
+        Storage storage = new Storage(dataFile.toString());
+        TaskList tasks = new TaskList();
+        tasks.addTask(new Todo("undated"));
+        tasks.addTask(new Deadline("later", LocalDateTime.of(2026, 8, 28, 12, 0)));
+        tasks.addTask(new Deadline("earlier", LocalDateTime.of(2026, 8, 27, 12, 0)));
+        tasks.sortChronologically();
+
+        storage.saveTasks(tasks);
+        TaskList loaded = storage.loadTasks();
+
+        assertEquals("DEADLINE | 0 | earlier | 27/08/2026 1200", loaded.getTask(0).toFileFormat());
+        assertEquals("DEADLINE | 0 | later | 28/08/2026 1200", loaded.getTask(1).toFileFormat());
+        assertEquals("TODO | 0 | undated", loaded.getTask(2).toFileFormat());
+    }
 }

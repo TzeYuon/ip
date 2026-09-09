@@ -136,4 +136,40 @@ public class TaskListTest {
         assertEquals(expected, tasks.formatTasks());
         assertEquals("", new TaskList().formatTasks());
     }
+
+    /** Verifies chronological sorting across task types, including stable ties and undated tasks. */
+    @Test
+    public void sortChronologically_mixedTasks_datedTasksSortedAndTodosLast() throws CbtException {
+        Todo firstTodo = new Todo("first todo");
+        Deadline laterDeadline = new Deadline("later", LocalDateTime.of(2026, 8, 28, 12, 0));
+        Event earlierEvent = new Event("earlier",
+                LocalDateTime.of(2026, 8, 27, 9, 0),
+                LocalDateTime.of(2026, 8, 27, 10, 0));
+        Deadline tiedDeadline = new Deadline("tied", LocalDateTime.of(2026, 8, 27, 9, 0));
+        Todo secondTodo = new Todo("second todo");
+        TaskList tasks = new TaskList();
+        tasks.addTask(firstTodo);
+        tasks.addTask(laterDeadline);
+        tasks.addTask(earlierEvent);
+        tasks.addTask(tiedDeadline);
+        tasks.addTask(secondTodo);
+
+        tasks.sortChronologically();
+
+        assertSame(earlierEvent, tasks.getTask(0));
+        assertSame(tiedDeadline, tasks.getTask(1));
+        assertSame(laterDeadline, tasks.getTask(2));
+        assertSame(firstTodo, tasks.getTask(3));
+        assertSame(secondTodo, tasks.getTask(4));
+    }
+
+    /** Verifies that sorting an empty task list does not fail or add tasks. */
+    @Test
+    public void sortChronologically_emptyList_listRemainsEmpty() {
+        TaskList tasks = new TaskList();
+
+        tasks.sortChronologically();
+
+        assertEquals(0, tasks.getSize());
+    }
 }

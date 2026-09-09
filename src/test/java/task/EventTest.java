@@ -1,6 +1,7 @@
 package task;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -46,5 +47,13 @@ public class EventTest {
 
         assertFalse(event.occursOn(LocalDate.of(2026, 8, 24)));
         assertFalse(event.occursOn(LocalDate.of(2026, 8, 28)));
+    }
+
+    /** Verifies that an event uses its start time for chronological sorting. */
+    @Test
+    public void getChronologicalDateTime_event_startTimeReturned() throws CbtException {
+        Event event = new Event("conference", START, END);
+
+        assertEquals(START, event.getChronologicalDateTime().orElseThrow());
     }
 }

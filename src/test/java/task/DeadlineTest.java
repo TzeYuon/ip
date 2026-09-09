@@ -39,4 +39,12 @@ public class DeadlineTest {
         deadline.markAsDone();
         assertEquals("DEADLINE | 1 | study | 25/08/2026 1000", deadline.toFileFormat());
     }
+
+    /** Verifies that a deadline uses its due time for chronological sorting. */
+    @Test
+    public void getChronologicalDateTime_deadline_dueTimeReturned() {
+        Deadline deadline = new Deadline("study", BY);
+
+        assertEquals(BY, deadline.getChronologicalDateTime().orElseThrow());
+    }
 }

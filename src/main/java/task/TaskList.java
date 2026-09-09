@@ -1,8 +1,10 @@
 package task;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import exception.CbtException;
 
@@ -120,6 +122,27 @@ public class TaskList {
      */
     public int getSize() {
         return tasks.size();
+    }
+
+    /**
+     * Sorts dated tasks from earliest to latest and places undated tasks last.
+     * Tasks with the same date and time retain their relative order.
+     */
+    public void sortChronologically() {
+        tasks.sort((firstTask, secondTask) -> {
+            Optional<LocalDateTime> firstDate = firstTask.getChronologicalDateTime();
+            Optional<LocalDateTime> secondDate = secondTask.getChronologicalDateTime();
+            if (firstDate.isPresent() && secondDate.isPresent()) {
+                return firstDate.get().compareTo(secondDate.get());
+            }
+            if (firstDate.isPresent()) {
+                return -1;
+            }
+            if (secondDate.isPresent()) {
+                return 1;
+            }
+            return 0;
+        });
     }
 
     /**

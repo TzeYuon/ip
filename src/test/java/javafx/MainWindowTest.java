@@ -31,6 +31,7 @@ public class MainWindowTest {
         assertTrue(welcomeMessage.contains("deadline"));
         assertTrue(welcomeMessage.contains("event"));
         assertTrue(welcomeMessage.contains("list"));
+        assertTrue(welcomeMessage.contains("sort date"));
         assertTrue(welcomeMessage.contains("bye"));
     }
 }

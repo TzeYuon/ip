@@ -19,7 +19,7 @@ public class MainWindow extends AnchorPane {
             + "  todo read a book\n"
             + "  deadline submit report /by 2/12/2026 1800\n"
             + "  event project meeting /from 2/12/2026 1400 /to 2/12/2026 1600\n\n"
-            + "You can also use list, find KEYWORD, mark NUMBER, delete NUMBER, or bye.";
+            + "You can also use list, sort date, find KEYWORD, mark NUMBER, delete NUMBER, or bye.";
 
     private final Image userImage = loadImage("/images/daUser.jpeg");
     private final Image cbtImage = loadImage("/images/daCbt.png");

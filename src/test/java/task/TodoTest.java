@@ -3,6 +3,7 @@ package task;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 
@@ -36,5 +37,13 @@ public class TodoTest {
         Todo todo = new Todo("wash the dishes");
 
         assertFalse(todo.occursOn(LocalDate.of(2026, 8, 26)));
+    }
+
+    /** Verifies that an undated todo has no chronological sort time. */
+    @Test
+    public void getChronologicalDateTime_todo_emptyValueReturned() {
+        Todo todo = new Todo("wash the dishes");
+
+        assertTrue(todo.getChronologicalDateTime().isEmpty());
     }
 }

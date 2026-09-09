@@ -1,8 +1,10 @@
 package task;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import java.util.Optional;
 
 /**
  * Represents a task and whether it has been completed.
@@ -113,5 +115,14 @@ public abstract class Task {
      */
     public boolean occursOn(LocalDate date) {
         return false;
+    }
+
+    /**
+     * Returns the date and time used to place this task in chronological order.
+     *
+     * @return an empty value for tasks without date information.
+     */
+    public Optional<LocalDateTime> getChronologicalDateTime() {
+        return Optional.empty();
     }
 }

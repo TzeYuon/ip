@@ -2,6 +2,7 @@ package task;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 /**
  * Represents a task with a deadline.
@@ -52,5 +53,10 @@ public class Deadline extends Task {
     @Override
     public boolean occursOn(LocalDate date) {
         return by.toLocalDate().equals(date);
+    }
+
+    @Override
+    public Optional<LocalDateTime> getChronologicalDateTime() {
+        return Optional.of(by);
     }
 }

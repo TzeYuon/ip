@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import command.ExitCommand;
 import command.FindCommand;
 import command.ListDateCommand;
+import command.SortCommand;
 import command.TodoCommand;
 import exception.CbtException;
 import task.Task;
@@ -27,6 +28,7 @@ public class ParserTest {
         assertInstanceOf(ListDateCommand.class, Parser.parseCommand("date 2019-12-02"));
         assertInstanceOf(ListDateCommand.class, Parser.parseCommand("listdate 2019-12-02"));
         assertInstanceOf(FindCommand.class, Parser.parseCommand("find book"));
+        assertInstanceOf(SortCommand.class, Parser.parseCommand("sort date"));
         assertInstanceOf(ExitCommand.class, Parser.parseCommand("bye"));
     }
 

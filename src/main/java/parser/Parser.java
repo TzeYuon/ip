@@ -17,6 +17,7 @@ import command.FindCommand;
 import command.ListCommand;
 import command.ListDateCommand;
 import command.MarkCommand;
+import command.SortCommand;
 import command.TodoCommand;
 import command.UnmarkCommand;
 import exception.CbtException;
@@ -77,10 +78,11 @@ public class Parser {
             case CommandWord.MARK -> new MarkCommand(arguments);
             case CommandWord.UNMARK -> new UnmarkCommand(arguments);
             case CommandWord.DELETE -> new DeleteCommand(arguments);
+            case CommandWord.SORT -> new SortCommand(arguments);
             case CommandWord.BYE -> new ExitCommand();
             case CommandWord.FIND -> new FindCommand(arguments);
             default -> throw new CbtException("I don't understand that command. "
-                    + "Try todo, deadline, event, date, list, listdate, find, mark, unmark, delete, or bye.");
+                    + "Try todo, deadline, event, date, list, listdate, find, mark, unmark, delete, sort, or bye.");
         };
     }
 

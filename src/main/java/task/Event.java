@@ -2,6 +2,7 @@ package task;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import exception.CbtException;
 
@@ -65,5 +66,10 @@ public class Event extends Task {
     @Override
     public boolean occursOn(LocalDate date) {
         return !date.isBefore(startDate.toLocalDate()) && !date.isAfter(endDate.toLocalDate());
+    }
+
+    @Override
+    public Optional<LocalDateTime> getChronologicalDateTime() {
+        return Optional.of(startDate);
     }
 }
