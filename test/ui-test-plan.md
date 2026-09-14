@@ -188,7 +188,7 @@ ____________________________________________________________
 Use: event DESCRIPTION /from START /to END
 ____________________________________________________________
 ____________________________________________________________
-The event start date and time cannot be after its end date and time.
+The event start date and time must be before its end date and time.
 ____________________________________________________________
 ____________________________________________________________
 Cannot recognize date! Use a date such as 2019-12-02.
@@ -390,6 +390,64 @@ Use: sort date
 ____________________________________________________________
 ____________________________________________________________
 Flight plan aligned by date:
+____________________________________________________________
+____________________________________________________________
+Mission paused. Safe travels!
+____________________________________________________________
+```
+
+## Test case: Normalize commands and reject ambiguous or duplicate data
+
+Aim: Verify that harmless whitespace is normalized while extra arguments, duplicate parameters, equal event times,
+unsafe descriptions, and duplicate tasks are rejected without corrupting the task list.
+
+### Inputs
+
+```text
+  todo    read    book
+todo READ BOOK
+todo unsafe | description
+deadline report /by 2/12/2026 /by 3/12/2026
+event instant /from 2/12/2026 0900 /to 2/12/2026 0900
+list extra
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+       .       *
+   O R B I T
+ *       .       *
+
+Mission control online. I'm Orbit.
+Where shall we steer your day?
+____________________________________________________________
+____________________________________________________________
+Task locked into orbit:
+  [T][ ] read book
+Your flight plan now has 1 task.
+____________________________________________________________
+____________________________________________________________
+That task is already on your flight plan.
+____________________________________________________________
+____________________________________________________________
+A task description cannot contain the reserved '|' character.
+____________________________________________________________
+____________________________________________________________
+Use: deadline DESCRIPTION /by DATE_OR_TIME
+____________________________________________________________
+____________________________________________________________
+The event start date and time must be before its end date and time.
+____________________________________________________________
+____________________________________________________________
+Use: list
+____________________________________________________________
+____________________________________________________________
+Your current flight plan:
+1.[T][ ] read book
 ____________________________________________________________
 ____________________________________________________________
 Mission paused. Safe travels!

@@ -1,9 +1,12 @@
 package storage;
 
 import java.io.IOException;
+import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
+import java.util.Optional;
 
 import exception.CbtException;
 import parser.Parser;
@@ -13,6 +16,7 @@ import task.TaskList;
 /** Loads tasks from and saves tasks to the application's data file. */
 public class Storage {
     private final Path filePath;
+    private String loadWarning;
 
     /**
      * Creates a storage manager for the specified data file.
@@ -30,41 +34,97 @@ public class Storage {
      */
     public TaskList loadTasks() {
         TaskList tasks = new TaskList();
-        if (!Files.exists(filePath)) {
-            return tasks;
-        }
+        loadWarning = null;
         try {
+            if (Files.notExists(filePath)) {
+                return tasks;
+            }
+            if (!Files.isRegularFile(filePath)) {
+                loadWarning = "Orbit could not read the saved task file because it is not a regular file.";
+                return tasks;
+            }
+            int skippedTasks = 0;
             for (String line : Files.readAllLines(filePath)) {
+                if (line.isBlank()) {
+                    continue;
+                }
                 Task task = Parser.parseLineToTask(line);
-                if (task != null) {
-                    tasks.addTask(task);
+                if (task == null) {
+                    skippedTasks++;
+                    continue;
+                }
+                try {
+                    tasks.addTaskIfUnique(task);
+                } catch (CbtException exception) {
+                    skippedTasks++;
                 }
             }
-        } catch (IOException exception) {
-            System.out.println("Unable to load saved tasks: " + exception.getMessage());
+            if (skippedTasks > 0) {
+                loadWarning = "Orbit skipped " + skippedTasks
+                        + " malformed or duplicate saved task" + (skippedTasks == 1 ? "." : "s.");
+            }
+        } catch (IOException | SecurityException exception) {
+            loadWarning = "Orbit could not read the saved task file. Check that it exists and is readable.";
         }
         return tasks;
+    }
+
+    /**
+     * Returns a warning produced while loading saved tasks.
+     *
+     * @return warning text, or an empty value when loading completed normally.
+     */
+    public Optional<String> getLoadWarning() {
+        return Optional.ofNullable(loadWarning);
     }
 
     /**
      * Writes all tasks to the data file, replacing its previous contents.
      *
      * @param tasks tasks to persist.
+     * @throws CbtException if the data file cannot be replaced safely.
      */
-    public void saveTasks(TaskList tasks) {
+    public void saveTasks(TaskList tasks) throws CbtException {
+        Path temporaryFile = null;
         try {
-            Path parent = filePath.getParent();
-            if (parent != null) {
-                Files.createDirectories(parent);
-            }
+            Path absoluteFilePath = filePath.toAbsolutePath();
+            Path parent = absoluteFilePath.getParent();
+            assert parent != null : "An absolute data path must have a parent directory";
+            Files.createDirectories(parent);
             StringBuilder savedTasks = new StringBuilder();
             for (int i = 0; i < tasks.getSize(); i++) {
                 savedTasks.append(tasks.getTask(i).toFileFormat()).append(System.lineSeparator());
             }
-            Files.writeString(filePath, savedTasks.toString(), StandardOpenOption.CREATE,
-                    StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE);
-        } catch (IOException | CbtException exception) {
-            System.out.println("Unable to save tasks: " + exception.getMessage());
+            temporaryFile = Files.createTempFile(parent, absoluteFilePath.getFileName().toString(), ".tmp");
+            Files.writeString(temporaryFile, savedTasks.toString(), StandardOpenOption.TRUNCATE_EXISTING);
+            replaceDataFile(temporaryFile, absoluteFilePath);
+            temporaryFile = null;
+        } catch (IOException | SecurityException exception) {
+            throw new CbtException("Orbit could not save your changes. Check access to the task data file.");
+        } finally {
+            deleteTemporaryFile(temporaryFile);
+        }
+    }
+
+    /** Replaces the data file atomically when the file system supports it. */
+    private void replaceDataFile(Path temporaryFile, Path destination) throws IOException {
+        try {
+            Files.move(temporaryFile, destination, StandardCopyOption.ATOMIC_MOVE,
+                    StandardCopyOption.REPLACE_EXISTING);
+        } catch (AtomicMoveNotSupportedException exception) {
+            Files.move(temporaryFile, destination, StandardCopyOption.REPLACE_EXISTING);
+        }
+    }
+
+    /** Removes a temporary save file after an unsuccessful write. */
+    private void deleteTemporaryFile(Path temporaryFile) {
+        if (temporaryFile == null) {
+            return;
+        }
+        try {
+            Files.deleteIfExists(temporaryFile);
+        } catch (IOException | SecurityException ignored) {
+            // The original save error is more useful to the user than a cleanup failure.
         }
     }
 }

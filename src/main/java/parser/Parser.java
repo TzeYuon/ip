@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
 import java.util.List;
+import java.util.Locale;
 
 import command.Command;
 import command.CommandWord;
@@ -57,8 +58,12 @@ public class Parser {
      * @throws CbtException if the command word is not recognized.
      */
     public static Command parseCommand(String fullCommand) throws CbtException {
-        String[] parts = fullCommand.trim().split("\\s+", 2);
-        String keyword = parts[0].toUpperCase();
+        if (fullCommand == null || fullCommand.isBlank()) {
+            throw new CbtException("Please enter a command.");
+        }
+        String normalizedCommand = fullCommand.strip().replaceAll("\\s+", " ");
+        String[] parts = normalizedCommand.split(" ", 2);
+        String keyword = parts[0].toUpperCase(Locale.ROOT);
         String arguments = parts.length == 2 ? parts[1].trim() : "";
 
         CommandWord commandWord;
@@ -74,16 +79,29 @@ public class Parser {
             case CommandWord.EVENT -> new EventCommand(arguments);
             case CommandWord.DATE -> new ListDateCommand(arguments);
             case CommandWord.LISTDATE -> new ListDateCommand(arguments);
-            case CommandWord.LIST -> new ListCommand();
+            case CommandWord.LIST -> {
+                ensureNoArguments("list", arguments);
+                yield new ListCommand();
+            }
             case CommandWord.MARK -> new MarkCommand(arguments);
             case CommandWord.UNMARK -> new UnmarkCommand(arguments);
             case CommandWord.DELETE -> new DeleteCommand(arguments);
             case CommandWord.SORT -> new SortCommand(arguments);
-            case CommandWord.BYE -> new ExitCommand();
+            case CommandWord.BYE -> {
+                ensureNoArguments("bye", arguments);
+                yield new ExitCommand();
+            }
             case CommandWord.FIND -> new FindCommand(arguments);
             default -> throw new CbtException("That command is off course. "
                     + "Try todo, deadline, event, date, list, listdate, find, mark, unmark, delete, sort, or bye.");
         };
+    }
+
+    /** Rejects unexpected arguments supplied to a command that accepts none. */
+    private static void ensureNoArguments(String commandWord, String arguments) throws CbtException {
+        if (!arguments.isEmpty()) {
+            throw new CbtException("Use: " + commandWord);
+        }
     }
 
     /**
@@ -98,9 +116,15 @@ public class Parser {
             return null;
         }
 
-        String type = parts[0].toUpperCase();
+        String type = parts[0].toUpperCase(Locale.ROOT);
+        if (!parts[1].equals("0") && !parts[1].equals("1")) {
+            return null;
+        }
         boolean isDone = parts[1].equals("1");
         String description = parts[2].trim();
+        if (description.isBlank()) {
+            return null;
+        }
 
         CommandWord commandWord;
         try {
@@ -134,9 +158,6 @@ public class Parser {
                 try {
                     LocalDateTime startDate = parseLineToDate(parts[parts.length - 2]);
                     LocalDateTime endDate = parseLineToDate(parts[parts.length - 1]);
-                    if (startDate.isAfter(endDate)) {
-                        throw new CbtException("Event start date is after end date");
-                    }
                     task = new Event(description, startDate, endDate);
                 } catch (CbtException exception) {
                     System.out.println("Invalid event date format stored in the task data file");

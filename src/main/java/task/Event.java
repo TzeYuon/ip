@@ -19,17 +19,17 @@ public class Event extends Task {
      * @param description description of the event.
      * @param startDate start date and time.
      * @param endDate end date and time.
-     * @throws CbtException if the event starts after it ends.
+     * @throws CbtException if the event does not start before it ends.
      */
     public Event(String description, LocalDateTime startDate, LocalDateTime endDate)
             throws CbtException {
         super(description);
         assert startDate != null : "Event start date and time must not be null";
         assert endDate != null : "Event end date and time must not be null";
-        if (startDate.isAfter(endDate)) {
-            throw new CbtException("The event start date and time cannot be after its end date and time.");
+        if (!startDate.isBefore(endDate)) {
+            throw new CbtException("The event start date and time must be before its end date and time.");
         }
-        assert !startDate.isAfter(endDate) : "Validated event range must be chronological";
+        assert startDate.isBefore(endDate) : "Validated event range must be chronological";
         this.startDate = startDate;
         this.endDate = endDate;
     }
@@ -66,6 +66,15 @@ public class Event extends Task {
     @Override
     public boolean occursOn(LocalDate date) {
         return !date.isBefore(startDate.toLocalDate()) && !date.isAfter(endDate.toLocalDate());
+    }
+
+    @Override
+    public boolean hasSameDetails(Task other) {
+        if (!super.hasSameDetails(other)) {
+            return false;
+        }
+        Event otherEvent = (Event) other;
+        return startDate.equals(otherEvent.startDate) && endDate.equals(otherEvent.endDate);
     }
 
     @Override

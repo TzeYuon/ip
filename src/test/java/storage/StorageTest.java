@@ -2,6 +2,7 @@ package storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
@@ -28,6 +29,16 @@ public class StorageTest {
         Storage storage = new Storage(temporaryDirectory.resolve("missing.txt").toString());
 
         assertEquals(0, storage.loadTasks().getSize());
+        assertTrue(storage.getLoadWarning().isEmpty());
+    }
+
+    /** Verifies that a directory used as the data path produces a readable startup warning. */
+    @Test
+    public void loadTasks_pathIsDirectory_emptyListAndWarningReturned() {
+        Storage storage = new Storage(temporaryDirectory.toString());
+
+        assertEquals(0, storage.loadTasks().getSize());
+        assertTrue(storage.getLoadWarning().orElseThrow().contains("not a regular file"));
     }
 
     /** Verifies that multiple task types and completion states survive a save-load cycle. */
@@ -55,7 +66,7 @@ public class StorageTest {
 
     /** Verifies that saving replaces existing file contents. */
     @Test
-    public void saveTasks_existingFile_previousContentReplaced() throws IOException {
+    public void saveTasks_existingFile_previousContentReplaced() throws IOException, CbtException {
         Path dataFile = temporaryDirectory.resolve("tasks.txt");
         Files.writeString(dataFile, "old content");
         Storage storage = new Storage(dataFile.toString());
@@ -76,10 +87,40 @@ public class StorageTest {
         Files.writeString(dataFile, "broken line" + System.lineSeparator()
                 + "TODO | 0 | valid task" + System.lineSeparator());
 
-        TaskList loaded = new Storage(dataFile.toString()).loadTasks();
+        Storage storage = new Storage(dataFile.toString());
+        TaskList loaded = storage.loadTasks();
 
         assertEquals(1, loaded.getSize());
         assertEquals("[T][ ] valid task", loaded.getTask(0).toString());
+        assertTrue(storage.getLoadWarning().orElseThrow().contains("1 malformed or duplicate"));
+    }
+
+    /** Verifies that malformed and duplicate saved tasks are skipped with a warning. */
+    @Test
+    public void loadTasks_invalidAndDuplicateRecords_validTaskLoadedAndWarningReturned()
+            throws IOException, CbtException {
+        Path dataFile = temporaryDirectory.resolve("tasks.txt");
+        Files.writeString(dataFile, "TODO | invalid | bad status" + System.lineSeparator()
+                + "TODO | 0 | read book" + System.lineSeparator()
+                + "TODO | 1 | READ BOOK" + System.lineSeparator());
+        Storage storage = new Storage(dataFile.toString());
+
+        TaskList loaded = storage.loadTasks();
+
+        assertEquals(1, loaded.getSize());
+        assertEquals("[T][ ] read book", loaded.getTask(0).toString());
+        assertTrue(storage.getLoadWarning().orElseThrow().contains("2 malformed or duplicate"));
+    }
+
+    /** Verifies that a destination that cannot be replaced produces a user-facing error. */
+    @Test
+    public void saveTasks_destinationIsDirectory_exceptionThrown() {
+        Storage storage = new Storage(temporaryDirectory.toString());
+        TaskList tasks = new TaskList();
+        tasks.addTask(new Todo("read book"));
+
+        assertThrows(CbtException.class, () -> storage.saveTasks(tasks));
+        assertTrue(Files.isDirectory(temporaryDirectory));
     }
 
     /** Verifies that chronological task order survives a save-load cycle. */

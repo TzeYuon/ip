@@ -111,4 +111,15 @@ public class CbtTest {
         assertTrue(errorResponse.isError());
         assertTrue(errorResponse.message().contains("That command is off course"));
     }
+
+    /** Verifies that GUI responses report persistence failures instead of claiming success. */
+    @Test
+    public void getResponseWithStatus_unwritableDestination_errorStatusReturned() {
+        Cbt application = new Cbt(new Ui(), new Storage(temporaryDirectory.toString()));
+
+        CbtResponse response = application.getResponseWithStatus("todo read book");
+
+        assertTrue(response.isError());
+        assertTrue(response.message().contains("could not save your changes"));
+    }
 }

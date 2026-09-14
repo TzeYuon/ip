@@ -31,7 +31,8 @@ public class DeadlineCommand extends AddTaskCommand {
     public CommandResult execute(TaskList tasks) throws CbtException {
         int marker = details.indexOf(" /by ");
         int byLength = " /by ".length();
-        if (marker <= 0 || details.substring(marker + byLength).isBlank()) {
+        if (marker <= 0 || marker != details.lastIndexOf(" /by ")
+                || details.substring(marker + byLength).isBlank()) {
             throw new CbtException("Use: deadline DESCRIPTION /by DATE_OR_TIME");
         }
         String description = details.substring(0, marker).trim();

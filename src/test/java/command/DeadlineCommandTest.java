@@ -31,6 +31,8 @@ public class DeadlineCommandTest {
 
         assertThrows(CbtException.class, () -> new DeadlineCommand("/by 2/12/2019").execute(tasks));
         assertThrows(CbtException.class, () -> new DeadlineCommand("return book /by ").execute(tasks));
+        assertThrows(CbtException.class, () -> new DeadlineCommand(
+                "return /by book /by 2/12/2019").execute(tasks));
     }
 
     /** Verifies that an invalid deadline date is rejected without changing the list. */

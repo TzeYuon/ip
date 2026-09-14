@@ -34,6 +34,19 @@ public class TaskList {
     }
 
     /**
+     * Adds a task unless an existing task has the same type and details.
+     *
+     * @param task task to add.
+     * @throws CbtException if the task duplicates an existing task.
+     */
+    public void addTaskIfUnique(Task task) throws CbtException {
+        if (tasks.stream().anyMatch(existingTask -> existingTask.hasSameDetails(task))) {
+            throw new CbtException("That task is already on your flight plan.");
+        }
+        addTask(task);
+    }
+
+    /**
      * Returns the task at a zero-based index after checking that it exists.
      *
      * @param index zero-based task index.
@@ -70,6 +83,9 @@ public class TaskList {
      */
     public Task markTask(int index) throws CbtException {
         Task task = getTask(index);
+        if (task.isDone()) {
+            throw new CbtException("That task is already complete.");
+        }
         task.markAsDone();
         assert task.isDone() : "A marked task must report itself as done";
         return task;
@@ -84,6 +100,9 @@ public class TaskList {
      */
     public Task unmarkTask(int index) throws CbtException {
         Task task = getTask(index);
+        if (!task.isDone()) {
+            throw new CbtException("That task is already incomplete.");
+        }
         task.markAsNotDone();
         assert !task.isDone() : "An unmarked task must report itself as not done";
         return task;

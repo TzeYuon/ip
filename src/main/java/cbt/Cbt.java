@@ -1,5 +1,7 @@
 package cbt;
 
+import java.util.Optional;
+
 import command.Command;
 import command.CommandResult;
 import exception.CbtException;
@@ -13,6 +15,7 @@ public class Cbt {
     private final Ui ui;
     private final Storage storage;
     private final TaskList tasks;
+    private final String startupWarning;
 
     /**
      * Creates the application with its user interface and persistent storage.
@@ -26,6 +29,7 @@ public class Cbt {
         this.ui = ui;
         this.storage = storage;
         this.tasks = storage.loadTasks();
+        this.startupWarning = storage.getLoadWarning().orElse(null);
         assert tasks != null : "Storage must return a task list";
     }
 
@@ -60,9 +64,22 @@ public class Cbt {
         }
     }
 
+    /**
+     * Returns a warning encountered while loading saved tasks.
+     *
+     * @return startup warning, or an empty value when loading completed normally.
+     */
+    public Optional<String> getStartupWarning() {
+        return Optional.ofNullable(startupWarning);
+    }
+
     /** Runs the application until an exit command is received. */
     public void run() {
         ui.showWelcome();
+        if (startupWarning != null) {
+            ui.showError(startupWarning);
+            ui.showLine();
+        }
 
         while (ui.hasNextCommand()) {
             String input = ui.readCommand();

@@ -53,8 +53,21 @@ public abstract class Task {
      *
      * @return task description.
      */
-    protected String getDescription() {
+    public String getDescription() {
         return this.description;
+    }
+
+    /**
+     * Returns whether another task has the same type and identifying details.
+     * Completion status is intentionally ignored.
+     *
+     * @param other task to compare.
+     * @return {@code true} if adding the other task would create a duplicate.
+     */
+    public boolean hasSameDetails(Task other) {
+        return other != null
+                && getClass().equals(other.getClass())
+                && description.equalsIgnoreCase(other.description);
     }
 
     /**

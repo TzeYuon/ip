@@ -54,6 +54,8 @@ public class MainWindow extends AnchorPane {
         this.cbt = Objects.requireNonNull(cbt);
         if (!hasShownWelcomeMessage) {
             dialogContainer.getChildren().add(DialogBox.getCbtDialog(WELCOME_MESSAGE, orbitImage));
+            cbt.getStartupWarning().ifPresent(warning -> dialogContainer.getChildren()
+                    .add(DialogBox.getErrorDialog(warning, orbitImage)));
             hasShownWelcomeMessage = true;
         }
         Platform.runLater(userInput::requestFocus);

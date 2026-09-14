@@ -40,11 +40,12 @@ public class MarkCommand implements Command {
      * @throws CbtException if the value is not a positive integer.
      */
     static int toIndex(String value) throws CbtException {
+        String normalizedValue = value.trim();
+        if (!normalizedValue.matches("[1-9]\\d*")) {
+            throw new CbtException("Please enter a task number from the list, e.g. mark 1.");
+        }
         try {
-            int index = Integer.parseInt(value.trim()) - 1;
-            if (index >= 0) {
-                return index;
-            }
+            return Integer.parseInt(normalizedValue) - 1;
         } catch (NumberFormatException exception) {
             // Fall through to the common validation error.
         }

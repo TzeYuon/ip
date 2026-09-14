@@ -48,3 +48,16 @@ Flight plan aligned by date:
 Sorting changes the task numbers and saves the new order. Commands such as
 `mark`, `unmark`, and `delete` therefore use the numbers shown after sorting.
 Tasks added later are appended normally; run `sort date` again to reorder them.
+
+## Handling invalid input and data problems
+
+Orbit ignores harmless leading, trailing, and repeated whitespace. It rejects
+unexpected command arguments, missing or repeated date markers, duplicate
+tasks, invalid task numbers, descriptions containing the reserved `|`
+character, and descriptions longer than 300 characters.
+
+Calendar dates are checked strictly, so dates such as February 30 are rejected.
+An event's start must also be earlier than its end. If saved data contains a
+malformed or duplicate record, Orbit loads the remaining valid tasks and shows
+a warning. Saves use a temporary file replacement so an interrupted write is
+less likely to damage the existing task file.

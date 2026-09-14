@@ -34,4 +34,16 @@ public class TodoCommandTest {
         assertThrows(CbtException.class, () -> new TodoCommand("   ").execute(tasks));
         assertEquals(0, tasks.getSize());
     }
+
+    /** Verifies that unsafe, excessively long, and duplicate descriptions are rejected. */
+    @Test
+    public void execute_invalidOrDuplicateDescription_exceptionThrownAndListUnchanged() throws CbtException {
+        TaskList tasks = new TaskList();
+        new TodoCommand("read book").execute(tasks);
+
+        assertThrows(CbtException.class, () -> new TodoCommand("read | book").execute(tasks));
+        assertThrows(CbtException.class, () -> new TodoCommand("x".repeat(301)).execute(tasks));
+        assertThrows(CbtException.class, () -> new TodoCommand("READ BOOK").execute(tasks));
+        assertEquals(1, tasks.getSize());
+    }
 }

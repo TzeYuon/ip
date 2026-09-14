@@ -41,6 +41,9 @@ public class MarkCommandTest {
         assertThrows(CbtException.class, () -> MarkCommand.toIndex("0"));
         assertThrows(CbtException.class, () -> MarkCommand.toIndex("-1"));
         assertThrows(CbtException.class, () -> MarkCommand.toIndex("first"));
+        assertThrows(CbtException.class, () -> MarkCommand.toIndex("+1"));
+        assertThrows(CbtException.class, () -> MarkCommand.toIndex("1.0"));
+        assertThrows(CbtException.class, () -> MarkCommand.toIndex("999999999999999999999"));
     }
 
     /** Verifies that a task number beyond the end of the list is rejected. */
@@ -50,5 +53,16 @@ public class MarkCommandTest {
         tasks.addTask(new Todo("only task"));
 
         assertThrows(CbtException.class, () -> new MarkCommand("2").execute(tasks));
+    }
+
+    /** Verifies that marking an already completed task reports an error. */
+    @Test
+    public void execute_alreadyCompletedTask_exceptionThrown() throws CbtException {
+        TaskList tasks = new TaskList();
+        Todo todo = new Todo("only task");
+        todo.markAsDone();
+        tasks.addTask(todo);
+
+        assertThrows(CbtException.class, () -> new MarkCommand("1").execute(tasks));
     }
 }

@@ -33,7 +33,8 @@ public class EventCommand extends AddTaskCommand {
         int toMarker = details.indexOf(" /to ");
         int startLength = " /from ".length();
         int endLength = " /to ".length();
-        if (fromMarker <= 0 || toMarker <= fromMarker + startLength) {
+        if (fromMarker <= 0 || fromMarker != details.lastIndexOf(" /from ")
+                || toMarker <= fromMarker + startLength || toMarker != details.lastIndexOf(" /to ")) {
             throw new CbtException("Use: event DESCRIPTION /from START /to END");
         }
         String startString = details.substring(fromMarker + startLength, toMarker).trim();

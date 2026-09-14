@@ -25,6 +25,7 @@ public class ParserTest {
     @Test
     public void parseCommand_validCommands_correctCommandTypes() throws CbtException {
         assertInstanceOf(TodoCommand.class, Parser.parseCommand("todo read book"));
+        assertInstanceOf(TodoCommand.class, Parser.parseCommand("  todo   read   book  "));
         assertInstanceOf(ListDateCommand.class, Parser.parseCommand("date 2019-12-02"));
         assertInstanceOf(ListDateCommand.class, Parser.parseCommand("listdate 2019-12-02"));
         assertInstanceOf(FindCommand.class, Parser.parseCommand("find book"));
@@ -36,6 +37,15 @@ public class ParserTest {
     @Test
     public void parseCommand_unknownCommand_exceptionThrown() {
         assertThrows(CbtException.class, () -> Parser.parseCommand("dance"));
+    }
+
+    /** Verifies that blank input and unexpected arguments for argument-free commands are rejected. */
+    @Test
+    public void parseCommand_blankOrUnexpectedArguments_exceptionThrown() {
+        assertThrows(CbtException.class, () -> Parser.parseCommand("   "));
+        assertThrows(CbtException.class, () -> Parser.parseCommand(null));
+        assertThrows(CbtException.class, () -> Parser.parseCommand("list extra"));
+        assertThrows(CbtException.class, () -> Parser.parseCommand("bye now"));
     }
 
     /** Verifies parsing of each supported date-time format. */
@@ -83,6 +93,8 @@ public class ParserTest {
     public void parseLineToTask_malformedOrUnknownRecord_nullReturned() {
         assertNull(Parser.parseLineToTask("missing fields"));
         assertNull(Parser.parseLineToTask("REMINDER | 0 | call Alex"));
+        assertNull(Parser.parseLineToTask("TODO | maybe | call Alex"));
+        assertNull(Parser.parseLineToTask("TODO | 0 |   "));
     }
 
     /** Verifies that dates use the expected user-facing display format. */

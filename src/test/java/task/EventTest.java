@@ -1,6 +1,5 @@
 package task;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -24,10 +23,10 @@ public class EventTest {
         assertThrows(CbtException.class, () -> new Event("conference", END, START));
     }
 
-    /** Verifies that an event may start and end at the same instant. */
+    /** Verifies that an event cannot start and end at the same instant. */
     @Test
-    public void constructor_startEqualsEnd_eventCreated() {
-        assertDoesNotThrow(() -> new Event("instant event", START, START));
+    public void constructor_startEqualsEnd_exceptionThrown() {
+        assertThrows(CbtException.class, () -> new Event("instant event", START, START));
     }
 
     /** Verifies inclusive matching on an event's boundary and intermediate dates. */

@@ -32,4 +32,13 @@ public class UnmarkCommandTest {
     public void execute_invalidTaskNumber_exceptionThrown() {
         assertThrows(CbtException.class, () -> new UnmarkCommand("1").execute(new TaskList()));
     }
+
+    /** Verifies that unmarking an already incomplete task reports an error. */
+    @Test
+    public void execute_alreadyIncompleteTask_exceptionThrown() {
+        TaskList tasks = new TaskList();
+        tasks.addTask(new Todo("read book"));
+
+        assertThrows(CbtException.class, () -> new UnmarkCommand("1").execute(tasks));
+    }
 }

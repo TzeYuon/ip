@@ -30,6 +30,19 @@ public class TaskListTest {
         assertSame(second, tasks.getTask(1));
     }
 
+    /** Verifies that duplicate detection ignores description case but distinguishes task details. */
+    @Test
+    public void addTaskIfUnique_duplicateAndDistinctTasks_duplicateRejected() throws CbtException {
+        TaskList tasks = new TaskList();
+        tasks.addTaskIfUnique(new Todo("read book"));
+
+        assertThrows(CbtException.class, () -> tasks.addTaskIfUnique(new Todo("READ BOOK")));
+        tasks.addTaskIfUnique(new Deadline("read book", LocalDateTime.of(2026, 8, 27, 12, 0)));
+        tasks.addTaskIfUnique(new Deadline("read book", LocalDateTime.of(2026, 8, 28, 12, 0)));
+
+        assertEquals(3, tasks.getSize());
+    }
+
     /** Verifies that negative and past-the-end indexes are rejected. */
     @Test
     public void getTask_invalidIndexes_exceptionThrown() {
