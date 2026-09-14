@@ -28,4 +28,14 @@ public class ListCommandTest {
         assertFalse(result.taskListChanged());
         assertFalse(result.isExit());
     }
+
+    /** Verifies listing an empty task list returns only the heading. */
+    @Test
+    public void execute_emptyList_headingOnlyReturned() throws CbtException {
+        CommandResult result = new ListCommand().execute(new TaskList());
+
+        assertEquals("Your current flight plan:", result.message());
+        assertFalse(result.taskListChanged());
+        assertFalse(result.isExit());
+    }
 }

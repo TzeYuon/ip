@@ -37,4 +37,30 @@ public class DeleteCommandTest {
         assertThrows(CbtException.class, () -> new DeleteCommand("2").execute(tasks));
         assertEquals(1, tasks.getSize());
     }
+
+    /** Verifies deleting from a longer list uses the plural remaining-task message. */
+    @Test
+    public void execute_threeTasks_pluralRemainingCountReturned() throws CbtException {
+        TaskList tasks = new TaskList();
+        tasks.addTask(new Todo("first"));
+        tasks.addTask(new Todo("second"));
+        tasks.addTask(new Todo("third"));
+
+        CommandResult result = new DeleteCommand("2").execute(tasks);
+
+        assertEquals(2, tasks.getSize());
+        assertTrue(result.message().contains("2 tasks remain in orbit."));
+    }
+
+    /** Verifies deleting the final task reports that no tasks remain. */
+    @Test
+    public void execute_lastTask_zeroRemainingCountReturned() throws CbtException {
+        TaskList tasks = new TaskList();
+        tasks.addTask(new Todo("only"));
+
+        CommandResult result = new DeleteCommand("1").execute(tasks);
+
+        assertEquals(0, tasks.getSize());
+        assertTrue(result.message().contains("0 tasks remain in orbit."));
+    }
 }

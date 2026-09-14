@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
@@ -45,5 +46,33 @@ public class TodoTest {
         Todo todo = new Todo("wash the dishes");
 
         assertTrue(todo.getChronologicalDateTime().isEmpty());
+    }
+
+    /** Verifies task accessors and direct status restoration. */
+    @Test
+    public void accessorsAndRestoreCompletionStatus_variedStates_valuesReturned() {
+        Todo todo = new Todo("wash the dishes");
+
+        assertEquals("wash the dishes", todo.getDescription());
+        assertEquals(" ", todo.getStatusIcon());
+        todo.restoreCompletionStatus(true);
+        assertTrue(todo.isDone());
+        assertEquals("X", todo.getStatusIcon());
+        todo.restoreCompletionStatus(false);
+        assertFalse(todo.isDone());
+    }
+
+    /** Verifies duplicate identity ignores case and status but respects type and null. */
+    @Test
+    public void hasSameDetails_variedTasks_correctBooleanReturned() {
+        Todo todo = new Todo("Read Book");
+        Todo completedDuplicate = new Todo("read book");
+        completedDuplicate.markAsDone();
+
+        assertTrue(todo.hasSameDetails(completedDuplicate));
+        assertFalse(todo.hasSameDetails(new Todo("write report")));
+        assertFalse(todo.hasSameDetails(new Deadline("Read Book",
+                LocalDateTime.of(2026, 12, 2, 18, 0))));
+        assertFalse(todo.hasSameDetails(null));
     }
 }

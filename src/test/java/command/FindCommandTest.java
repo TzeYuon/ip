@@ -1,5 +1,6 @@
 package command;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -33,5 +34,17 @@ public class FindCommandTest {
     @Test
     public void execute_blankKeyword_exceptionThrown() {
         assertThrows(CbtException.class, () -> new FindCommand(" ").execute(new TaskList()));
+    }
+
+    /** Verifies a search with no matches returns only its heading. */
+    @Test
+    public void execute_noMatches_headingOnlyReturned() throws CbtException {
+        TaskList tasks = new TaskList();
+        tasks.addTask(new Todo("write report"));
+
+        CommandResult result = new FindCommand("book").execute(tasks);
+
+        assertEquals("Matches on the radar:", result.message());
+        assertFalse(result.taskListChanged());
     }
 }

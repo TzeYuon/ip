@@ -122,4 +122,50 @@ public class CbtTest {
         assertTrue(response.isError());
         assertTrue(response.message().contains("could not save your changes"));
     }
+
+    /** Verifies startup storage warnings are exposed and printed by the console loop. */
+    @Test
+    public void run_malformedStoredTask_startupWarningExposedAndPrinted() throws Exception {
+        InputStream originalIn = System.in;
+        PrintStream originalOut = System.out;
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        Path dataFile = temporaryDirectory.resolve("tasks.txt");
+        Files.writeString(dataFile, "broken stored task" + System.lineSeparator());
+
+        try {
+            System.setIn(new ByteArrayInputStream("bye\n".getBytes(StandardCharsets.UTF_8)));
+            System.setOut(new PrintStream(output, true, StandardCharsets.UTF_8));
+            Cbt application = new Cbt(new Ui(), new Storage(dataFile.toString()));
+
+            assertTrue(application.getStartupWarning().orElseThrow().contains("skipped 1"));
+            application.run();
+        } finally {
+            System.setIn(originalIn);
+            System.setOut(originalOut);
+        }
+
+        assertTrue(output.toString(StandardCharsets.UTF_8).contains("malformed or duplicate saved task"));
+    }
+
+    /** Verifies a clean startup exposes no storage warning. */
+    @Test
+    public void getStartupWarning_missingDataFile_emptyValueReturned() {
+        Cbt application = new Cbt(new Ui(),
+                new Storage(temporaryDirectory.resolve("missing.txt").toString()));
+
+        assertTrue(application.getStartupWarning().isEmpty());
+    }
+
+    /** Verifies an exit response does not create or modify persistent task data. */
+    @Test
+    public void getResponse_exitCommand_farewellReturnedWithoutSave() {
+        Path dataFile = temporaryDirectory.resolve("tasks.txt");
+        Cbt application = new Cbt(new Ui(), new Storage(dataFile.toString()));
+
+        CbtResponse response = application.getResponseWithStatus("bye");
+
+        assertEquals("Mission paused. Safe travels!", response.message());
+        assertFalse(response.isError());
+        assertFalse(Files.exists(dataFile));
+    }
 }

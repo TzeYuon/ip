@@ -1,5 +1,6 @@
 package command;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -35,5 +36,14 @@ public class ListDateCommandTest {
 
         assertThrows(CbtException.class, () -> new ListDateCommand(" ").execute(tasks));
         assertThrows(CbtException.class, () -> new ListDateCommand("31/02/2026").execute(tasks));
+    }
+
+    /** Verifies a date with no matching tasks returns only the dated heading. */
+    @Test
+    public void execute_noMatches_headingOnlyReturned() throws CbtException {
+        CommandResult result = new ListDateCommand("2026-08-26").execute(new TaskList());
+
+        assertEquals("On the radar for Aug 26 2026:", result.message());
+        assertFalse(result.taskListChanged());
     }
 }

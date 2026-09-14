@@ -55,4 +55,21 @@ public class EventTest {
 
         assertEquals(START, event.getChronologicalDateTime().orElseThrow());
     }
+
+    /** Verifies event display, serialization, and duplicate identity. */
+    @Test
+    public void formattingAndIdentity_variedEvents_expectedValuesReturned() throws CbtException {
+        Event event = new Event("conference", START, END);
+        Event caseVariant = new Event("CONFERENCE", START, END);
+        Event differentEnd = new Event("conference", START, END.plusMinutes(1));
+
+        assertEquals("[E][ ] conference (from: Aug 25 2026, 10:00am to: Aug 27 2026, 6:00pm)",
+                event.toString());
+        event.markAsDone();
+        assertEquals("EVENT | 1 | conference | 25/08/2026 1000 | 27/08/2026 1800",
+                event.toFileFormat());
+        assertTrue(event.hasSameDetails(caseVariant));
+        assertFalse(event.hasSameDetails(differentEnd));
+        assertFalse(event.hasSameDetails(new Todo("conference")));
+    }
 }

@@ -69,6 +69,17 @@ public class TaskListTest {
         assertSame(retained, tasks.getTask(0));
     }
 
+    /** Verifies that invalid deletions do not mutate the task list. */
+    @Test
+    public void deleteTask_invalidIndexes_exceptionThrownAndListUnchanged() {
+        TaskList tasks = new TaskList();
+        tasks.addTask(new Todo("keep me"));
+
+        assertThrows(CbtException.class, () -> tasks.deleteTask(-1));
+        assertThrows(CbtException.class, () -> tasks.deleteTask(1));
+        assertEquals(1, tasks.getSize());
+    }
+
     /** Verifies that marking and unmarking update the selected task's completion state. */
     @Test
     public void markAndUnmarkTask_validIndex_completionStatusChanged() throws CbtException {
@@ -81,6 +92,20 @@ public class TaskListTest {
 
         assertSame(todo, tasks.unmarkTask(0));
         assertFalse(todo.isDone());
+    }
+
+    /** Verifies invalid and redundant completion transitions are rejected. */
+    @Test
+    public void markAndUnmarkTask_invalidTransitions_exceptionThrown() throws CbtException {
+        TaskList tasks = new TaskList();
+        Todo todo = new Todo("read book");
+        tasks.addTask(todo);
+
+        assertThrows(CbtException.class, () -> tasks.unmarkTask(0));
+        assertThrows(CbtException.class, () -> tasks.markTask(1));
+        tasks.markTask(0);
+        assertThrows(CbtException.class, () -> tasks.markTask(0));
+        assertThrows(CbtException.class, () -> tasks.unmarkTask(-1));
     }
 
     /** Verifies that date filtering returns only matching dated tasks in list order. */
@@ -148,6 +173,20 @@ public class TaskListTest {
 
         assertEquals(expected, tasks.formatTasks());
         assertEquals("", new TaskList().formatTasks());
+    }
+
+    /** Verifies date formatting keeps original task numbers and omits nonmatches. */
+    @Test
+    public void formatTasksOnDate_mixedTasks_originalNumbersRetained() throws CbtException {
+        LocalDate targetDate = LocalDate.of(2026, 8, 26);
+        TaskList tasks = new TaskList();
+        tasks.addTask(new Todo("first undated"));
+        tasks.addTask(new Deadline("matching", targetDate.atTime(12, 0)));
+        tasks.addTask(new Deadline("different", targetDate.plusDays(1).atTime(12, 0)));
+
+        assertEquals("2.[D][ ] matching (by: Aug 26 2026, 12:00pm)",
+                tasks.formatTasksOnDate(targetDate));
+        assertEquals("", tasks.formatTasksOnDate(targetDate.minusDays(1)));
     }
 
     /** Verifies chronological sorting across task types, including stable ties and undated tasks. */

@@ -47,4 +47,17 @@ public class DeadlineTest {
 
         assertEquals(BY, deadline.getChronologicalDateTime().orElseThrow());
     }
+
+    /** Verifies deadline display formatting and duplicate identity. */
+    @Test
+    public void formattingAndIdentity_variedDeadlines_expectedValuesReturned() {
+        Deadline deadline = new Deadline("study", BY);
+        Deadline caseVariant = new Deadline("STUDY", BY);
+        Deadline differentTime = new Deadline("study", BY.plusMinutes(1));
+
+        assertEquals("[D][ ] study (by: Aug 25 2026, 10:00am)", deadline.toString());
+        assertTrue(deadline.hasSameDetails(caseVariant));
+        assertFalse(deadline.hasSameDetails(differentTime));
+        assertFalse(deadline.hasSameDetails(new Todo("study")));
+    }
 }
