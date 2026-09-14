@@ -3,7 +3,10 @@ package task;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -12,7 +15,11 @@ import java.util.Optional;
 public abstract class Task {
     /** Format used to display task dates and times. */
     protected static final DateTimeFormatter DATE_TIME_PRINT_FORMATTER =
-            DateTimeFormatter.ofPattern("MMM dd uuuu, h:mma");
+            new DateTimeFormatterBuilder()
+                    .appendPattern("MMM dd uuuu, h:mm")
+                    .appendText(ChronoField.AMPM_OF_DAY,
+                            Map.of(0L, "am", 1L, "pm"))
+                    .toFormatter(Locale.ENGLISH);
     /** Format used to store task dates and times. */
     protected static final DateTimeFormatter DATE_TIME_WRITE_FORMATTER =
             DateTimeFormatter.ofPattern("dd/MM/uuuu HHmm");
