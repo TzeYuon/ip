@@ -28,7 +28,7 @@
 
 .dialog-container {
     -fx-background-color: canvas-color;
-    -fx-padding: 15px 7px;
+    -fx-padding: 12px 5px 18px 5px;
 }
 
 .composer {

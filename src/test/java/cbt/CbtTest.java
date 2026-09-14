@@ -97,4 +97,18 @@ public class CbtTest {
         assertTrue(response.contains("I don't understand that command"));
         assertFalse(Files.exists(dataFile));
     }
+
+    /** Verifies that GUI responses distinguish valid commands from user-correctable errors. */
+    @Test
+    public void getResponseWithStatus_validAndInvalidCommands_correctErrorStatusReturned() {
+        Path dataFile = temporaryDirectory.resolve("tasks.txt");
+        Cbt application = new Cbt(new Ui(), new Storage(dataFile.toString()));
+
+        CbtResponse validResponse = application.getResponseWithStatus("list");
+        CbtResponse errorResponse = application.getResponseWithStatus("dance");
+
+        assertFalse(validResponse.isError());
+        assertTrue(errorResponse.isError());
+        assertTrue(errorResponse.message().contains("I don't understand that command"));
+    }
 }

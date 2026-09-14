@@ -32,7 +32,7 @@
                     AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="0.0"
                     AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="82.0">
             <content>
-                <VBox fx:id="dialogContainer" fillWidth="true" minHeight="518.0"
+                <VBox fx:id="dialogContainer" fillWidth="true"
                       spacing="2.0" styleClass="dialog-container" />
             </content>
         </ScrollPane>

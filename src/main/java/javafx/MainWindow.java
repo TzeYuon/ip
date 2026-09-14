@@ -3,6 +3,7 @@ package javafx;
 import java.util.Objects;
 
 import cbt.Cbt;
+import cbt.CbtResponse;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -21,7 +22,6 @@ public class MainWindow extends AnchorPane {
             + "  event project meeting /from 2/12/2026 1400 /to 2/12/2026 1600\n\n"
             + "You can also use list, sort date, find KEYWORD, mark NUMBER, delete NUMBER, or bye.";
 
-    private final Image userImage = loadImage("/images/daUser.jpeg");
     private final Image cbtImage = loadImage("/images/daCbt.png");
 
     @FXML
@@ -67,10 +67,12 @@ public class MainWindow extends AnchorPane {
             return;
         }
 
-        String response = cbt.getResponse(input);
+        CbtResponse response = cbt.getResponseWithStatus(input);
         dialogContainer.getChildren().addAll(
-                DialogBox.getUserDialog(input, userImage),
-                DialogBox.getCbtDialog(response, cbtImage));
+                DialogBox.getUserDialog(input),
+                response.isError()
+                        ? DialogBox.getErrorDialog(response.message(), cbtImage)
+                        : DialogBox.getCbtDialog(response.message(), cbtImage));
         userInput.clear();
 
         exitIfRequested(input, Platform::exit);

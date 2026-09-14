@@ -18,6 +18,9 @@ import javafx.scene.shape.Circle;
 
 /** Represents one message and the display picture of its speaker. */
 public class DialogBox extends HBox {
+    private static final double ASSISTANT_MESSAGE_WIDTH_RATIO = 0.84;
+    private static final double USER_MESSAGE_WIDTH_RATIO = 0.72;
+
     @FXML
     private Label dialog;
 
@@ -35,8 +38,10 @@ public class DialogBox extends HBox {
         }
 
         dialog.setText(text);
-        displayPicture.setImage(image);
-        cropDisplayPicture(image);
+        if (image != null) {
+            displayPicture.setImage(image);
+            cropDisplayPicture(image);
+        }
     }
 
     /** Crops the display picture to a centered circle suitable for a chat avatar. */
@@ -51,24 +56,41 @@ public class DialogBox extends HBox {
         displayPicture.setClip(new Circle(radius, radius, radius));
     }
 
-    /** Flips the dialog box so that CBT's picture appears on the left. */
-    private void flip() {
+    /** Styles this dialog as a compact command entered by the user. */
+    private void styleAsUserMessage() {
+        getStyleClass().add("user-dialog-box");
+        displayPicture.setManaged(false);
+        displayPicture.setVisible(false);
+        dialog.maxWidthProperty().bind(widthProperty().multiply(USER_MESSAGE_WIDTH_RATIO));
+    }
+
+    /** Flips and styles this dialog so that CBT's picture appears on the left. */
+    private void styleAsAssistantMessage() {
         ObservableList<Node> children = FXCollections.observableArrayList(getChildren());
         Collections.reverse(children);
         getChildren().setAll(children);
         setAlignment(Pos.TOP_LEFT);
+        getStyleClass().add("assistant-dialog-box");
         dialog.getStyleClass().add("reply-label");
+        dialog.maxWidthProperty().bind(widthProperty().multiply(ASSISTANT_MESSAGE_WIDTH_RATIO));
+    }
+
+    /** Adds attention-grabbing styling to an assistant response caused by invalid input. */
+    private void styleAsErrorMessage() {
+        getStyleClass().add("error-dialog-box");
+        dialog.getStyleClass().add("error-label");
     }
 
     /**
      * Creates a dialog box for a message from the user.
      *
      * @param text message to display.
-     * @param image user's display picture.
      * @return dialog box aligned to the right.
      */
-    public static DialogBox getUserDialog(String text, Image image) {
-        return new DialogBox(text, image);
+    public static DialogBox getUserDialog(String text) {
+        DialogBox dialogBox = new DialogBox(text, null);
+        dialogBox.styleAsUserMessage();
+        return dialogBox;
     }
 
     /**
@@ -80,7 +102,20 @@ public class DialogBox extends HBox {
      */
     public static DialogBox getCbtDialog(String text, Image image) {
         DialogBox dialogBox = new DialogBox(text, image);
-        dialogBox.flip();
+        dialogBox.styleAsAssistantMessage();
+        return dialogBox;
+    }
+
+    /**
+     * Creates a visually prominent error reply from CBT.
+     *
+     * @param text correction guidance to display.
+     * @param image CBT's display picture.
+     * @return error dialog aligned to the left.
+     */
+    public static DialogBox getErrorDialog(String text, Image image) {
+        DialogBox dialogBox = getCbtDialog(text, image);
+        dialogBox.styleAsErrorMessage();
         return dialogBox;
     }
 }

@@ -36,6 +36,16 @@ public class Cbt {
      * @return result or error message produced by the command.
      */
     public String getResponse(String input) {
+        return getResponseWithStatus(input).message();
+    }
+
+    /**
+     * Executes one command and returns its message together with its error status.
+     *
+     * @param input command entered by the user.
+     * @return response details used to style the GUI message.
+     */
+    public CbtResponse getResponseWithStatus(String input) {
         try {
             Command command = Parser.parseCommand(input);
             CommandResult result = command.execute(tasks);
@@ -44,9 +54,9 @@ public class Cbt {
                 storage.saveTasks(tasks);
             }
 
-            return result.message();
+            return new CbtResponse(result.message(), false);
         } catch (CbtException exception) {
-            return exception.getMessage();
+            return new CbtResponse(exception.getMessage(), true);
         }
     }
 
