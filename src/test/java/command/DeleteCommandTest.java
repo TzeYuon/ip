@@ -25,6 +25,7 @@ public class DeleteCommandTest {
         assertEquals("[T][ ] second", tasks.getTask(0).toString());
         assertTrue(result.taskListChanged());
         assertTrue(result.message().contains("[T][ ] first"));
+        assertTrue(result.message().contains("1 task remains in orbit."));
     }
 
     /** Verifies that an out-of-range task number leaves the list unchanged. */

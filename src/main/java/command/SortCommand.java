@@ -31,7 +31,7 @@ public class SortCommand implements Command {
         }
 
         taskList.sortChronologically();
-        String message = "I've sorted your tasks chronologically:";
+        String message = "Flight plan aligned by date:";
         String formattedTasks = taskList.formatTasks();
         if (!formattedTasks.isEmpty()) {
             message += System.lineSeparator() + formattedTasks;

@@ -12,6 +12,6 @@ public class ExitCommand implements Command {
      */
     @Override
     public CommandResult execute(TaskList tasks) {
-        return new CommandResult("Bye. Hope to see you again soon!", false, true);
+        return new CommandResult("Mission paused. Safe travels!", false, true);
     }
 }

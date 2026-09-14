@@ -8,7 +8,7 @@ import java.util.Optional;
 
 import exception.CbtException;
 
-/** Stores the tasks for one CBT session. */
+/** Stores the tasks for one Orbit session. */
 public class TaskList {
     private final ArrayList<Task> tasks = new ArrayList<>();
 

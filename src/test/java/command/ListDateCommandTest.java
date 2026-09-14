@@ -22,7 +22,7 @@ public class ListDateCommandTest {
         tasks.addTask(new Deadline("different", LocalDateTime.of(2026, 8, 27, 12, 0)));
         CommandResult result = new ListDateCommand("2026-08-26").execute(tasks);
 
-        assertTrue(result.message().contains("deadlines and events on Aug 26 2026"));
+        assertTrue(result.message().contains("On the radar for Aug 26 2026"));
         assertTrue(result.message().contains("matching"));
         assertFalse(result.message().contains("different"));
         assertFalse(result.taskListChanged());

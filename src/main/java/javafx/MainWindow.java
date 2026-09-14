@@ -15,14 +15,14 @@ import javafx.scene.layout.VBox;
 
 /** Controls the main chatbot window. */
 public class MainWindow extends AnchorPane {
-    private static final String WELCOME_MESSAGE = "Hi! I'm CBT, your personal task assistant.\n\n"
-            + "Here are a few commands to get started:\n"
+    private static final String WELCOME_MESSAGE = "Mission control online—I'm Orbit, your calm task navigator.\n\n"
+            + "Set a course with one of these commands:\n"
             + "  todo read a book\n"
             + "  deadline submit report /by 2/12/2026 1800\n"
             + "  event project meeting /from 2/12/2026 1400 /to 2/12/2026 1600\n\n"
             + "You can also use list, sort date, find KEYWORD, mark NUMBER, delete NUMBER, or bye.";
 
-    private final Image cbtImage = loadImage("/images/daCbt.png");
+    private final Image orbitImage = loadImage("/images/orbit-avatar.png");
 
     @FXML
     private ScrollPane scrollPane;
@@ -53,13 +53,13 @@ public class MainWindow extends AnchorPane {
     public void setCbt(Cbt cbt) {
         this.cbt = Objects.requireNonNull(cbt);
         if (!hasShownWelcomeMessage) {
-            dialogContainer.getChildren().add(DialogBox.getCbtDialog(WELCOME_MESSAGE, cbtImage));
+            dialogContainer.getChildren().add(DialogBox.getCbtDialog(WELCOME_MESSAGE, orbitImage));
             hasShownWelcomeMessage = true;
         }
         Platform.runLater(userInput::requestFocus);
     }
 
-    /** Creates message bubbles for the user's input and CBT's response. */
+    /** Creates message bubbles for the user's input and Orbit's response. */
     @FXML
     private void handleUserInput() {
         String input = userInput.getText().trim();
@@ -71,8 +71,8 @@ public class MainWindow extends AnchorPane {
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input),
                 response.isError()
-                        ? DialogBox.getErrorDialog(response.message(), cbtImage)
-                        : DialogBox.getCbtDialog(response.message(), cbtImage));
+                        ? DialogBox.getErrorDialog(response.message(), orbitImage)
+                        : DialogBox.getCbtDialog(response.message(), orbitImage));
         userInput.clear();
 
         exitIfRequested(input, Platform::exit);

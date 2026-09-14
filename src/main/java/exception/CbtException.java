@@ -1,7 +1,7 @@
 package exception;
 
 /**
- * Represents an error caused by an invalid command entered into CBT.
+ * Represents an error caused by an invalid command entered into Orbit.
  */
 public class CbtException extends Exception {
 

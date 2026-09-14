@@ -29,7 +29,7 @@ public class FindCommand implements Command {
             throw new CbtException("Use: find KEYWORD (for example, find book)");
         }
 
-        String message = "Here are the matching tasks in your list:";
+        String message = "Matches on the radar:";
         String formattedTasks = taskList.findTasksContaining(keyword).formatTasks();
         if (!formattedTasks.isEmpty()) {
             message += System.lineSeparator() + formattedTasks;

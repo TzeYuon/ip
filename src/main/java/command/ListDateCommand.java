@@ -32,7 +32,7 @@ public class ListDateCommand implements Command {
             throw new CbtException("Use: date DATE (for example, 2019-12-02)");
         }
         LocalDate date = Parser.parseDate(dateText);
-        String message = "Here are the deadlines and events on " + Parser.formatDate(date) + ":";
+        String message = "On the radar for " + Parser.formatDate(date) + ":";
         String formattedTasks = taskList.formatTasksOnDate(date);
         if (!formattedTasks.isEmpty()) {
             message += System.lineSeparator() + formattedTasks;

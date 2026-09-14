@@ -1,4 +1,4 @@
-# CBT User Guide
+# Orbit User Guide
 
 // Update the title above to match the actual product name
 
@@ -39,7 +39,7 @@ Tasks with the same date and time keep their existing relative order.
 Example: `sort date`
 
 ```text
-I've sorted your tasks chronologically:
+Flight plan aligned by date:
 1.[E][ ] project meeting (from: Dec 01 2026, 9:00am to: Dec 01 2026, 10:00am)
 2.[D][ ] submit report (by: Dec 02 2026, 6:00pm)
 3.[T][ ] read a book

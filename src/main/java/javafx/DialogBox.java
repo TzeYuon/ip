@@ -64,7 +64,7 @@ public class DialogBox extends HBox {
         dialog.maxWidthProperty().bind(widthProperty().multiply(USER_MESSAGE_WIDTH_RATIO));
     }
 
-    /** Flips and styles this dialog so that CBT's picture appears on the left. */
+    /** Flips and styles this dialog so that Orbit's picture appears on the left. */
     private void styleAsAssistantMessage() {
         ObservableList<Node> children = FXCollections.observableArrayList(getChildren());
         Collections.reverse(children);
@@ -94,10 +94,10 @@ public class DialogBox extends HBox {
     }
 
     /**
-     * Creates a dialog box for a reply from CBT.
+     * Creates a dialog box for a reply from Orbit.
      *
      * @param text message to display.
-     * @param image CBT's display picture.
+     * @param image Orbit's display picture.
      * @return dialog box aligned to the left.
      */
     public static DialogBox getCbtDialog(String text, Image image) {
@@ -107,10 +107,10 @@ public class DialogBox extends HBox {
     }
 
     /**
-     * Creates a visually prominent error reply from CBT.
+     * Creates a visually prominent error reply from Orbit.
      *
      * @param text correction guidance to display.
-     * @param image CBT's display picture.
+     * @param image Orbit's display picture.
      * @return error dialog aligned to the left.
      */
     public static DialogBox getErrorDialog(String text, Image image) {

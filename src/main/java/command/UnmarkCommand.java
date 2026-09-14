@@ -27,7 +27,7 @@ public class UnmarkCommand implements Command {
     @Override
     public CommandResult execute(TaskList taskList) throws CbtException {
         Task task = taskList.unmarkTask(MarkCommand.toIndex(taskNumber));
-        String message = "OK, I've marked this task as not done yet:\n" + "  " + task;
+        String message = "Back on the flight plan:\n" + "  " + task;
         return new CommandResult(message, true, false);
     }
 }

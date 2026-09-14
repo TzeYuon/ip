@@ -4,19 +4,18 @@ import java.util.Scanner;
 
 import command.CommandResult;
 
-/** Handles CBT's console input and common output formatting. */
+/** Handles Orbit's console input and common output formatting. */
 public class Ui {
     private static final String DIVIDER = "____________________________________________________________";
     private final Scanner scanner = new Scanner(System.in);
 
     /** Prints the application's greeting. */
     public void showWelcome() {
-        String banner = "  ____ ____ _____\n"
-                + " / ___| __ )_   _|\n"
-                + "| |   |  _ \\ | |\n"
-                + "| |___| |_) || |\n"
-                + " \\____|____/ |_|\n";
-        printLines(DIVIDER, banner, "Hello! I'm CBT.", "What can I do for you?", DIVIDER);
+        String banner = "       .       *\n"
+                + "   O R B I T\n"
+                + " *       .       *\n";
+        printLines(DIVIDER, banner, "Mission control online. I'm Orbit.",
+                "Where shall we steer your day?", DIVIDER);
     }
 
     /**

@@ -14,10 +14,10 @@ abstract class AddTaskCommand implements Command {
      */
     protected CommandResult addTask(TaskList tasks, Task task) {
         tasks.addTask(task);
-        String message = "Got it. I've added this task:\n"
+        String message = "Task locked into orbit:\n"
                 + "  " + task + "\n"
-                + "Now you have " + tasks.getSize() + " task"
-                + (tasks.getSize() == 1 ? "" : "s") + " in the list.";
+                + "Your flight plan now has " + tasks.getSize() + " task"
+                + (tasks.getSize() == 1 ? "" : "s") + ".";
         return new CommandResult(message, true, false);
     }
 }

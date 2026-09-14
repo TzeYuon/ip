@@ -22,37 +22,35 @@ bye
 
 ```text
 ____________________________________________________________
-  ____ ____ _____
- / ___| __ )_   _|
-| |   |  _ \ | |
-| |___| |_) || |
- \____|____/ |_|
+       .       *
+   O R B I T
+ *       .       *
 
-Hello! I'm CBT.
-What can I do for you?
+Mission control online. I'm Orbit.
+Where shall we steer your day?
 ____________________________________________________________
 ____________________________________________________________
-Got it. I've added this task:
+Task locked into orbit:
   [D][ ] return book (by: Dec 02 2019, 6:00pm)
-Now you have 1 task in the list.
+Your flight plan now has 1 task.
 ____________________________________________________________
 ____________________________________________________________
-Got it. I've added this task:
+Task locked into orbit:
   [E][ ] project meeting (from: Dec 02 2019, 9:00am to: Dec 03 2019, 5:00pm)
-Now you have 2 tasks in the list.
+Your flight plan now has 2 tasks.
 ____________________________________________________________
 ____________________________________________________________
-Here are the deadlines and events on Dec 02 2019:
+On the radar for Dec 02 2019:
 1.[D][ ] return book (by: Dec 02 2019, 6:00pm)
 2.[E][ ] project meeting (from: Dec 02 2019, 9:00am to: Dec 03 2019, 5:00pm)
 ____________________________________________________________
 ____________________________________________________________
-Here are the tasks in your list:
+Your current flight plan:
 1.[D][ ] return book (by: Dec 02 2019, 6:00pm)
 2.[E][ ] project meeting (from: Dec 02 2019, 9:00am to: Dec 03 2019, 5:00pm)
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Mission paused. Safe travels!
 ____________________________________________________________
 ```
 
@@ -61,6 +59,36 @@ ____________________________________________________________
 ```text
 DEADLINE | 0 | return book | 02/12/2019 1800
 EVENT | 0 | project meeting | 02/12/2019 0900 | 03/12/2019 1700
+```
+
+## Test case: Guide an unrecognized command back on course
+
+Aim: Verify that Orbit responds to an unknown command with clear, in-character guidance.
+
+### Inputs
+
+```text
+dance
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+       .       *
+   O R B I T
+ *       .       *
+
+Mission control online. I'm Orbit.
+Where shall we steer your day?
+____________________________________________________________
+____________________________________________________________
+That command is off course. Try todo, deadline, event, date, list, listdate, find, mark, unmark, delete, sort, or bye.
+____________________________________________________________
+____________________________________________________________
+Mission paused. Safe travels!
+____________________________________________________________
 ```
 
 ## Test case: Keep existing task-list actions working
@@ -83,44 +111,42 @@ bye
 
 ```text
 ____________________________________________________________
-  ____ ____ _____
- / ___| __ )_   _|
-| |   |  _ \ | |
-| |___| |_) || |
- \____|____/ |_|
+       .       *
+   O R B I T
+ *       .       *
 
-Hello! I'm CBT.
-What can I do for you?
+Mission control online. I'm Orbit.
+Where shall we steer your day?
 ____________________________________________________________
 ____________________________________________________________
-Got it. I've added this task:
+Task locked into orbit:
   [T][ ] first task
-Now you have 1 task in the list.
+Your flight plan now has 1 task.
 ____________________________________________________________
 ____________________________________________________________
-Got it. I've added this task:
+Task locked into orbit:
   [T][ ] second task
-Now you have 2 tasks in the list.
+Your flight plan now has 2 tasks.
 ____________________________________________________________
 ____________________________________________________________
-Nice! I've marked this task as done:
+Mission accomplished. Task complete:
   [T][X] first task
 ____________________________________________________________
 ____________________________________________________________
-OK, I've marked this task as not done yet:
+Back on the flight plan:
   [T][ ] first task
 ____________________________________________________________
 ____________________________________________________________
-Noted. I've removed this task:
+Cleared from the flight plan:
   [T][ ] second task
-Now you have 1 task in the list.
+1 task remains in orbit.
 ____________________________________________________________
 ____________________________________________________________
-Here are the tasks in your list:
+Your current flight plan:
 1.[T][ ] first task
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Mission paused. Safe travels!
 ____________________________________________________________
 ```
 
@@ -144,14 +170,12 @@ bye
 
 ```text
 ____________________________________________________________
-  ____ ____ _____
- / ___| __ )_   _|
-| |   |  _ \ | |
-| |___| |_) || |
- \____|____/ |_|
+       .       *
+   O R B I T
+ *       .       *
 
-Hello! I'm CBT.
-What can I do for you?
+Mission control online. I'm Orbit.
+Where shall we steer your day?
 ____________________________________________________________
 ____________________________________________________________
 Cannot recognize date/time! Example valid formats:
@@ -173,10 +197,10 @@ ____________________________________________________________
 Use: date DATE (for example, 2019-12-02)
 ____________________________________________________________
 ____________________________________________________________
-Here are the tasks in your list:
+Your current flight plan:
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Mission paused. Safe travels!
 ____________________________________________________________
 ```
 
@@ -203,21 +227,19 @@ bye
 
 ```text
 ____________________________________________________________
-  ____ ____ _____
- / ___| __ )_   _|
-| |   |  _ \ | |
-| |___| |_) || |
- \____|____/ |_|
+       .       *
+   O R B I T
+ *       .       *
 
-Hello! I'm CBT.
-What can I do for you?
+Mission control online. I'm Orbit.
+Where shall we steer your day?
 ____________________________________________________________
 ____________________________________________________________
-Here are the deadlines and events on Dec 03 2019:
+On the radar for Dec 03 2019:
 3.[E][ ] conference (from: Dec 01 2019, 9:00am to: Dec 03 2019, 5:00pm)
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Mission paused. Safe travels!
 ____________________________________________________________
 ```
 
@@ -246,17 +268,15 @@ bye
 
 ```text
 ____________________________________________________________
-  ____ ____ _____
- / ___| __ )_   _|
-| |   |  _ \ | |
-| |___| |_) || |
- \____|____/ |_|
+       .       *
+   O R B I T
+ *       .       *
 
-Hello! I'm CBT.
-What can I do for you?
+Mission control online. I'm Orbit.
+Where shall we steer your day?
 ____________________________________________________________
 ____________________________________________________________
-Here are the matching tasks in your list:
+Matches on the radar:
 1.[T][X] read book
 2.[D][ ] return book (by: Dec 02 2019, 6:00pm)
 ____________________________________________________________
@@ -264,7 +284,7 @@ ____________________________________________________________
 Use: find KEYWORD (for example, find book)
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Mission paused. Safe travels!
 ____________________________________________________________
 ```
 
@@ -295,35 +315,33 @@ bye
 
 ```text
 ____________________________________________________________
-  ____ ____ _____
- / ___| __ )_   _|
-| |   |  _ \ | |
-| |___| |_) || |
- \____|____/ |_|
+       .       *
+   O R B I T
+ *       .       *
 
-Hello! I'm CBT.
-What can I do for you?
+Mission control online. I'm Orbit.
+Where shall we steer your day?
 ____________________________________________________________
 ____________________________________________________________
-I've sorted your tasks chronologically:
+Flight plan aligned by date:
 1.[E][ ] early event (from: Dec 01 2019, 9:00am to: Dec 01 2019, 10:00am)
 2.[D][ ] tied deadline (by: Dec 01 2019, 9:00am)
 3.[D][ ] later deadline (by: Dec 03 2019, 6:00pm)
 4.[T][ ] undated task
 ____________________________________________________________
 ____________________________________________________________
-Nice! I've marked this task as done:
+Mission accomplished. Task complete:
   [E][X] early event (from: Dec 01 2019, 9:00am to: Dec 01 2019, 10:00am)
 ____________________________________________________________
 ____________________________________________________________
-Here are the tasks in your list:
+Your current flight plan:
 1.[E][X] early event (from: Dec 01 2019, 9:00am to: Dec 01 2019, 10:00am)
 2.[D][ ] tied deadline (by: Dec 01 2019, 9:00am)
 3.[D][ ] later deadline (by: Dec 03 2019, 6:00pm)
 4.[T][ ] undated task
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Mission paused. Safe travels!
 ____________________________________________________________
 ```
 
@@ -354,14 +372,12 @@ bye
 
 ```text
 ____________________________________________________________
-  ____ ____ _____
- / ___| __ )_   _|
-| |   |  _ \ | |
-| |___| |_) || |
- \____|____/ |_|
+       .       *
+   O R B I T
+ *       .       *
 
-Hello! I'm CBT.
-What can I do for you?
+Mission control online. I'm Orbit.
+Where shall we steer your day?
 ____________________________________________________________
 ____________________________________________________________
 Use: sort date
@@ -373,9 +389,9 @@ ____________________________________________________________
 Use: sort date
 ____________________________________________________________
 ____________________________________________________________
-I've sorted your tasks chronologically:
+Flight plan aligned by date:
 ____________________________________________________________
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Mission paused. Safe travels!
 ____________________________________________________________
 ```

@@ -21,7 +21,7 @@ public class ListCommandTest {
 
         CommandResult result = new ListCommand().execute(tasks);
 
-        assertTrue(result.message().contains("Here are the tasks in your list:"));
+        assertTrue(result.message().contains("Your current flight plan:"));
         assertTrue(result.message().contains("1.[T][ ] first"));
         assertTrue(result.message().contains("2.[T][ ] second"));
         assertEquals(2, tasks.getSize());

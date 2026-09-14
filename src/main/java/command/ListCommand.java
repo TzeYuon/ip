@@ -14,7 +14,7 @@ public class ListCommand implements Command {
      */
     @Override
     public CommandResult execute(TaskList taskList) throws CbtException {
-        String message = "Here are the tasks in your list:";
+        String message = "Your current flight plan:";
         String formattedTasks = taskList.formatTasks();
         if (!formattedTasks.isEmpty()) {
             message += System.lineSeparator() + formattedTasks;

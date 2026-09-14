@@ -18,11 +18,11 @@
               styleClass="app-header" AnchorPane.leftAnchor="0.0"
               AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <Label styleClass="app-title" text="CBT" />
+                <Label styleClass="app-title" text="ORBIT" />
                 <HBox alignment="CENTER_LEFT" spacing="7.0">
                     <children>
-                        <Label styleClass="status-dot" text="●" />
-                        <Label styleClass="app-subtitle" text="Online · Your personal task assistant" />
+                        <Label styleClass="status-dot" text="✦" />
+                        <Label styleClass="app-subtitle" text="Online · Mission control for your day" />
                     </children>
                 </HBox>
             </children>
@@ -41,10 +41,10 @@
               AnchorPane.rightAnchor="0.0">
             <children>
                 <TextField fx:id="userInput" onAction="#handleUserInput" prefHeight="46.0"
-                           promptText="Type a command..." HBox.hgrow="ALWAYS" />
+                           promptText="Set a course..." HBox.hgrow="ALWAYS" />
                 <Button fx:id="sendButton" defaultButton="true" mnemonicParsing="false"
                         onAction="#handleUserInput" prefHeight="46.0" prefWidth="88.0"
-                        text="Send" />
+                        text="Launch" />
             </children>
         </HBox>
     </children>

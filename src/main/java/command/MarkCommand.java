@@ -27,7 +27,7 @@ public class MarkCommand implements Command {
     @Override
     public CommandResult execute(TaskList taskList) throws CbtException {
         Task task = taskList.markTask(toIndex(taskNumber));
-        String message = "Nice! I've marked this task as done:\n"
+        String message = "Mission accomplished. Task complete:\n"
                 + "  " + task;
         return new CommandResult(message, true, false);
     }

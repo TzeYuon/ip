@@ -26,7 +26,7 @@ public class SortCommandTest {
 
         CommandResult result = new SortCommand("DATE").execute(tasks);
 
-        String expected = "I've sorted your tasks chronologically:" + System.lineSeparator()
+        String expected = "Flight plan aligned by date:" + System.lineSeparator()
                 + "1.[D][ ] earlier (by: Aug 27 2026, 12:00pm)" + System.lineSeparator()
                 + "2.[D][ ] later (by: Aug 28 2026, 12:00pm)" + System.lineSeparator()
                 + "3.[T][ ] undated";
@@ -40,7 +40,7 @@ public class SortCommandTest {
     public void execute_emptyList_headingReturned() throws CbtException {
         CommandResult result = new SortCommand("date").execute(new TaskList());
 
-        assertEquals("I've sorted your tasks chronologically:", result.message());
+        assertEquals("Flight plan aligned by date:", result.message());
         assertTrue(result.taskListChanged());
     }
 

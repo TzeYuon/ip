@@ -44,8 +44,8 @@ public class CbtTest {
         }
 
         String consoleOutput = output.toString(StandardCharsets.UTF_8);
-        assertTrue(consoleOutput.contains("I've added this task"));
-        assertTrue(consoleOutput.contains("Bye. Hope to see you again soon!"));
+        assertTrue(consoleOutput.contains("Task locked into orbit"));
+        assertTrue(consoleOutput.contains("Mission paused. Safe travels!"));
         assertTrue(Files.readString(dataFile).contains("TODO | 0 | read book"));
     }
 
@@ -68,7 +68,7 @@ public class CbtTest {
             System.setOut(originalOut);
         }
 
-        assertTrue(output.toString(StandardCharsets.UTF_8).contains("I don't understand that command"));
+        assertTrue(output.toString(StandardCharsets.UTF_8).contains("That command is off course"));
         assertFalse(Files.exists(dataFile));
     }
 
@@ -81,7 +81,7 @@ public class CbtTest {
         String addResponse = application.getResponse("todo read book");
         String listResponse = application.getResponse("list");
 
-        assertTrue(addResponse.contains("I've added this task"));
+        assertTrue(addResponse.contains("Task locked into orbit"));
         assertTrue(listResponse.contains("1.[T][ ] read book"));
         assertEquals("TODO | 0 | read book" + System.lineSeparator(), Files.readString(dataFile));
     }
@@ -94,7 +94,7 @@ public class CbtTest {
 
         String response = application.getResponse("dance");
 
-        assertTrue(response.contains("I don't understand that command"));
+        assertTrue(response.contains("That command is off course"));
         assertFalse(Files.exists(dataFile));
     }
 
@@ -109,6 +109,6 @@ public class CbtTest {
 
         assertFalse(validResponse.isError());
         assertTrue(errorResponse.isError());
-        assertTrue(errorResponse.message().contains("I don't understand that command"));
+        assertTrue(errorResponse.message().contains("That command is off course"));
     }
 }

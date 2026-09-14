@@ -81,7 +81,7 @@ public class Parser {
             case CommandWord.SORT -> new SortCommand(arguments);
             case CommandWord.BYE -> new ExitCommand();
             case CommandWord.FIND -> new FindCommand(arguments);
-            default -> throw new CbtException("I don't understand that command. "
+            default -> throw new CbtException("That command is off course. "
                     + "Try todo, deadline, event, date, list, listdate, find, mark, unmark, delete, sort, or bye.");
         };
     }
@@ -124,7 +124,7 @@ public class Parser {
                 try {
                     task = new Deadline(description, parseLineToDate(parts[parts.length - 1]));
                 } catch (CbtException exception) {
-                    System.out.println("Invalid Date format for DEADLINE stored in CBT.txt");
+                    System.out.println("Invalid deadline date format stored in the task data file");
                 }
                 break;
             case CommandWord.EVENT:
@@ -139,7 +139,7 @@ public class Parser {
                     }
                     task = new Event(description, startDate, endDate);
                 } catch (CbtException exception) {
-                    System.out.println("Invalid Date format for EVENT stored in CBT.txt");
+                    System.out.println("Invalid event date format stored in the task data file");
                 }
                 break;
             default:

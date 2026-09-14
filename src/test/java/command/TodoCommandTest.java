@@ -23,7 +23,7 @@ public class TodoCommandTest {
         assertEquals("[T][ ] read book", tasks.getTask(0).toString());
         assertTrue(result.taskListChanged());
         assertFalse(result.isExit());
-        assertTrue(result.message().contains("Now you have 1 task in the list."));
+        assertTrue(result.message().contains("Your flight plan now has 1 task."));
     }
 
     /** Verifies that a blank todo description is rejected without changing the list. */

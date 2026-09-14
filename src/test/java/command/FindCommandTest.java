@@ -21,7 +21,7 @@ public class FindCommandTest {
         tasks.addTask(new Todo("return book"));
         CommandResult result = new FindCommand("book").execute(tasks);
 
-        assertTrue(result.message().contains("Here are the matching tasks in your list:"));
+        assertTrue(result.message().contains("Matches on the radar:"));
         assertTrue(result.message().contains("1.[T][ ] read book"));
         assertTrue(result.message().contains("2.[T][ ] return book"));
         assertFalse(result.message().contains("write report"));
