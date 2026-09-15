@@ -1,65 +1,168 @@
 # Orbit User Guide
 
-// Update the title above to match the actual product name
-
-// Product screenshot goes here
 ![Orbit application window](Ui.png)
 
-// Product intro goes here
-Orbit is a mission-control task navigator for managing todos, deadlines, and events.
+Orbit is a calm, mission-control-inspired task navigator for managing todos,
+deadlines, and events in one flight plan. It provides a compact graphical chat
+interface, highlights invalid commands, and saves task changes automatically.
+
+## Quick start
+
+Enter a command in the text field and press **Enter** or click **Send**. Commands
+are case-insensitive, and Orbit ignores leading, trailing, and repeated spaces.
+
+| Action | Command |
+| --- | --- |
+| Add a todo | `todo DESCRIPTION` |
+| Add a deadline | `deadline DESCRIPTION /by DATE_OR_TIME` |
+| Add an event | `event DESCRIPTION /from START /to END` |
+| List every task | `list` |
+| List tasks on a date | `date DATE` or `listdate DATE` |
+| Find tasks | `find KEYWORD` |
+| Mark a task complete | `mark NUMBER` |
+| Mark a task incomplete | `unmark NUMBER` |
+| Delete a task | `delete NUMBER` |
+| Sort tasks chronologically | `sort date` |
+| Exit Orbit | `bye` |
+
+## Adding todos
+
+Use `todo` for a task without a date or time.
+
+Example:
+
+```text
+todo read a book
+```
+
+Orbit adds the todo to the end of the flight plan and assigns it a task number.
 
 ## Adding deadlines
 
-// Describe the action and its outcome.
+Use `deadline` for a task that must be completed by a particular date or time.
 
-// Give examples of usage
+Example:
 
-Example: `keyword (optional arguments)`
-
-// A description of the expected outcome goes here
-
-```
-expected output
+```text
+deadline submit report /by 2/12/2026 1800
 ```
 
-## Feature ABC
+The `/by` marker separates the description from the deadline.
 
-// Feature details
+## Adding events
 
+Use `event` for an activity with a start and end date or time.
 
-## Feature XYZ
+Example:
 
-// Feature details
+```text
+event project meeting /from 2/12/2026 1400 /to 2/12/2026 1600
+```
+
+The start must be earlier than the end. Events spanning several days appear in
+the results for every date within their range.
+
+## Supported date formats
+
+Orbit accepts the following date formats:
+
+- `2/12/2026`
+- `2-12-2026`
+- `2026-12-02`
+
+A time can be added in either 24-hour format:
+
+- `2/12/2026 1800`
+- `2/12/2026 18:00`
+
+When no time is provided, Orbit uses midnight. Calendar dates are validated
+strictly, so impossible dates such as February 30 are rejected.
+
+## Viewing tasks
+
+Use `list` to display every task and its current task number.
+
+```text
+list
+```
+
+Use `date` or `listdate` to display deadlines and events occurring on one date.
+
+```text
+date 2026-12-02
+```
+
+Todos do not appear in date-based results because they have no date.
+
+## Finding tasks
+
+Use `find` to search task descriptions. Matching is case-insensitive.
+
+```text
+find book
+```
+
+The results are displayed without changing the stored task list.
+
+## Marking tasks
+
+Use the number shown by `list` to mark a task as complete or incomplete.
+
+```text
+mark 1
+unmark 1
+```
+
+Orbit reports an error if the number does not exist or the task already has the
+requested completion state.
+
+## Deleting tasks
+
+Use `delete` with a task number to remove a task permanently.
+
+```text
+delete 2
+```
+
+Task numbers may change after deletion, so run `list` again before performing
+another numbered action.
 
 ## Sorting tasks chronologically
 
-Use `sort date` to reorder the task list from earliest to latest. Deadlines are
-ordered by their due date and time, while events are ordered by their start date
-and time. Todos have no date, so they are placed after all deadlines and events.
-Tasks with the same date and time keep their existing relative order.
-
-Example: `sort date`
+Use `sort date` to reorder dated tasks from earliest to latest.
 
 ```text
-Flight plan aligned by date:
-1.[E][ ] project meeting (from: Dec 01 2026, 9:00am to: Dec 01 2026, 10:00am)
-2.[D][ ] submit report (by: Dec 02 2026, 6:00pm)
-3.[T][ ] read a book
+sort date
 ```
 
-Sorting changes the task numbers and saves the new order. Commands such as
-`mark`, `unmark`, and `delete` therefore use the numbers shown after sorting.
-Tasks added later are appended normally; run `sort date` again to reorder them.
+Deadlines are ordered by their due time, while events are ordered by their start
+time. Todos have no date, so they are placed after all deadlines and events.
+Tasks with the same date and time retain their relative order.
+
+Sorting changes task numbers and saves the new order. Tasks added afterward are
+appended normally; run `sort date` again to reorder them.
+
+## Saving tasks
+
+Orbit automatically saves changes after adding, marking, unmarking, deleting,
+or sorting tasks. Saved tasks are restored the next time the application starts.
 
 ## Handling invalid input and data problems
 
-Orbit ignores harmless leading, trailing, and repeated whitespace. It rejects
-unexpected command arguments, missing or repeated date markers, duplicate
-tasks, invalid task numbers, descriptions containing the reserved `|`
-character, and descriptions longer than 300 characters.
+Orbit rejects unknown commands, missing or repeated date markers, duplicate
+tasks, invalid task numbers, impossible dates, invalid event ranges, and unsafe
+descriptions. A description cannot be empty, contain the reserved `|` character,
+or exceed 300 characters.
 
-Calendar dates are checked strictly, so dates such as February 30 are rejected.
-An event's start must also be earlier than its end. If saved data contains a
-malformed or duplicate record, Orbit loads the remaining valid tasks and shows
-a warning. Saves use a temporary file replacement so an interrupted write is
-less likely to damage the existing task file.
+If the saved data file contains malformed or duplicate records, Orbit loads the
+remaining valid tasks and displays a warning. Saves use temporary-file
+replacement to reduce the risk of damaging existing data during an interrupted
+write.
+
+## Exiting Orbit
+
+Use `bye` to close the application safely.
+
+```text
+bye
+```
