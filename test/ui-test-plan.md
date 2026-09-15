@@ -23,10 +23,10 @@ bye
 ```text
 ____________________________________________________________
        .       *
-   O R B I T
+     C B T
  *       .       *
 
-Mission control online. I'm Orbit.
+Mission control online. I'm CBT.
 Where shall we steer your day?
 ____________________________________________________________
 ____________________________________________________________
@@ -63,7 +63,7 @@ EVENT | 0 | project meeting | 02/12/2019 0900 | 03/12/2019 1700
 
 ## Test case: Guide an unrecognized command back on course
 
-Aim: Verify that Orbit responds to an unknown command with clear, in-character guidance.
+Aim: Verify that CBT responds to an unknown command with clear, in-character guidance.
 
 ### Inputs
 
@@ -77,10 +77,10 @@ bye
 ```text
 ____________________________________________________________
        .       *
-   O R B I T
+     C B T
  *       .       *
 
-Mission control online. I'm Orbit.
+Mission control online. I'm CBT.
 Where shall we steer your day?
 ____________________________________________________________
 ____________________________________________________________
@@ -112,10 +112,10 @@ bye
 ```text
 ____________________________________________________________
        .       *
-   O R B I T
+     C B T
  *       .       *
 
-Mission control online. I'm Orbit.
+Mission control online. I'm CBT.
 Where shall we steer your day?
 ____________________________________________________________
 ____________________________________________________________
@@ -171,10 +171,10 @@ bye
 ```text
 ____________________________________________________________
        .       *
-   O R B I T
+     C B T
  *       .       *
 
-Mission control online. I'm Orbit.
+Mission control online. I'm CBT.
 Where shall we steer your day?
 ____________________________________________________________
 ____________________________________________________________
@@ -228,10 +228,10 @@ bye
 ```text
 ____________________________________________________________
        .       *
-   O R B I T
+     C B T
  *       .       *
 
-Mission control online. I'm Orbit.
+Mission control online. I'm CBT.
 Where shall we steer your day?
 ____________________________________________________________
 ____________________________________________________________
@@ -269,10 +269,10 @@ bye
 ```text
 ____________________________________________________________
        .       *
-   O R B I T
+     C B T
  *       .       *
 
-Mission control online. I'm Orbit.
+Mission control online. I'm CBT.
 Where shall we steer your day?
 ____________________________________________________________
 ____________________________________________________________
@@ -316,10 +316,10 @@ bye
 ```text
 ____________________________________________________________
        .       *
-   O R B I T
+     C B T
  *       .       *
 
-Mission control online. I'm Orbit.
+Mission control online. I'm CBT.
 Where shall we steer your day?
 ____________________________________________________________
 ____________________________________________________________
@@ -373,10 +373,10 @@ bye
 ```text
 ____________________________________________________________
        .       *
-   O R B I T
+     C B T
  *       .       *
 
-Mission control online. I'm Orbit.
+Mission control online. I'm CBT.
 Where shall we steer your day?
 ____________________________________________________________
 ____________________________________________________________
@@ -419,10 +419,10 @@ bye
 ```text
 ____________________________________________________________
        .       *
-   O R B I T
+     C B T
  *       .       *
 
-Mission control online. I'm Orbit.
+Mission control online. I'm CBT.
 Where shall we steer your day?
 ____________________________________________________________
 ____________________________________________________________

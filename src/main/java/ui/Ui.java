@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import command.CommandResult;
 
-/** Handles Orbit's console input and common output formatting. */
+/** Handles CBT's console input and common output formatting. */
 public class Ui {
     private static final String DIVIDER = "____________________________________________________________";
     private final Scanner scanner = new Scanner(System.in);
@@ -12,9 +12,9 @@ public class Ui {
     /** Prints the application's greeting. */
     public void showWelcome() {
         String banner = "       .       *\n"
-                + "   O R B I T\n"
+                + "     C B T\n"
                 + " *       .       *\n";
-        printLines(DIVIDER, banner, "Mission control online. I'm Orbit.",
+        printLines(DIVIDER, banner, "Mission control online. I'm CBT.",
                 "Where shall we steer your day?", DIVIDER);
     }
 

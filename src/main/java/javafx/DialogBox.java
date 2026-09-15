@@ -59,12 +59,10 @@ public class DialogBox extends HBox {
     /** Styles this dialog as a compact command entered by the user. */
     private void styleAsUserMessage() {
         getStyleClass().add("user-dialog-box");
-        displayPicture.setManaged(false);
-        displayPicture.setVisible(false);
         dialog.maxWidthProperty().bind(widthProperty().multiply(USER_MESSAGE_WIDTH_RATIO));
     }
 
-    /** Flips and styles this dialog so that Orbit's picture appears on the left. */
+    /** Flips and styles this dialog so that CBT's picture appears on the left. */
     private void styleAsAssistantMessage() {
         ObservableList<Node> children = FXCollections.observableArrayList(getChildren());
         Collections.reverse(children);
@@ -85,19 +83,20 @@ public class DialogBox extends HBox {
      * Creates a dialog box for a message from the user.
      *
      * @param text message to display.
+     * @param image user's display picture.
      * @return dialog box aligned to the right.
      */
-    public static DialogBox getUserDialog(String text) {
-        DialogBox dialogBox = new DialogBox(text, null);
+    public static DialogBox getUserDialog(String text, Image image) {
+        DialogBox dialogBox = new DialogBox(text, image);
         dialogBox.styleAsUserMessage();
         return dialogBox;
     }
 
     /**
-     * Creates a dialog box for a reply from Orbit.
+     * Creates a dialog box for a reply from CBT.
      *
      * @param text message to display.
-     * @param image Orbit's display picture.
+     * @param image CBT's display picture.
      * @return dialog box aligned to the left.
      */
     public static DialogBox getCbtDialog(String text, Image image) {
@@ -107,10 +106,10 @@ public class DialogBox extends HBox {
     }
 
     /**
-     * Creates a visually prominent error reply from Orbit.
+     * Creates a visually prominent error reply from CBT.
      *
      * @param text correction guidance to display.
-     * @param image Orbit's display picture.
+     * @param image CBT's display picture.
      * @return error dialog aligned to the left.
      */
     public static DialogBox getErrorDialog(String text, Image image) {

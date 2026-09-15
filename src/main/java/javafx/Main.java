@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import storage.Storage;
 import ui.Ui;
 
-/** A JavaFX GUI for Orbit. */
+/** A JavaFX GUI for CBT. */
 public class Main extends Application {
     private static final double MINIMUM_WINDOW_HEIGHT = 220;
     private static final double MINIMUM_WINDOW_WIDTH = 417;
@@ -26,7 +26,7 @@ public class Main extends Application {
             MainWindow mainWindow = fxmlLoader.getController();
             mainWindow.setCbt(cbt);
 
-            stage.setTitle("Orbit - Task Navigator");
+            stage.setTitle("CBT - Task Navigator");
             stage.setMinHeight(MINIMUM_WINDOW_HEIGHT);
             stage.setMinWidth(MINIMUM_WINDOW_WIDTH);
             stage.setScene(new Scene(mainLayout));

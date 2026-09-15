@@ -1,15 +1,15 @@
-# Orbit User Guide
+# CBT User Guide
 
-![Orbit application window](Ui.png)
+![CBT application window](Ui.png)
 
-Orbit is a calm, mission-control-inspired task navigator for managing todos,
+CBT is a calm, mission-control-inspired task navigator for managing todos,
 deadlines, and events in one flight plan. It provides a compact graphical chat
 interface, highlights invalid commands, and saves task changes automatically.
 
 ## Quick start
 
 Enter a command in the text field and press **Enter** or click **Send**. Commands
-are case-insensitive, and Orbit ignores leading, trailing, and repeated spaces.
+are case-insensitive, and CBT ignores leading, trailing, and repeated spaces.
 
 | Action | Command |
 | --- | --- |
@@ -23,7 +23,7 @@ are case-insensitive, and Orbit ignores leading, trailing, and repeated spaces.
 | Mark a task incomplete | `unmark NUMBER` |
 | Delete a task | `delete NUMBER` |
 | Sort tasks chronologically | `sort date` |
-| Exit Orbit | `bye` |
+| Exit CBT | `bye` |
 
 ## Adding todos
 
@@ -35,7 +35,7 @@ Example:
 todo read a book
 ```
 
-Orbit adds the todo to the end of the flight plan and assigns it a task number.
+CBT adds the todo to the end of the flight plan and assigns it a task number.
 
 ## Adding deadlines
 
@@ -64,7 +64,7 @@ the results for every date within their range.
 
 ## Supported date formats
 
-Orbit accepts the following date formats:
+CBT accepts the following date formats:
 
 - `2/12/2026`
 - `2-12-2026`
@@ -75,7 +75,7 @@ A time can be added in either 24-hour format:
 - `2/12/2026 1800`
 - `2/12/2026 18:00`
 
-When no time is provided, Orbit uses midnight. Calendar dates are validated
+When no time is provided, CBT uses midnight. Calendar dates are validated
 strictly, so impossible dates such as February 30 are rejected.
 
 ## Viewing tasks
@@ -113,7 +113,7 @@ mark 1
 unmark 1
 ```
 
-Orbit reports an error if the number does not exist or the task already has the
+CBT reports an error if the number does not exist or the task already has the
 requested completion state.
 
 ## Deleting tasks
@@ -144,22 +144,22 @@ appended normally; run `sort date` again to reorder them.
 
 ## Saving tasks
 
-Orbit automatically saves changes after adding, marking, unmarking, deleting,
+CBT automatically saves changes after adding, marking, unmarking, deleting,
 or sorting tasks. Saved tasks are restored the next time the application starts.
 
 ## Handling invalid input and data problems
 
-Orbit rejects unknown commands, missing or repeated date markers, duplicate
+CBT rejects unknown commands, missing or repeated date markers, duplicate
 tasks, invalid task numbers, impossible dates, invalid event ranges, and unsafe
 descriptions. A description cannot be empty, contain the reserved `|` character,
 or exceed 300 characters.
 
-If the saved data file contains malformed or duplicate records, Orbit loads the
+If the saved data file contains malformed or duplicate records, CBT loads the
 remaining valid tasks and displays a warning. Saves use temporary-file
 replacement to reduce the risk of damaging existing data during an interrupted
 write.
 
-## Exiting Orbit
+## Exiting CBT
 
 Use `bye` to close the application safely.
 

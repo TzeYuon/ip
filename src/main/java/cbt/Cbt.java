@@ -10,7 +10,7 @@ import storage.Storage;
 import task.TaskList;
 import ui.Ui;
 
-/** Starts Orbit and coordinates the user interface, parser, and task list. */
+/** Starts CBT and coordinates the user interface, parser, and task list. */
 public class Cbt {
     private final Ui ui;
     private final Storage storage;
@@ -24,8 +24,8 @@ public class Cbt {
      * @param storage Storage used to load and save tasks.
      */
     public Cbt(Ui ui, Storage storage) {
-        assert ui != null : "Orbit requires a user interface";
-        assert storage != null : "Orbit requires persistent storage";
+        assert ui != null : "CBT requires a user interface";
+        assert storage != null : "CBT requires persistent storage";
         this.ui = ui;
         this.storage = storage;
         this.tasks = storage.loadTasks();
@@ -107,11 +107,11 @@ public class Cbt {
     }
 
     /**
-     * Starts Orbit using the default console interface and data file.
+     * Starts CBT using the default console interface and data file.
      *
      * @param args Command-line arguments; unused.
      */
-    static void main(String[] args) {
+    public static void main(String[] args) {
         Ui ui = new Ui();
         Storage storage = new Storage("./data/CBT.txt");
         Cbt cbt = new Cbt(ui, storage);

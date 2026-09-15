@@ -95,8 +95,8 @@ public class UiTest {
         }
 
         String text = output.toString(StandardCharsets.UTF_8);
-        assertTrue(text.contains("O R B I T"));
-        assertTrue(text.contains("Mission control online. I'm Orbit."));
+        assertTrue(text.contains("C B T"));
+        assertTrue(text.contains("Mission control online. I'm CBT."));
         assertTrue(text.contains("Where shall we steer your day?"));
         assertEquals(2, text.split("_{60}", -1).length - 1);
     }

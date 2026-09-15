@@ -40,7 +40,7 @@ public class Storage {
                 return tasks;
             }
             if (!Files.isRegularFile(filePath)) {
-                loadWarning = "Orbit could not read the saved task file because it is not a regular file.";
+                loadWarning = "CBT could not read the saved task file because it is not a regular file.";
                 return tasks;
             }
             int skippedTasks = 0;
@@ -60,11 +60,11 @@ public class Storage {
                 }
             }
             if (skippedTasks > 0) {
-                loadWarning = "Orbit skipped " + skippedTasks
+                loadWarning = "CBT skipped " + skippedTasks
                         + " malformed or duplicate saved task" + (skippedTasks == 1 ? "." : "s.");
             }
         } catch (IOException | SecurityException exception) {
-            loadWarning = "Orbit could not read the saved task file. Check that it exists and is readable.";
+            loadWarning = "CBT could not read the saved task file. Check that it exists and is readable.";
         }
         return tasks;
     }
@@ -100,7 +100,7 @@ public class Storage {
             replaceDataFile(temporaryFile, absoluteFilePath);
             temporaryFile = null;
         } catch (IOException | SecurityException exception) {
-            throw new CbtException("Orbit could not save your changes. Check access to the task data file.");
+            throw new CbtException("CBT could not save your changes. Check access to the task data file.");
         } finally {
             deleteTemporaryFile(temporaryFile);
         }
