@@ -3,8 +3,10 @@
 // Update the title above to match the actual product name
 
 // Product screenshot goes here
+![Orbit application window](Ui.png)
 
 // Product intro goes here
+Orbit is a mission-control task navigator for managing todos, deadlines, and events.
 
 ## Adding deadlines
 

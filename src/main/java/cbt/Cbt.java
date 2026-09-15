@@ -54,7 +54,7 @@ public class Cbt {
             Command command = Parser.parseCommand(input);
             CommandResult result = command.execute(tasks);
 
-            if (result.taskListChanged()) {
+            if (result.isTaskListChanged()) {
                 storage.saveTasks(tasks);
             }
 
@@ -91,7 +91,7 @@ public class Cbt {
 
                 ui.showResult(result);
 
-                if (result.taskListChanged()) {
+                if (result.isTaskListChanged()) {
                     storage.saveTasks(tasks);
                 }
 
@@ -111,7 +111,7 @@ public class Cbt {
      *
      * @param args Command-line arguments; unused.
      */
-    public static void main(String[] args) {
+    static void main(String[] args) {
         Ui ui = new Ui();
         Storage storage = new Storage("./data/CBT.txt");
         Cbt cbt = new Cbt(ui, storage);
