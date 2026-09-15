@@ -21,7 +21,7 @@ public class DeadlineCommandTest {
         assertEquals(1, tasks.getSize());
         assertEquals("DEADLINE | 0 | return book | 02/12/2019 1800",
                 tasks.getTask(0).toFileFormat());
-        assertTrue(result.taskListChanged());
+        assertTrue(result.isTaskListChanged());
     }
 
     /** Verifies that a missing deadline description or date is rejected. */

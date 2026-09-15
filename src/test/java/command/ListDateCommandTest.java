@@ -26,7 +26,7 @@ public class ListDateCommandTest {
         assertTrue(result.message().contains("On the radar for Aug 26 2026"));
         assertTrue(result.message().contains("matching"));
         assertFalse(result.message().contains("different"));
-        assertFalse(result.taskListChanged());
+        assertFalse(result.isTaskListChanged());
     }
 
     /** Verifies that blank and invalid dates are rejected. */
@@ -44,6 +44,6 @@ public class ListDateCommandTest {
         CommandResult result = new ListDateCommand("2026-08-26").execute(new TaskList());
 
         assertEquals("On the radar for Aug 26 2026:", result.message());
-        assertFalse(result.taskListChanged());
+        assertFalse(result.isTaskListChanged());
     }
 }

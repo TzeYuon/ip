@@ -22,7 +22,7 @@ public class EventCommandTest {
         assertEquals(1, tasks.getSize());
         assertEquals("EVENT | 0 | meeting | 02/12/2019 0900 | 02/12/2019 1000",
                 tasks.getTask(0).toFileFormat());
-        assertTrue(result.taskListChanged());
+        assertTrue(result.isTaskListChanged());
     }
 
     /** Verifies that missing event markers or times are rejected. */

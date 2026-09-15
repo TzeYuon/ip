@@ -25,7 +25,7 @@ public class ListCommandTest {
         assertTrue(result.message().contains("1.[T][ ] first"));
         assertTrue(result.message().contains("2.[T][ ] second"));
         assertEquals(2, tasks.getSize());
-        assertFalse(result.taskListChanged());
+        assertFalse(result.isTaskListChanged());
         assertFalse(result.isExit());
     }
 
@@ -35,7 +35,7 @@ public class ListCommandTest {
         CommandResult result = new ListCommand().execute(new TaskList());
 
         assertEquals("Your current flight plan:", result.message());
-        assertFalse(result.taskListChanged());
+        assertFalse(result.isTaskListChanged());
         assertFalse(result.isExit());
     }
 }

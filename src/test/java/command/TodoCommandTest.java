@@ -21,7 +21,7 @@ public class TodoCommandTest {
 
         assertEquals(1, tasks.getSize());
         assertEquals("[T][ ] read book", tasks.getTask(0).toString());
-        assertTrue(result.taskListChanged());
+        assertTrue(result.isTaskListChanged());
         assertFalse(result.isExit());
         assertTrue(result.message().contains("Your flight plan now has 1 task."));
     }

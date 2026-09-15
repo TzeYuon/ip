@@ -23,7 +23,7 @@ public class MarkCommandTest {
         CommandResult result = new MarkCommand("1").execute(tasks);
 
         assertTrue(todo.isDone());
-        assertTrue(result.taskListChanged());
+        assertTrue(result.isTaskListChanged());
         assertFalse(result.isExit());
         assertTrue(result.message().contains("[T][X] read book"));
     }

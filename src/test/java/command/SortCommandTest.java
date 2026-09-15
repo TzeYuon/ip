@@ -31,7 +31,7 @@ public class SortCommandTest {
                 + "2.[D][ ] later (by: Aug 28 2026, 12:00pm)" + System.lineSeparator()
                 + "3.[T][ ] undated";
         assertEquals(expected, result.message());
-        assertTrue(result.taskListChanged());
+        assertTrue(result.isTaskListChanged());
         assertFalse(result.isExit());
     }
 
@@ -41,7 +41,7 @@ public class SortCommandTest {
         CommandResult result = new SortCommand("date").execute(new TaskList());
 
         assertEquals("Flight plan aligned by date:", result.message());
-        assertTrue(result.taskListChanged());
+        assertTrue(result.isTaskListChanged());
     }
 
     /** Verifies that missing, unsupported, and extra criteria are rejected. */

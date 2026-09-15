@@ -26,7 +26,7 @@ public class FindCommandTest {
         assertTrue(result.message().contains("1.[T][ ] read book"));
         assertTrue(result.message().contains("2.[T][ ] return book"));
         assertFalse(result.message().contains("write report"));
-        assertFalse(result.taskListChanged());
+        assertFalse(result.isTaskListChanged());
         assertFalse(result.isExit());
     }
 
@@ -45,6 +45,6 @@ public class FindCommandTest {
         CommandResult result = new FindCommand("book").execute(tasks);
 
         assertEquals("Matches on the radar:", result.message());
-        assertFalse(result.taskListChanged());
+        assertFalse(result.isTaskListChanged());
     }
 }

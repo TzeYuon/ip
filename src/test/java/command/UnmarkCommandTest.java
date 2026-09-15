@@ -23,7 +23,7 @@ public class UnmarkCommandTest {
         CommandResult result = new UnmarkCommand("1").execute(tasks);
 
         assertFalse(todo.isDone());
-        assertTrue(result.taskListChanged());
+        assertTrue(result.isTaskListChanged());
         assertTrue(result.message().contains("[T][ ] read book"));
     }
 

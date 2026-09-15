@@ -18,7 +18,7 @@ public class ExitCommandTest {
         CommandResult result = new ExitCommand().execute(tasks);
 
         assertEquals("Mission paused. Safe travels!", result.message());
-        assertFalse(result.taskListChanged());
+        assertFalse(result.isTaskListChanged());
         assertTrue(result.isExit());
         assertEquals(0, tasks.getSize());
     }
